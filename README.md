@@ -29,10 +29,11 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 
 ## Tutorials
 
-- How to build HLS accelerators
-- How to build RTL accelerators
 - How to use Ponq
+  - How to use HLS accelerators
+  - How to use RTL accelerators
 - How to use Daemon
+  - How to use HLS accelerators
 - How to compile partially reconfigurable modules
 - How to build Linux (Pynq / Ubuntu) Image
 
@@ -42,12 +43,15 @@ The source code presented has been tested with following tool versions:
 - Vivado and Vivado HLS 2016.2, 2017.3, 2018.2 and 2018.3.
 - PetaLinux kernel 2018.2.
 - Rootfs: Pynq, PetaLinux, Ubuntu 18, Ubuntu 14, Debian, Linaro u96.
-- GRPC version:
-- 
+- GRPC version: 
 
 ## Papers
 
-If you found FOS useful please consider citing following papers:
+If you found FOS useful please consider citing following paper:
+
+- FOS demo at FPL 2019
+
+If you will like to learn about how the system works in details, you can read the following papers:
 
 Hardware: 
 - ZUCL
