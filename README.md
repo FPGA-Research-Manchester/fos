@@ -16,10 +16,10 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 - Decoupling shell development from accelerator development (can be update individually)
 - Relocatable bitstreams
 - Compile bitstreams on board with EFCAD tool flow
-- Linux backend for all software development needs
+- On board Linux backend for all software development needs
 - I/O support via ARM cores
 
-## Getting started
+## Quick Getting Started
 
 - Download SD Card image
 - Set board to SD Card mode and turn it on
