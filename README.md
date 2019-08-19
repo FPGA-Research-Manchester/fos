@@ -4,7 +4,20 @@ FOS extends the ZUCL framework with linux integration, python libs, C++ runtime 
 
 With FOS, you can develop accelerators in HLS as well as RTL and use them in standard full configuration mode, library mode (single process) for partially reconfigurable accelerators or daemon mode (multiple processes) with dynamic reconfiguration. 
 
-It has in-built support for Vivado HLS accelerators with AXI master and slave interface, and provides uio support to build your own drivers. 
+It has in-built support for Vivado HLS accelerators with AXI master and slave interface and provides uio support to build your own drivers. 
+
+Target platform for the demo is Ultra96 board but the code can be easily ported to UltraZed and ZCU102 boards. 
+
+## Features
+
+- Dynamic partial reconfiguration
+- Runtime for concurrent hardware accelerators
+- Ponq and Cynq libs to make hardware acceleration easy 
+- Decoupling shell development from accelerator development (can be update individually)
+- Relocatable bitstreams
+- Compile bitstreams on board with EFCAD tool flow
+- Linux backend for all software development needs
+- I/O support via ARM cores
 
 ## Getting started
 
@@ -22,6 +35,15 @@ It has in-built support for Vivado HLS accelerators with AXI master and slave in
 - How to use Daemon
 - How to compile partially reconfigurable modules
 - How to build Linux (Pynq / Ubuntu) Image
+
+## Compatibility
+
+The source code presented has been tested with following tool versions:
+- Vivado and Vivado HLS 2016.2, 2017.3, 2018.2 and 2018.3.
+- PetaLinux kernel 2018.2.
+- Rootfs: Pynq, PetaLinux, Ubuntu 18, Ubuntu 14, Debian, Linaro u96.
+- GRPC version:
+- 
 
 ## Papers
 
