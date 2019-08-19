@@ -29,6 +29,7 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 
 ## Tutorials
 
+- How to write HLS accelerators
 - How to use Ponq
   - How to use HLS accelerators
   - How to use RTL accelerators
