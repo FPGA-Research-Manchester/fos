@@ -6,10 +6,10 @@ Here we provide a step-by-step tutorial on how to generate a static bitstream. W
 ## Contents
   - [Set-up](#set-up) 
   - [Creating a Custom Module with Vivado HLS](#creating-a-custom-module-with-vivado-hls)
-  - Using Your Custom Module in Vivado
-  - List of Files Needed 
-  - Misc
-  - Known Issues
+  - [Using Your Custom Module in Vivado](#using-your-custom-module-in-vivado)
+  - [List of Files Needed](#list-of-files-needed)
+  - [Misc](#misc)
+  - [Known Issues](#known-issues)
   
 ## Set-up
 Listed below are the tools that I used to generate the static bitstream of a Sobel algorithm:
