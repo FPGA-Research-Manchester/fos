@@ -72,11 +72,11 @@ Software:
 
 If you would like to ask questions, report bugs or collaborate on research project, please email any of the following: 
 
-- Anuj Vaishnav (anuj.vaishnav@manchester.ac.uk)
-- Khoa Dang Pham (khoa.pham@manchester.ac.uk)
-- Dirk Koch (dirk.koch@manchester.ac.uk)
+- Anuj Vaishnav (<anuj.vaishnav@manchester.ac.uk>)
+- Khoa Dang Pham (<khoa.pham@manchester.ac.uk>)
+- Dirk Koch (<dirk.koch@manchester.ac.uk>)
 
-#### Team:
+## Contributors:
 Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kristiyan Manev, Dirk Koch 
 
 ## Acknowledgments
