@@ -50,18 +50,18 @@ The source code presented has been tested with following tool versions:
 
 If you found FOS useful please consider citing following paper:
 
-- FOS demo at FPL 2019
+- A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "**FOS (FPGA Operating System) Demo**", FPL, 2019. 
 
-If you will like to learn about how the system works in details, you can read the following papers:
+If you would like to learn more about how the system works or what it can do in detail, you can read the following papers.
 
 Hardware: 
-- ZUCL
-- BitMan
+- K.D. Pham, A. Vaishnav, M. Vesper and D. Koch, "**ZUCL: A ZYNQ UltraScale+ Framework for OpenCL HLS Applications**", 5th FSP, 2018.
+- K.D. Pham, E. Horta and D. Koch, "**BITMAN: A tool and API for FPGA bitstream manipulations**", DATE, 2017.
 
 Software: 
-- Resource elasticity
-- Live migration 
-- Heterogeneous resource elasticity
+- A. Vaishnav, K.D. Pham, D. Koch and J. Garside, "**Resource Elastic Virtualization for FPGAs using OpenCL**", 28th FPL, 2018.
+- A. Vaishnav, K.D. Pham and D. Koch, "**Live Migration for OpenCL FPGA Accelerators**", FPT, 2018. 
+- A. Vaishnav, K.D. Pham and D. Koch, "**Heterogeneous Resource-Elastic Scheduling for CPU+FPGA Architectures**", 10th HEART, 2019.
 
 
 ## License information
@@ -76,10 +76,10 @@ If you would like to ask questions, report bugs or collaborate on research proje
 - Khoa Dang Pham (khoa.pham@manchester.ac.uk)
 - Dirk Koch (dirk.koch@manchester.ac.uk)
 
-Team:
+#### Team:
 Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kristiyan Manev, Dirk Koch 
 
 ## Acknowledgments
-
-This work is supported by the Xilinx University Program. 
+- This work was produced at the University of Manchester as part of PhD and MPhil Projects. 
+- This work is supported by the Xilinx University Program. 
 
