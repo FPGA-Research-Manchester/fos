@@ -15,7 +15,7 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 - Ponq and Cynq libs to make hardware acceleration easy 
 - Decoupling shell development from accelerator development (can be update individually)
 - Relocatable bitstreams
-- Compile bitstreams on board with EFCAD tool flow
+- Compile bitstreams on board with [EFCAD tool flow](https://github.com/khoapham/efcad)
 - On board Linux backend for all software development needs
 - I/O support via ARM cores
 
@@ -76,7 +76,7 @@ If you would like to ask questions, report bugs or collaborate on research proje
 - Khoa Dang Pham (<khoa.pham@manchester.ac.uk>)
 - Dirk Koch (<dirk.koch@manchester.ac.uk>)
 
-## Contributors:
+## Contributors
 Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kristiyan Manev, Dirk Koch 
 
 ## Acknowledgments
