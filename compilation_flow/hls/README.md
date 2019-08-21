@@ -59,9 +59,34 @@ Does this flow work with:
 ## Using Your Custom Module in Vivado
 
 ### Step 1 - Create a New Project 
-inc. adding new IP
+1.  To create a new project, go to **File** > **Project** > **New...**
+2.  Navigate to the following screen by pressing next: ![Step_1.2]()
+    Choose a suitable name and location for the new project before continuing
+3.  For this tutorial select **RTL Project** option in the next menu
+4.  The sources can be added in this next window: ![Step_1.4]()
+    For the purposes of this tutorial, we use a different method. However, both are equal
+5.  We will not be adding any constraints in this tutorial
+6.  For the default part menu, we will be going to **Boards** and selecting the Ultra96v1 Evaluation Platform
+    ![Step_1.6]()
+7.  If all is well, you can click the **Finish** button and get started with a block diagram
+8.  From this next window, you can add your sobel module. Just go to **Tools** > **Settings...** > **IP** > **Repository**
+    ![Step_1.8]()
+    From here, go to **Add** and then navigate to where you stored your sobel module. Note, only the folder needs to be selected, Vivado will automatically detect the IP inside. Once this is done, click **Apply** and **OK**
+### Step 2 - Creating the Block Design
 
-### Step 2 - Create a Block Diagram
+1.  From the Flow Navigator menu of the Vivado window, you can select the **Create Block Design** option to get started
+    ![Step_2.1]()
+    Keep everything the same except the design name, which can be changed at your discretion. 
+2.  From the **Diagram** section of the Vivado window you can click the **+**, or press **CTRL + I**, to add new IP to the diagram
+3.  Start by getting the block that represents your processing system, PS. For this tutorial, we use the Zynq Ultrascale+ MPSoC PS. Then click the 'Run Block Automation' link from the pop up that appears. Make sure the PS is selected and click **OK** ![Step2.3]()
+4.  The next thing we want to set up is a slave and master AXI port to connect our PS to the Sobel module we created. To do this, double click on the PS block. Then go to, **PS-PL Configuration** > **PS-PL Interfaces** > **Master Interface** and select one of the options. Then go to **Slave Interface** > **AXI HP** and select one of the options
+![Step_2.4]()
+5. Now we add the Sobel module we created. To do so navigate to the menu you would normally select the IP you want and search for the name of top function that you specified in Vivado HLS. In our case, this is Krnl_sobel. Add this to the block design.
+![Step_2.5]()
+6. Click the 'Run Connection Automation' link from the pop-up that appears. This will add in the neccessary connection blocks that we need to be able to use the Sobel module. Make sure all the boxes are checked before pressing **OK**.
+![Step_2.6]()
+7. The block design should now look as such:
+![Step_2.7]()
 
 ### Step 3 - Generating the Bitstream
 
