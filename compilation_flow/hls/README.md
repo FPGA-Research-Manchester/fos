@@ -1,4 +1,4 @@
-# HLS -> Static Bitstream
+# HLS to Static Bitstream
 
 ## Introduction
 
@@ -175,3 +175,5 @@ bootgen -image bitstream.bif -arch zynq -process bitstream.bin
   - Found no way to test OpenCL code, using testbenches, on Vivado HLS
   
 ## Errors
+
+[Return to Top](#hls-to-static-bitstream)
