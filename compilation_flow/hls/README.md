@@ -5,7 +5,7 @@
 Here we provide a step-by-step tutorial on how to generate a static bitstream. We use the Sobel edge detection algorithm as an example to demonstrate the process. However, the steps remain the same for other modules you may to want to create. 
 ## Contents
   - [Set-up](#set-up) 
-  - Creating a Custom Module with Vivado HLS
+  - [Creating a Custom Module with Vivado HLS](#creating-a-custom-module-with-vivado-hls)
   - Using Your Custom Module in Vivado
   - List of Files Needed 
   - Misc
@@ -33,21 +33,28 @@ Does this flow work with:
 
 1.  To create a new project go to **File** > **New Project**
 2.  You'll be greeted by this screen:
-    ![alt text]()
+    ![Step_1.2]()
     Choose a suitable name and location for the project.
-3.  Next, enter the name of the main function in the program. In our case, this is krnl_sobel. From here you can import the source file. You can also import the source files later on in the process, I will point this out.
-4.  The same applies for the testbench files. 
+3.  Next, enter the name of the main function in the program. In our case, this is krnl_sobel. From here you can import the source file. You can also import the source files later on in the process, I will point this out. ![Step_1.3]()
+4.  The same applies for the testbench files. ![Step_1.4]()
 5.  This screen allows to us to tailor our module to a certain architecture. Click the 3 dots in the 'Part Selection' area of the next window. From this window you can pick a specific FPGA or board. In this tutorial we be selecting a specific board to synthesise our module for. It should be noted that Vivado 2018.3 does not contain an entry for the Ultra96 platform. However, when designing the modules, we found that it works fine by using the ZCU102 platform as they both use the same ZYNQ FPGA. 
-![image]()
+![Step_1.5]()
     We don't need to worry about any of the options in the clock section of the window. Obviously, you can choose a different name for your solution.
 6.  The final thing to do is select the **Finish** button.
 7.  From here right-click on source in the **Explorer** menu and select **New File...**. From here you navigate to the directory that contains the source files you want to import. The same goes for 'Test Bench' in the same **Explorer** menu. It should be noted that you should include any header files or test data that the module needs to be tested.
+![Step_1.7]()
+8.  You can view and modify the source code by opening the file from the **Source** directory. For the purposes of the tutorial, the source code will synthesise without modification. The ['Misc'](#misc) section contains modifications that we made to source code, such that it would be compatible with the larger project. 
   
 ### Step 2 - C Simulation
 
-### Step 3 - Synthesis
+### Step 3 - Synthesis & Creating the RTL Module
 
-### Step 4 - Creating RTL Module
+1.  The button to start synthesis is  the green triangle. [Step_3.1]()
+2.  If synthesis was successful, this tab should appear: [Step_3.2]()
+    This tab contains information about the interface that was generated. For example, bus widths for the slave and master AXI ports
+3.  To create the RTL module to use in the Vivado block diagram, you just simply press the 'Export RTL' button. [Step_3.3]()
+4.  This menu appears: [Step_3.4]()
+    For this tutorial, you can leave these options as the defaults.
 
 ## Using Your Custom Module in Vivado
 
