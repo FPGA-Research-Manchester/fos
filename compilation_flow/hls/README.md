@@ -159,13 +159,10 @@ all:
   design_1_wrapper.bit
 }
 ```
-Note: Make sure the name of the .bit file is correct for your particular implementation
-
-Once the bitstream.bif file is created, all you need to do is run the following command:
+7.  Once the bitstream.bif file is created, all you need to do is run the following command:
 ```
 bootgen -image bitstream.bif -arch zynq -process bitstream.bin
 ```
-This will command puts the bitstream.bin file in the directory in which you ran the command from
 
 ## List of Files Needed
 
