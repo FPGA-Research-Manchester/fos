@@ -63,7 +63,7 @@ Does this flow work with:
 2.  Navigate to the following screen by pressing next: ![Step_1.2]()
     Choose a suitable name and location for the new project before continuing
 3.  For this tutorial select **RTL Project** option in the next menu
-4.  The sources can be added in this next window: ![Step_1.4]()
+4.  The next window is one way of adding source files to the block design: ![Step_1.4]()
     For the purposes of this tutorial, we use a different method. However, both are equal
 5.  We will not be adding any constraints in this tutorial
 6.  For the default part menu, we will be going to **Boards** and selecting the Ultra96v1 Evaluation Platform
@@ -90,13 +90,37 @@ Does this flow work with:
 
 ### Step 3 - Generating the Bitstream
 
+1.  Generating the bitstream is an easy task, but first we need validate our design. Select the **Validate Design** option from the top of the **Diagram** window, or press **F6**. If this was done correctly, it should tell you that a slave AXI port was excluded. 
+![Step_3.1]()
+    This can be fixed by going the **Address Editor** tab and opening the sobel module section and then the **Excluded Address Segments**. To fix the validation issue, simply right-click the excluded address segment and select **Include Segment**.
+![Step_3.1.2]()
+2.  Re-validate the design
+3.  Before we can generate the bitsream we need to create a HDL wrapper for our design. This is easy to do. Go to the sources menu on the Vivado screen, right-click on the design file you want to create the wrapper for and select 'Create HDL Wrapper'. Keep all as default and select **OK**. ![Step_3.3]()
+4.  Select **Generate Bitstream** from the Flow Navigator menu. Keep everything as default and click **OK**. This step will take some time, so go and grab a drink and come back.
+5.  To find the bitstream, navigate to directory you created for the project. For us, we will navigate to **sobel.runs/impl_1/design_1_wrapper.bit**. Note, sobel is the name of our directory, this will be replaced with whatever you named the directory.
+6.  Once you've found the .bit file we need to convert the image file that we can load onto the FPGA. To this we use Xilinx's Bootgen. This is straightforward to do. Preferably in the same directory as you found the .bit file, create a file called bitstream.bif. It contents should be as follows:
+```
+all:
+{
+  design_1_wrapper.bit
+}
+```
+Note: Make sure the name of the .bit file is correct for your particular implementation
+
+Once the bitstream.bif file is created, all you need to do is run the following command:
+```
+bootgen -image bitstream.bif -arch zynq -process bitstream.bin
+```
+This will command puts the bitstream.bin file in the directory in which you ran the command from
+
 ## List of Files Needed
 
 ### xmodule-name_hw.h
-### .bin file
 
 ## Misc 
 
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
   - Found no way to test OpenCL code, using testbenches, on Vivado HLS
+  
+## Errors
