@@ -8,6 +8,7 @@ Here we provide a step-by-step tutorial on how to generate a static bitstream. W
   - Creating a Custom Module with Vivado HLS
   - Using Your Custom Module in Vivado
   - List of Files Needed 
+  - Misc
   - Known Issues
   
 ## Set-up
@@ -26,6 +27,8 @@ Does this flow work with:
   
 ## Creating a Custom Module with Vivado HLS
 
+**N.B.** 
+
 ### Step 1 - Creating a New Project
 
 1.  To create a new project go to **File** > **New Project**
@@ -38,6 +41,7 @@ Does this flow work with:
 ![image]()
     We don't need to worry about any of the options in the clock section of the window. Obviously, you can choose a different name for your solution.
 6.  The final thing to do is select the **Finish** button.
+7.  From here right-click on source in the **Explorer** menu and select **New File...**. From here you navigate to the directory that contains the source files you want to import. The same goes for 'Test Bench' in the same **Explorer** menu. It should be noted that you should include any header files or test data that the module needs to be tested.
   
 ### Step 2 - C Simulation
 
@@ -54,10 +58,12 @@ inc. adding new IP
 
 ### Step 3 - Generating the Bitstream
 
-## List of Files Neededviv  
+## List of Files Needed
 
 ### xmodule-name_hw.h
 ### .bin file
+
+## Misc 
 
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
