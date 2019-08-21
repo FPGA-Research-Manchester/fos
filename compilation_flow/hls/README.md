@@ -33,7 +33,8 @@ Does this flow work with:
 
 1.  To create a new project go to **File** > **New Project**
 2.  You'll be greeted by this screen:
-    ![Step_1.2]()
+
+    ![Step_1.2](./images/Step1.2.jpg)\
     Choose a suitable name and location for the project.
 3.  Next, enter the name of the main function in the program. In our case, this is krnl_sobel. From here you can import the source file. You can also import the source files later on in the process, I will point this out. ![Step_1.3]()
 4.  The same applies for the testbench files. ![Step_1.4]()
