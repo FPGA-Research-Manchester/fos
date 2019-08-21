@@ -1,12 +1,13 @@
 # FOS - FPGA Operating System Demo
 
-FOS extends the ZUCL framework with linux integration, python libs, C++ runtime management to provide support for: multi-tenancy (concurrent processes with hardware accel.), dynamic offload, GUI, network connection and flexibility.
+FOS extends the ZUCL framework with linux integration, python libs, C++ runtime management to provide support for: *multi-tenancy (concurrent processes with hardware accel.), dynamic offload, GUI, network connection and flexibility*.
 
-With FOS, you can develop accelerators in HLS as well as RTL and use them in standard full configuration mode, library mode (single process) for partially reconfigurable accelerators or daemon mode (multiple processes) with dynamic reconfiguration. 
+With FOS, you can use HLS or RTL accelerators in standard static accelerator mode, single process (library mode) with partially reconfigurable accelerators or multiple processes (daemon mode) with dynamic reconfiguration support. 
+This allows users to easily program accelerators with its in-built driver support for AXI master and slave interface (as well libs to build your own drivers). 
 
-It has in-built support for Vivado HLS accelerators with AXI master and slave interface and provides uio support to build your own drivers. 
+Moreover, the accelerator development, shell development and user application development can be performed in isolation as FOS provides built-in modularity and abstraction levels. 
 
-Target platform for the demo is Ultra96 board but the code can be easily ported to UltraZed and ZCU102 boards. 
+The aim of this project is to make FPGAs easy to use and allow the deployment and development of FPGA systems at scale. We hope FOS can improve your productivity and make FPGAs more fun to use while retaining its performance and energy.
 
 ## Features
 
@@ -17,7 +18,7 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 - Relocatable bitstreams
 - Compile bitstreams on board with [EFCAD tool flow](https://github.com/khoapham/efcad)
 - On board Linux backend for all software development needs
-- I/O support via ARM cores
+- I/O support via ARM cores (Network, storage, display, keyboard, mouse etc.)
 
 ## Quick Getting Started
 
@@ -36,9 +37,11 @@ Target platform for the demo is Ultra96 board but the code can be easily ported 
 - How to use Daemon
   - How to use HLS accelerators
 - How to compile partially reconfigurable modules
-- How to build Linux (Pynq / Ubuntu) Image
+- How to build Linux (Pynq / Ubuntu) image
 
 ## Compatibility
+
+Target board: Ultra96 (can be ported to ZCU102, UltraZed easily)
 
 The source code presented has been tested with following tool versions:
 - Vivado and Vivado HLS 2016.2, 2017.3, 2018.2 and 2018.3.
@@ -70,7 +73,7 @@ Software:
 
 ## Get in Touch 
 
-If you would like to ask questions, report bugs or collaborate on research project, please email any of the following: 
+If you would like to ask questions, report bugs or collaborate on research projects, please email any of the following: 
 
 - Anuj Vaishnav (<anuj.vaishnav@manchester.ac.uk>)
 - Khoa Dang Pham (<khoa.pham@manchester.ac.uk>)
