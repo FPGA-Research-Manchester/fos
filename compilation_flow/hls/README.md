@@ -7,7 +7,6 @@ Here we provide a step-by-step tutorial on how to generate a static bitstream. W
   - [Set-up](#set-up) 
   - [Creating a Custom Module with Vivado HLS](#creating-a-custom-module-with-vivado-hls)
   - [Using Your Custom Module in Vivado](#using-your-custom-module-in-vivado)
-  - [List of Files Needed](#list-of-files-needed)
   - [Misc](#misc)
   - [Known Issues](#known-issues)
   
@@ -164,11 +163,18 @@ all:
 bootgen -image bitstream.bif -arch zynq -process bitstream.bin
 ```
 
-## List of Files Needed
-
-### xmodule-name_hw.h
-
 ## Misc 
+
+This section contains helpful modifications that you may need or want during development
+
+### 32 and 64 bit interfaces
+Using the original Sobel OpenCL code, the data bas is 512 bits. For us, this is still usable but it could be changed. To do so, we changed the function parameter list to pass ints and int pointers, depending on the variable. We then took the input parameters and cast them into new variables of the original types. This allowed us to control the width of the data bus.
+
+In order a 64 bit data bus, you just need to add option to the configuration in HLS before synthesis. In Vivado HLS, click on the two yellow cogs called **Solution Settings...**, go to **Add** and select **config_interface** from the **Command** drop down menu. Ensure that the **m_axi_addr64** option is selected.
+
+![alt tag](./images/Misc/64-bit-interface.JPG)
+
+Now after synthesis, your data buses should be 64 bits wide
 
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
