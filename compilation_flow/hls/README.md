@@ -176,6 +176,25 @@ In order a 64 bit data bus, you just need to add option to the configuration in 
 
 Now after synthesis, your data buses should be 64 bits wide
 
+### Master and Slave AXI Pragma in HLS
+#### Master Pragmas
+If you find you need to map an argument to the memory port, the basic structure is as follows:
+```C
+#pragma HLS INTERFACE m_axi port=<variable_name> offset=slave bundle=gmem
+```
+Variable_name is a variable that denotes an array. It should be noted that, you should only map arrays to the memory ports
+
+#### Slave Pragmas
+If you find you need to map a argument to the control port, the basic structure is as follows:
+```C
+#pragma HLS INTERFACE s_axilite port=<variable_name> bundle=control
+```
+What these allowed us to do was map variables, both input and output, to registers within the hardware module. Which in turn, allowed us to tell the module where to find the data it needed.
+It should be noted that, a pragma should allows be created for return:
+```C
+#pragma HLS INTERFACE s_axilite port=return bundle=control
+```
+
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
   - Found no way to test OpenCL code, using testbenches, on Vivado HLS
