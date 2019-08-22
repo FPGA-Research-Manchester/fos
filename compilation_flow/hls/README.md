@@ -176,6 +176,8 @@ In order a 64 bit data bus, you just need to add option to the configuration in 
 
 Now after synthesis, your data buses should be 64 bits wide
 
+**N.B.** Remember that if you create a 64 bit interface, the modules internal registers will be 64 bits. You need to set those upper 32 bits to 0, or something more relevant to your project, otherwise the module will use whatever value is stored in upper 32 bits and you will have some weird bugs when using the module.
+
 ### Master and Slave AXI Pragma in HLS
 #### Master Pragmas
 If you find you need to map an argument to the memory port, the basic structure is as follows:
@@ -198,6 +200,7 @@ It should be noted that, a pragma should allows be created for return:
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
   - Found no way to test OpenCL code, using testbenches, on Vivado HLS
+  - 
   
 ## Errors
 
