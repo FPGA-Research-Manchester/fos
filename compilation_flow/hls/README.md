@@ -1,4 +1,4 @@
-# HLS to Static Bitstream
+# Vivado HLS Compilation Flow: From Software to Hardware
 
 ## Introduction
 
@@ -13,10 +13,6 @@ Here we provide a step-by-step tutorial on how to generate a static bitstream. W
 ## Set-up
 Listed below are the tools that I used to generate the static bitstream of a Sobel algorithm:
 
-Does this flow work with:
-  - Vivado 2018.2
-  - Ubuntu 18
-  
 ### Tools Used:
   - [Vivado 2018.3](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/2018-3.html)
   - Ubuntu 16.04.5 LTS
@@ -25,8 +21,6 @@ Does this flow work with:
   - [Sobel OpenCL Code](https://github.com/Xilinx/SDAccel_Examples/tree/1e273f6ef01073f878a4c2b5ca4d6ad5aec7e616/vision/edge_detection)
   
 ## Creating a Custom Module with Vivado HLS
-
-**N.B.** 
 
 ### Step 1 - Creating a New Project
 
