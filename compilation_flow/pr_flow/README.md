@@ -1,4 +1,4 @@
-# Getting Started with Partial Reconfiguration on UltraZed
+# Generating Partially Reconfigurable Modules
 
 ## Introduction
 This document provides a short tutorial of how to create partially reconfigurable (PR) modules and, also, how to launch them at runtime using Xilinx Vivado 2018.2 and PetaLinux 2018.2. The board we target for this tutoral is the UltraZed. Furthermore, we assume that Vivado SDx and Petalinux 2018.2 are already installed.
@@ -14,7 +14,6 @@ We start the process by synthesising the module's RTL code which was generated, 
 
 1.  Create a Vivado project with the sources
 2.  In Vivado, use the following TCL comments:
-    - *read_vhdl* {**list of all the contents in the vhdl folder**}
     - *synth_design -mode out_of_context -flatten_hierachy rebuilt -part xczu3eg-sfva625-1-i -top* {**module's top name**}
     - *write_checkpoint -force ./Synth/reconfig_modules/*{**module's top name**}
     - *close_design*
@@ -86,5 +85,6 @@ all:
 }
 ```
 ## Misc
-When you synthesise the module out-of-context you may want to use the following instruction instead of using the 1st instruction:
-*Copy the VHDL folder from your Vivado HLS project to the ./Sources folder*
+When you synthesise the module out-of-context you may want to use the following instruction instead:
+- *Copy the VHDL folder from your Vivado HLS project to the ./Sou\rces folder*
+- *read_vhdl* {**list of all the contents in the vhdl folder**}
