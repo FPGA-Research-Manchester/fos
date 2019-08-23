@@ -42,7 +42,7 @@ Thsi will run the entire logic synthesis, as well as the physical implementation
 
 The physical implementation results are as the following figure:
 
-![alt tag](./images/Untitled.png)\
+![alt tag](./images/Untitled.png)
 
 ### Merge the PR Module into the Given Static Design Bitstream
 Now, we start mering the PR module to the static design at bitstream level. The static design is as the following figure:
@@ -86,4 +86,5 @@ all:
 }
 ```
 ## Misc
-1.  Copy the VHDL folder from your Vivado HLS project to the ./Sources folder
+When you synthesise the module out-of-context you may want to use the following instruction instead of using the 1st instruction:
+*Copy the VHDL folder from your Vivado HLS project to the ./Sources folder*
