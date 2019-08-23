@@ -42,12 +42,12 @@ Thsi will run the entire logic synthesis, as well as the physical implementation
 
 The physical implementation results are as the following figure:
 
-![Put 2 images side-by-side here]()
+![alt tag](./images/Untitled.png)\
 
 ### Merge the PR Module into the Given Static Design Bitstream
 Now, we start mering the PR module to the static design at bitstream level. The static design is as the following figure:
 
-![image here]()
+![alt tag](./images/static_ultra_zed.png)
 
 The tool BitMan is used to conduct this step:
 1.  Merging the PR module which is allocated in Slot 0 to the static:
