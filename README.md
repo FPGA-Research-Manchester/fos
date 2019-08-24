@@ -13,14 +13,15 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 
 ## Features
 
-- Dynamic partial reconfiguration
-- Runtime for concurrent hardware accelerators
-- Ponq and Cynq libs to make hardware acceleration easy 
-- Decoupling shell development from accelerator development (can be update individually)
-- Relocatable bitstreams
-- Compile bitstreams on board with [EFCAD tool flow](https://github.com/khoapham/efcad)
-- On board Linux backend for all software development needs
-- I/O support via ARM cores (Network, storage, display, keyboard, mouse etc.)
+- **Accelerate on the go:** Use accelerators with dynamic partial reconfiguration.
+- **The more the merrier:** Runtime support for concurrent hardware accelerators.
+- **Compile where you run:** Compile bitstreams *on board* with [EFCAD tool flow.](https://github.com/khoapham/efcad)
+- **Compile once, run everywhere:** Relocate  bitstream to any slot in the shell.
+- **Accelerators come in all sizes:** Combine partial regions for big accelerators.
+- **Free to change:** Update shell, accelerator, application or Linux individually. 
+- **Abstraction to rescue:** Ponq and Cynq libs for easy hardware acceleration.
+- **Why repeat yourself?** Standard Linux backend for software development.
+- **Use FPGA as your PC:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
 ## Quick Getting Started
 
