@@ -217,7 +217,9 @@ printf("Finished\n");
 To start the module, you need to set the LSB to 1. **NOTE:** The meaning of each specific control register bit is documented in the  [initialising the module section](#intialising-the-module). We then use a while loop to wait for the module to finish. We check the 'done bit' to see when this is the case. This is the 2nd bit of the control register. 
 
 #### Hardware Vs Software
-In our version of the driver file, we wanted to see the difference between the code being run on hardware and software. To support this we copied the sobel code from the github directory
+In our version of the driver file, we wanted to see the difference between the code being run on hardware and software. To support this we copied the sobel code from the [github](https://github.com/Xilinx/SDAccel_Examples/blob/1e273f6ef01073f878a4c2b5ca4d6ad5aec7e616/vision/edge_detection/src/krnl_sobelfilter.cl) directory. If we want to see how the code ran in software, all we need to do is remove the OpenCL specific code and call the code as a normal C++ function.
+
+In the software version of the program, the module's registers would not be used, so we simply added an if statement around those lines. The udmabuf buffer still needs to be used, therefore that code will not change. Furthermore, the way that we run the code is done differently. We just do a normal function call and then output the data that is returned. 
 
 ### Outputting Results
 This is done in two steps: reading data from the buffer into a Mat object, outputting the Mat object to the screen
