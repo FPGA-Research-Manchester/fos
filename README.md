@@ -65,6 +65,8 @@ Hardware:
 - K.D. Pham, A. Vaishnav, M. Vesper and D. Koch, "**ZUCL: A ZYNQ UltraScale+ Framework for OpenCL HLS Applications**", 5th FSP, 2018.
 - K.D. Pham, E. Horta and D. Koch, "**BITMAN: A tool and API for FPGA bitstream manipulations**", DATE, 2017.
 
+- K.D. Pham, M. Vesper, D. Koch and E. Hung, "**EFCAD -- An Embedded FPGA CAD Tool Flow for Enabling On-chip Self-Compilation**", FCCM, 2019.
+
 Software: 
 - A. Vaishnav, K.D. Pham, D. Koch and J. Garside, "**Resource Elastic Virtualization for FPGAs using OpenCL**", 28th FPL, 2018.
 - A. Vaishnav, K.D. Pham and D. Koch, "**Live Migration for OpenCL FPGA Accelerators**", FPT, 2018. 
