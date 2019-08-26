@@ -101,15 +101,135 @@ The offsets we use are defined for us using the SDK tools:
   4. The offsets are defined in a file named `x<module-project-name-here>_hw.h`. It can be found in the Vivado project directory: `./<project-name>.sdk/design_1_wrapper_hw_platform_0/drivers/<module-name>_v1_0/src/x<module-name>_hw.h`
 
 ### Using Udmabuf
-Images need to be in contiguous buffer. This does it.
-When software needs to access hardware, we need to use virtual memory, this does it
+The github page describes udmabuf as a, `"Linux device driver that allocates contiguous memory blocks in the kernel space as DMA buffers and makes them available from the user space."` This is exactly how I use it in the driver file. As a general case, this would be used to store any data related to pointers or arrays. Non-pointer variables can just be stored in the relevant registers. In our case, we store the input and output image data on the udmabuf. This allows the data to be stored contiguously, obviously. 
 
+Another reason we use a udmabuf buffer is that we have some software that is trying to store data onto memory. Therefore, we need to go through virtual memory, in order for us to store data from the software side of things.
 
+In this section of code, we are doing exactly the same thing we did with the module registers but with different parameters. Our filepath is now pointing at the udmabuf, not main memory, and the size of the portion of memory is equivalent to the size of the udmabuf buffer, we have already created. Since we now have a pointer to the base address of the udmabuf buffer in physical memory, we can use offsets to create pointers so that we can store at specific locations. In this case, we need one section for the input image data and one for the output image data.
+
+You will also notice, that the offset value for the buffer is 0. This signifies to the mmap() function that we don't care where the buffer starts from. This is obviously not the case when we need to create buffers for module registers.
+
+It should be noted that types do matter in this case. The Sobel module requires that it's input and output data structures are of the short integer type. You could just as easily specify the virtual_src and virtual_dst pointers as unsigned shorts.
+
+Don't worry about the buffer_phys_addr variable, as this will be explained further down.
+
+```c++
+  int64_t buffer_size = get_buffer_size();
+  if (buffer_size == -1)
+  {
+    perror("Failed to get the udmabuf size\n");
+    return -1;
+  }
+  printf("buffer_size=%ld\n", buffer_size);
+
+  int64_t buffer_phys_addr = get_buffer_addr();
+  if (buffer_size == -1)
+  {
+    perror("failed to open udmabuf addr file\n");
+    return -1;
+  }	
+  printf("buffer_phys_addr=%lx\n", buffer_phys_addr);
+
+  uint8_t* virtual_src = (uint8_t*)set_hw_registers("/dev/udmabuf0", 0, buffer_size);		
+  printf("virtual_src=%lx\n", virtual_src);
+  if (virtual_src == MAP_FAILED)
+  {
+     perror("Memory mapping failed for input image\n");
+     return -1;
+  }
+
+  uint8_t* virtual_dst = (virtual_src + buffer_offset);
+  printf("virtual_dst=%lx\n", virtual_dst);
+
+int64_t get_buffer_size()
+{
+  int64_t buffer_size;
+  char attr[1024];
+  int buffer_fd; 
+  if ((buffer_fd = open("/sys/class/udmabuf/udmabuf0/size", O_RDONLY)) != -1)
+  {
+    read(buffer_fd, attr, 1024);
+    sscanf(attr, "%ld", &buffer_size);
+    close(buffer_fd);		
+    return buffer_size;
+  } 
+  else 
+  {
+    return -1;
+  }
+}
+```
 
 ### Preparing the Module to Run Correctly
 Reading the data into memory - doesn't need much explanation, its just basic OpenCV
 Storing stuff in registers and saying go.
 Checking when the module is done
+
+This section will be devoted to the preparing the module before running it.
+
+#### Step 1: Preparing the input data
+This step is just simple OpenCV image manipulation. It involves reading the image into a matrix and converting it into greyscale. Simple.
+
+The next part in this step is a little less self-explanatory. It involves reading the data from the Mat object onto the udmabuf buffer. I'm sure there are other ways of doing this, but we decided to go for nested for-loops: 
+
+```c++
+  for (int y = 0; y < src.rows; y++)
+  {
+    int lineoff = y*src.cols;
+    for (int x = 0; x < src.cols; x++)
+    {
+      virtual_src[lineoff+x] = src.at<char>(y,x);
+    }
+  }
+```
+This involves iterating from left-to-right and top-to-bottom and reading each individual value onto the buffer. As long as you read it back out of the buffer correctly and into the output matrix, you should have no issues. This will be detailed later on however.
+
+#### Step 2: Pointing the module to the right places
+Now that we have the input data on the buffer, and pointers to relevant, individual sections of the buffer, we can begin preparing the module for use.
+
+In this section, it is important to note that the module wants the physical hardware address of the udmabuf buffer, not the virtual addresses. The code to get this address is straightforward and is documented below:
+```c++
+int64_t get_buffer_addr()
+{
+ 	int64_t buffer_phys_addr;
+	char attr[1024];
+	int buffer_fd; 
+	if ((buffer_fd = open("/sys/class/udmabuf/udmabuf0/phys_addr", O_RDONLY)) != -1)
+	{
+		read(buffer_fd, attr, 1024);
+		sscanf(attr, "%lx", &buffer_phys_addr);
+		close(buffer_fd);		
+		return buffer_phys_addr; 
+	} 
+	else
+	{
+		return -1;
+	}
+}
+```
+The virtual addresses are only there so that the software can access the hardware, the Sobel module doesn't need them. Furthermore, the base physical address of the buffer and the virtual equivalent point to the same thing, so you just need to supply the base physical address + any offsets that may be needed. This will give the module the correct data.
+
+With this in mind, here's what you need to do:
+
+  1. In our case, the input image data is stored from the base address. So we just need to supply the base address of the udmabuf buffer to the image_in register.
+  2. The output image data is currently empty, but we still need to supply the pointer to the module. This is simply the base address of the buffer + the same offset we used in the buffer.
+
+```c++
+*image_in = (buffer_phys_addr);
+//	printf("image_in=%lx\n", *image_in);
+//	printf("%lx, %lx\n", buffer_phys_addr, buffer_offset);
+*image_out = (buffer_phys_addr + buffer_offset);	
+//	printf("image_out=%lx\n", *image_out);
+```
+#### Step 3: Go!
+Starting the module is really simple, as you can see in the code below:
+```c++
+printf("GO!\n");
+*filter_control = *filter_control | 1;
+while (!((*filter_control) & 2));
+printf("Finished\n");
+```
+To start the module, you need to set the LSB to 1. **NOTE:** The meaning of each specific control register bit is documented in the  [initialising the module section](#intialising-the-module). We then use a while loop to wait for the module to finish. We check the 'done bit' to see when this is the case. This is the 2nd bit of the control register. 
 
 ### Outputting Results
 
