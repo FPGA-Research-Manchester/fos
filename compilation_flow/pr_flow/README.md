@@ -6,6 +6,8 @@ for the ZUCL shell on Ultra96/UltraZed board using Vivado 2018.2, BitMan and ted
 
 If you plan to use the runtime software provided in this repo, you do not need to generate a bitstream for each slot. The relocation function provided in the daemon and libs can perform this at runtime for you. 
 
+![compilation flow](./images/fig-flow.png)
+
 ### Useful Links
   - [Examples, drivers and datafiles](https://www.dropbox.com/sh/qsg5m7jp1sn4saj/AABAzSGOa91K0Kvtlz_0LuRta?dl=0)
   - [Petalinux 2018.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/archive.html)
