@@ -3,13 +3,15 @@
 From here on out we document how to use the HLS modules that are created using
 [the following tutorial](../../compilation_flow/hls/README.md).
 
-In this tutorial, I detail how I use the Sobel module I created using the tutorial linked above. I will go over how to load the bitstream onto the FPGA and how to create a driver file to use the hardware.
+In this tutorial, I detail how I use the Sobel module I created using the tutorial linked above. I will go over how to load the bitstream onto the FPGA and how to create a driver file to use the hardware. 
 
 This tutorial assumes that you have a correct bitstream ready to be used and that you have Udmabuf installed and ready-to-use. For details of how to install Udmabuf, check the [github page](https://github.com/ikwzm/udmabuf).
 
+**Note**: the driver file is found [here](./sobel_linux.cpp)
+
 ## Contents
   - [Set Up](#set-up)
-  - [Driver File](#driver-file)
+  - [Code Breakdown](#code-breakdown)
   - [Compilation and Running](#compilation-and-running)
 
 ## Set Up
@@ -21,14 +23,10 @@ Listed below are the tools and pieces of information that I used to create the d
   
 **N.B.** Where to find the addresses will be detailed below
 
-## Driver File
+## Code Breakdown
 In this section I document how to correctly write the driver file, such that we can manipulate the static bitstream we have created.
 
 ### Preprocessor Directives
-This will include header files, define statements etc. 
-
-I will only talk about non-std libraries as I think they will need the most explaining:
-
 #### <mman.h>
 This is the driver file that we need to use the mmap() function, and consequently the munmap() function as well. I will talk about this in a later section but we need them to be able to access the modules registers through `/dev/mem`
 
@@ -55,8 +53,19 @@ This is used in connection with the Udmabuf and will be explained further down.
 #### Best of the Rest
 The rest of the preprocessor directives are devoted to running module in a software context. This was mainly done so that we could see the speed-up between software and hardware. It should be noted that I have copied and pasted the Sobel OpenCL code from the [github page](https://github.com/Xilinx/SDAccel_Examples/blob/1e273f6ef01073f878a4c2b5ca4d6ad5aec7e616/vision/edge_detection/src/krnl_sobelfilter.cl) and just removed the OpenCL specific code in order to run it as a standard C/C++ function. 
 
-### Buffers
-### Accessing Virtual & Physical Memory
-### Code Breakdown
+### Intialising the Module
+mmap()
+
+### Using Udmabuf
+Images need to be in contiguous buffer. This does it.
+When software needs to access hardware, we need to use virtual memory, this does it
+
+### Preparing the Module to Run Correctly
+Storing stuff in registers and saying go.
+Checking when the module is done
+
+### Outputting Results
+
 
 ## Compilation and Running
+inc. how to copy module onto FPGA
