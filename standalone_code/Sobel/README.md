@@ -232,7 +232,22 @@ printf("Finished\n");
 To start the module, you need to set the LSB to 1. **NOTE:** The meaning of each specific control register bit is documented in the  [initialising the module section](#intialising-the-module). We then use a while loop to wait for the module to finish. We check the 'done bit' to see when this is the case. This is the 2nd bit of the control register. 
 
 ### Outputting Results
+This is done in two steps: reading data from the buffer into a Mat object, outputting the Mat object to the screen
 
+#### Reading Data from the Buffer
+This is done in a similar manner to writing data into the buffer. We did it like this:
+```c++
+for (int y = 0; y < dst.rows; y++)
+{
+	int lineoff = y*dst.cols;
+	for (int x = 0; x < dst.cols; x++)
+	{
+		dst.at<char>(y,x) = virtual_dst[lineoff+x];
+  }
+}
+```
 
+#### Outputting the Matrix
+This just simple OpenCV: `imshow("Output", dst);`
 ## Compilation and Running
 inc. how to copy module onto FPGA
