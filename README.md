@@ -2,7 +2,7 @@
 
 FOS extends the ZUCL framework with linux integration, python libs, C++ runtime management to provide support for: *multi-tenancy (concurrent processes with hardware accel.), dynamic offload, GUI, network connection and flexibility*.
 
-<center><img src="./fos_usage_mode.svg" width=80%></center>
+<center><img src="./fos_usage_mode.jpg" width=90%></center>
 
 With FOS, you can use HLS or RTL accelerators in standard static accelerator mode, single process (library mode) with partially reconfigurable accelerators or multiple processes (daemon mode) with dynamic reconfiguration support. 
 This allows users to easily program accelerators with its in-built driver support for AXI master and slave interface (as well libs to build your own drivers). 
