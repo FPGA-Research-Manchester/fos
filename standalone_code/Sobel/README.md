@@ -179,20 +179,20 @@ In this section, it is important to note that the module wants the physical hard
 ```c++
 int64_t get_buffer_addr()
 {
- 	int64_t buffer_phys_addr;
-	char attr[1024];
-	int buffer_fd; 
-	if ((buffer_fd = open("/sys/class/udmabuf/udmabuf0/phys_addr", O_RDONLY)) != -1)
-	{
-		read(buffer_fd, attr, 1024);
-		sscanf(attr, "%lx", &buffer_phys_addr);
-		close(buffer_fd);		
-		return buffer_phys_addr; 
-	} 
-	else
-	{
-		return -1;
-	}
+  int64_t buffer_phys_addr;
+  char attr[1024];
+  int buffer_fd; 
+  if ((buffer_fd = open("/sys/class/udmabuf/udmabuf0/phys_addr", O_RDONLY)) != -1)
+  {
+    read(buffer_fd, attr, 1024);
+    sscanf(attr, "%lx", &buffer_phys_addr);
+    close(buffer_fd);		
+    return buffer_phys_addr; 
+  } 
+  else
+  {
+    return -1;
+  }
 }
 ```
 The virtual addresses are only there so that the software can access the hardware, the Sobel module doesn't need them. Furthermore, the base physical address of the buffer and the virtual equivalent point to the same thing, so you just need to supply the base physical address + any offsets that may be needed. This will give the module the correct data.
