@@ -267,4 +267,6 @@ This line is how we prepare the bitstream for loading.
 This line tells the FPGA driver to load sobel.bin onto the FPGA fabric. It should be noted that, everytime we do this, the sobel module will reset
 
 #### sudo DISPLAY=:0 ./sobel_linux HW
-This line runs the driver. The command line parameter can either be SW or HW. This feature is documented [here](#hardware-vs-software)
+This is the line that runs the compiled source code. The command line parameter
+can either be HW or SW. This tells the code whether we want to run it in
+hardware or software.
