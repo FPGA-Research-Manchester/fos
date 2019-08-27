@@ -1,7 +1,6 @@
 # Using the Sobel HLS Module on your FPGA
 ## Introduction
-Here we document how to use the HLS modules that are created using
-[the following tutorial](../../compilation_flow/hls/README.md).
+Here we document how to use the HLS modules that are created using the [HLS tutorial](../../compilation_flow/hls/README.md) on the Linux image provided in this report, without any special libs or daemon.
 
 We will go over how to load the bitstream onto the FPGA and how to create a driver file to use the hardware. 
 
