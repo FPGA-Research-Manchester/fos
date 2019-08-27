@@ -15,55 +15,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgcodecs/imgcodecs.hpp>
 
-#define control_reg 0x00A0000000
-
-#define buffer_offset (16*1024*1024)
-
-#define no_images 7
-
-#define FILTER_WIDTH (3)
-#define FILTER_HEIGHT (3)
-
-#define B (64)
-#define M(x) (((x)-1)/(B) + 1)
-#define REG_WIDTH (M(FILTER_WIDTH+B-1)*B)
-
-#define IMAGE_WIDTH 1280
-#define IMAGE_HEIGHT 720
-
-#if(B == 64)
-typedef uint16_t bus_t;
-#elif(B == 32)
-typedef uint8 bus_t;
-#elif(B == 16)
-typedef uint4 bus_t;
-#elif(B == 8)
-typedef uint2 bus_t;
-#elif(B == 4)
-typedef uint bus_t;
-#elif(B == 2)
-typedef u16 bus_t;
-#elif(B == 1)
-typedef u8 bus_t;
-#endif
-
-typedef unsigned char u8;
-typedef char s8;
-typedef unsigned short u16;
-typedef short s16;
-
-typedef union {
-    bus_t b;
-    u8 a[B];
-} bus_to_u8_t;
-
-void* set_hw_registers(const char* filepath, long offset, long size);
-int64_t get_buffer_size();
-int64_t get_buffer_addr();
-std::string type2str(int type);
-void bus_to_u8(bus_t in, u8 out[B]);
-bus_t u8_to_bus(u8 in[B]);
-void sobel(bus_t* in_pixels, bus_t* out_pixels); 
+#include "sobel_linux.h"
 
 using namespace cv;
 
@@ -74,7 +26,6 @@ int main(int argc, char* argv[])
 		printf("Please enter HW or SW\n");
 		return -1;
 	}
-	printf("Initialise..\n");
 	
 	volatile int in_pixels = 0x10;
 	volatile int out_pixels = 0x18;
@@ -82,7 +33,6 @@ int main(int argc, char* argv[])
 	// ==== Set up the module's registers ====
 	size_t pagesize = sysconf(_SC_PAGE_SIZE);
 	uint8_t* filter_reg = (uint8_t*)set_hw_registers("/dev/mem", (int64_t)control_reg, (int64_t)pagesize);
-	printf("filter_reg = %lx\n", filter_reg);
 	if (filter_reg== MAP_FAILED)
 	{
 	   perror("Memory mapping failed for image filter registers\n");
@@ -93,11 +43,8 @@ int main(int argc, char* argv[])
 	if (strcmp(argv[1], "HW") == 0)
 	{
 		filter_control = (int*)filter_reg;
-		printf("filter_control=%lx\n", filter_control);
 		image_in = (int*)(filter_reg + in_pixels);
-		printf("image_in=%lx\n", image_in);
 		image_out = (int*)(filter_reg + out_pixels);
-		printf("image_out=%lx\n", image_out);
 	}
 	
 	// ==== Set up virtual memory locations ====
@@ -107,7 +54,6 @@ int main(int argc, char* argv[])
 		perror("Failed to get the udmabuf size\n");
 		return -1;
 	}
-	printf("buffer_size=%ld\n", buffer_size);
 	
 	int64_t buffer_phys_addr = get_buffer_addr();
 	if (buffer_size == -1)
@@ -115,10 +61,8 @@ int main(int argc, char* argv[])
 		perror("failed to open udmabuf addr file\n");
 		return -1;
 	}	
-	printf("buffer_phys_addr=%lx\n", buffer_phys_addr);
 	
 	uint8_t* virtual_src = (uint8_t*)set_hw_registers("/dev/udmabuf0", 0, buffer_size);		
-	printf("virtual_src=%lx\n", virtual_src);
 	if (virtual_src == MAP_FAILED)
 	{
 	   perror("Memory mapping failed for input image\n");
@@ -126,12 +70,11 @@ int main(int argc, char* argv[])
 	}
 	
 	uint8_t* virtual_dst = (virtual_src + buffer_offset);
-	printf("virtual_dst=%lx\n", virtual_dst);
 	
 	// ==== Create matrices to store the before and after images ====
 	for (int imageNo = 0; imageNo < no_images; imageNo++)
 	{
-		std::string image_name = format("./images/image%d.jpg", imageNo);					//"./images/image" + (char)(imageNo + '0')  + ".jpg";
+		std::string image_name = format("./images/image%d.jpg", imageNo);
 		printf("image_name=%s\n", image_name.c_str());
 		
 		Mat src = imread(image_name, CV_LOAD_IMAGE_GRAYSCALE);
@@ -141,16 +84,6 @@ int main(int argc, char* argv[])
 		}
 		Mat dst(src.rows, src.cols, src.type());
 		
-	//	std::string mat_type;
-	//	mat_type = (src.type());
-	//	printf("src mat=%s %dx%d\n", mat_type.c_str(), src.cols, src.rows);
-	//
-	//	mat_type = (dst.type());
-	//	printf("dst mat=%s %dx%d\n", mat_type.c_str(), dst.cols, dst.rows);
-	
-	//  return 0;
-	//	printf("virtual_src=%lx\n", virtual_src);
-	
 		// ==== Store the image data onto the virtual buffer space ====
 		for (int y = 0; y < src.rows; y++)
 		{
@@ -165,10 +98,7 @@ int main(int argc, char* argv[])
 		if (strcmp(argv[1], "HW") == 0)
 		{
 			*image_in = (buffer_phys_addr);
-		//	printf("image_in=%lx\n", *image_in);
-		//	printf("%lx, %lx\n", buffer_phys_addr, buffer_offset);
 			*image_out = (buffer_phys_addr + buffer_offset);	
-		//	printf("image_out=%lx\n", *image_out);
 	
 			printf("GO!\n");
 			*filter_control = *filter_control | 1;
