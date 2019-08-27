@@ -48,7 +48,7 @@ This is used in connection with the Udmabuf and will be explained further down.
 #### Best of the Rest
 We haven't spoken about some of the header files as we feel that they are self-explanatory *e.g.* opencv, std libs *etc.*
 
-The rest of the preprocessor directives, such as defines or typedefs, are either devoted to running module in a software context or self-explanatory. These are explained in a [section below](#hardware-vs-software) 
+The rest of the preprocessor directives, such as defines or typedefs, are self-explanatory, therefore, we will not be talking about them.
 
 ### Intialising the Module
 In this section of the code, we are seeking to initialise the module's registers so that we can use them later on in the driver file. We need to map the physical address to the virtual address space of our application. We do this using the [mmap()](http://man7.org/linux/man-pages/man2/mmap.2.html) function. The mmap() function returns a pointer to an area of memory that we can use to offset from and access the module's registers. 
