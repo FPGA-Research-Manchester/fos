@@ -6,7 +6,7 @@ We will go over how to load the bitstream onto the FPGA and how to create a driv
 
 This tutorial assumes that you have a bitstream ready to be used and that you have Udmabuf installed and ready-to-use. For details of how to install Udmabuf, check the [github page](https://github.com/ikwzm/udmabuf).
 
-**Note**: the source is found [here](./sobel_linux.cpp), with its corresponding header file found [here](./sobel_linux.h)
+**Note**: the source code is found [here](./sobel_linux.cpp), with its corresponding header file found [here](./sobel_linux.h)
 
 ## Contents
   - [Set Up](#set-up)
