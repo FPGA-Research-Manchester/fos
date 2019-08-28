@@ -5,13 +5,13 @@ FOS extends the ZUCL framework with linux integration, python libs, C++ runtime 
 <center><img src="./fos_usage_mode.jpg" width=80%></center>
 
 With FOS, you can use HLS or RTL accelerators in standard static accelerator mode, single process (library mode) with partially reconfigurable accelerators or multiple processes (daemon mode) with dynamic reconfiguration support. 
-This allows users to easily program accelerators with its in-built driver support for AXI master and slave interface (as well libs to build your own drivers). 
+This allows users to easily program accelerators with its in-built driver support for AXI master and slave interface (as well as libs to build your own drivers). 
 
 Moreover, the accelerator development, shell development and user application development can be performed in isolation as FOS provides built-in modularity and abstraction levels. 
 
 The aim of this project is to make FPGAs easy to use and allow the deployment and development of FPGA systems at scale. We hope FOS can improve your productivity and make FPGAs more fun to use while retaining its performance and energy.
 
-## Features
+## Key Features
 
 - **Accelerate on the go:** Use accelerators with dynamic partial reconfiguration.
 - **The more the merrier:** Runtime support for concurrent hardware accelerators.
@@ -19,9 +19,9 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - **Compile once, run everywhere:** Relocate  bitstream to any slot in the shell.
 - **Accelerators come in all sizes:** Combine partial regions for big accelerators.
 - **Free to change:** Update shell, accelerator, application or Linux individually. 
-- **Abstraction to rescue:** Ponq and Cynq libs for easy hardware acceleration.
-- **Why repeat yourself?** Standard Linux backend for software development.
-- **Use FPGA as your PC:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
+- **Abstraction to rescue:** Ponq and Cynq libs for easy hardware integration.
+- **Don't repeat yourself:** Standard Linux backend for software development.
+- **Add some I/O to your compute:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
 ## Quick Getting Started
 
