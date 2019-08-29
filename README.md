@@ -2,7 +2,7 @@
 
 FOS extends the ZUCL framework with linux integration, python libs, C++ runtime management to provide support for: *multi-tenancy (concurrent processes with hardware accel.), dynamic offload, GUI, network connection and flexibility*.
 
-<center><img src="./fos_usage_mode.jpg" width=80%></center>
+<center><img src="./images/fos_usage_mode.jpg" width=80%></center>
 
 With FOS, you can use HLS or RTL accelerators in standard static accelerator mode, single process (library mode) with partially reconfigurable accelerators or multiple processes (daemon mode) with dynamic reconfiguration support. 
 This allows users to easily program accelerators with its in-built driver support for AXI master and slave interface (as well as libs to build your own drivers). 
@@ -21,10 +21,11 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - **Free to change:** Update shell, accelerator, application or Linux individually. 
 - **Abstraction to rescue:** Ponq and Cynq libs for easy hardware integration.
 - **Don't repeat yourself:** Standard Linux backend for software development.
-- **Add some I/O to your compute:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
+- **Dont't forget your I/O:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
 ## Quick Getting Started
 
+<img align="right" width="30%" src="./images/demo_screenshot.png">
 - Download SD Card image
 - Set board to SD Card mode and turn it on
 - Go to directoy : XYZ
