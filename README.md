@@ -23,9 +23,9 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - **Don't repeat yourself:** Standard Linux backend for software development.
 - **Dont't forget your I/O:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
-## Quick Getting Started
+<img align="right" width="50%" src="./images/demo_screenshot.png">
 
-<img align="right" width="30%" src="./images/demo_screenshot.png">
+## Quick Getting Started
 
 - Download SD Card image
 - Set board to SD Card mode and turn it on
