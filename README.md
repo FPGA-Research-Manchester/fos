@@ -26,6 +26,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 ## Quick Getting Started
 
 <img align="right" width="30%" src="./images/demo_screenshot.png">
+
 - Download SD Card image
 - Set board to SD Card mode and turn it on
 - Go to directoy : XYZ
