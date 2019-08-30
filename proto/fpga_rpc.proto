@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+service FPGARPC {
+  // request a set of jobs from the fpga
+  rpc Run(RunMessage) returns (RunReturn) {}
+
+  // request and free physical buffers
+  rpc Alloc(AllocMessage) returns (AllocReturn) {}
+  rpc Free(FreeMessage) returns (FreeReturn) {}
+}
+
+// === messages for the run rpc ===
+message RunMessage {
+  repeated AccJob Jobs = 1;
+}
+
+message AccJob {
+  string AccName = 1;
+  string PerName = 2;
+  map<string, uint32> Parameters = 3;
+}
+
+message RunReturn {
+	bool success = 1;
+}
+
+// === messages for the alloc rpc ===
+message AllocMessage {
+
+}
+
+message AllocReturn {
+  int32 bufno = 1;
+}
+
+// === messages for the free rpc ===
+message FreeMessage {
+  int32 bufno = 1;
+}
+
+message FreeReturn {
+
+}

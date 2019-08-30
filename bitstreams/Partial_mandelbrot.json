@@ -1,0 +1,22 @@
+{
+  "name": "Partial_mandelbrot",
+  "bitfiles": [
+    {"name": "Partial_mandelbrot_slot_0.bin", "region": "pr0", "stubregions": []},
+    {"name": "Partial_mandelbrot_slot_1.bin", "region": "pr1"},
+    {"name": "Partial_mandelbrot_slot_2.bin", "region": "pr2"}
+  ],
+  "registers": [
+    {"name": "control", "offset": "0x0"},
+    {"name": "imageWidth", "offset": "0x10"},
+    {"name": "imageHeight", "offset": "0x18"},
+    {"name": "maxIterations", "offset": "0x20"},
+    {"name": "centreRealLow", "offset": "0x28"},
+    {"name": "centreRealHi", "offset": "0x2c"},
+    {"name": "centreImagLow", "offset": "0x34"},
+    {"name": "centreImagHi", "offset": "0x38"},
+    {"name": "zoomLow", "offset": "0x40"},
+    {"name": "zoomHi", "offset": "0x44"},
+    {"name": "framebufferLow", "offset": "0x4c"},
+    {"name": "framebufferHi", "offset": "0x50"}
+  ]
+}

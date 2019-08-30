@@ -1,0 +1,7 @@
+{
+  "shell": "Ultra96_100MHz_2",
+  "accelerators": [
+    "Partial_sobel",
+    "Partial_mandelbrot"
+  ]
+}

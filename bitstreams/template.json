@@ -1,0 +1,15 @@
+{
+  "name": "<accelerator name>",
+  "bitfiles": [
+    {"name": "<bitfile name>", "region": "<labelled region name>", "stubregions": ["<region>", "<region>"]},
+    {"name": "<bitfile name>", "region": "<labelled region name>", "stubregions": ["<region>", "<region>"]},
+    {"name": "<bitfile name>", "region": "<labelled region name>", "stubregions": ["<region>", "<region>"]}
+  ],
+  "registers": [
+    {"name": "control", "offset": "0"},
+    {"name": "<register name>", "offset": "<register offset>"},
+    {"name": "<register name>", "offset": "<register offset>"},
+    {"name": "<register name>", "offset": "<register offset>"},
+    {"name": "<register name>", "offset": "<register offset>"}
+  ]
+}

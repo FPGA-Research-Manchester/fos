@@ -1,0 +1,9 @@
+{
+  "name": "Ultra96_100MHz_2",
+  "bitfile": "Ultra96_100MHz_2.bin",
+  "regions": [
+    {"name": "pr0", "blank": "Blanking_slot_0.bin", "bridge": "0xa0010000", "addr": "0xa0000000"},
+    {"name": "pr1", "blank": "Blanking_slot_1.bin", "bridge": "0xa0020000", "addr": "0xa0001000"},
+    {"name": "pr2", "blank": "Blanking_slot_2.bin", "bridge": "0xa0030000", "addr": "0xa0002000"}
+  ]
+}

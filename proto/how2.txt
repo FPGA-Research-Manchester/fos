@@ -1,0 +1,47 @@
+General principle:
+  Have a named accelerator design
+  Have multiple bitstreams which contain the same accelerator
+  Each bitstream will fit in a labelled region (pr0, pr1, etc) of a shell
+  accelerator has set of registers with offsets
+
+====== JSON to describe accelerator to daemon ======
+
+{
+  "name": "<accelerator name>",
+  "region": "<labelled region name>",
+  "stubregions": ["<region>", "<region>"]
+  "registers": [
+    {"name": "<register name>", offset: "<register offset>"},
+    {"name": "<register name>", offset: "<register offset>"},
+    {"name": "<register name>", offset: "<register offset>"},
+    {"name": "<register name>", offset: "<register offset>"},
+    {"name": "<register name>", offset: "<register offset>"}
+  ]
+}
+
+
+====== C Code to run jobs on daemon ======
+
+// create vector of jobs
+std::vector<Job> jobs;
+
+// for each job to be run
+for (int unit = 0; unit < units; unit++) {
+
+  // create new job
+  Job &job = jobs.emplace_back();
+
+  // set accelerator name
+  job.accname = "Partial_Sobel";
+
+  // set accelerator parameters
+  job.params["in_pixels"] = (buffer + unit*(width*(height/units)))+ 2*width;
+  job.params["in_pixels_msb"] = 0;
+  job.params["out_pixels"] = (buffer + src_size + unit*(width*(height/units)));
+  job.params["out_pixels_msb"] = 0;
+  job.params["im_width"]  = width;
+  job.params["im_height"] = (height/units)+2;
+}
+
+// dispatch job to fpga daemon
+fpgaRpc.Run(jobs);
