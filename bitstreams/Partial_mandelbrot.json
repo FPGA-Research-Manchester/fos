@@ -1,9 +1,7 @@
 {
   "name": "Partial_mandelbrot",
   "bitfiles": [
-    {"name": "Partial_mandelbrot_slot_0.bin", "region": "pr0", "stubregions": []},
-    {"name": "Partial_mandelbrot_slot_1.bin", "region": "pr1"},
-    {"name": "Partial_mandelbrot_slot_2.bin", "region": "pr2"}
+    {"name": "Partial_mandelbrot_slot_0.bin", "region": "pr0"}
   ],
   "registers": [
     {"name": "control", "offset": "0x0"},
