@@ -35,6 +35,9 @@ CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT) $(OBJ_P
 WXMONI_OBJS    := $(OBJ_WXMONI) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLECPP_OBJS := $(OBJ_SIMPLECPP) $(OBJ_UDMALIB) $(OBJ_PROTO)
 
+PROTO_CXX_SRCS := proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
+PROTO_PY_SRCS  := proto/fpga_rpc_pb2.py proto/fpga_rpc_pb2_grpc.py
+
 build/%.o: %.cpp | build
 	$(CXX) $(CXXFLAGS) -c -o $@ $^
 
@@ -50,6 +53,8 @@ proto/%.pb.cc proto/%.pb.h: proto/%.proto
 	protoc --cpp_out=. $^
 proto/%.grpc.pb.cc proto/%.grpc.pb.h: proto/%.proto
 	protoc --grpc_out=. --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` $^
+proto/%_pb2_grpc.py proto/%_pb2.py: proto/%.proto
+	python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. $^
 
 # build directory
 build:
@@ -57,13 +62,13 @@ build:
 	mkdir -p build/clients/wxmonitor build/clients/simple_cpp
 
 # fpga client src needs protos
-proto/fpga_rpc_c.cc: proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
+proto/fpga_rpc_c.cc: $(PROTO_CXX_SRCS)
 
 # cserv src depends on protos
-$(SRC_CSERV): proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
+$(SRC_CSERV): $(PROTO_CXX_SRCS)
 
 # wxmoni src depends on protos
-$(SRC_WXMONI): proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
+$(SRC_WXMONI): $(PROTO_CXX_SRCS)
 
 build/daemon_bin: $(CSERV_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
@@ -77,4 +82,4 @@ build/simple_cpp_bin: $(SIMPLECPP_OBJS)
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc
 
-all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin
+all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin $(PROTO_PY_SRCS)
