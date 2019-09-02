@@ -77,7 +77,7 @@ Software:
 
 ## License information
 
-This work is released as free to use and modify for non-commercial purposes as long as the original License and source is retained. The exact details of the license can be [here](./LICENSE.md).
+This work is released as free to use and modify for non-commercial purposes as long as the original license and source of development is retained. The exact details of the license can be found [here](./LICENSE.md).
 
 ## Get in Touch 
 
