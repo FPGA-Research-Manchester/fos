@@ -21,7 +21,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - **Free to change:** Update shell, accelerator, application or Linux individually. 
 - **Abstraction to rescue:** Ponq and Cynq libs for easy hardware integration.
 - **Don't repeat yourself:** Standard Linux backend for software development.
-- **Dont't forget your I/O:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
+- **Don't forget your I/O:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
 <img align="right" width="50%" src="./images/demo_screenshot.png">
 
@@ -77,7 +77,7 @@ Software:
 
 ## License information
 
-
+This work is released as free to use and modify for non-commercial purposes as long as the original License and source is retained. The exact details of the license can be [here](./LICENSE.md).
 
 ## Get in Touch 
 
