@@ -1,4 +1,4 @@
-# Using the Sobel HLS Module on your FPGA
+# Using the Sobel HLS Module on your Zynq FPGA
 ## Introduction
 Here we document how to use the HLS modules that are created using the [HLS tutorial](../../compilation_flow/hls/README.md) on the Linux image provided in this report, without any special libs or daemon.
 
