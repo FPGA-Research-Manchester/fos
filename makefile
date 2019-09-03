@@ -80,6 +80,6 @@ build/simple_cpp_bin: $(SIMPLECPP_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 clean:
-	-rm -r build proto/*.pb.h proto/*.pb.cc
+	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
 all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin $(PROTO_PY_SRCS)
