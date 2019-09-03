@@ -1,4 +1,4 @@
-import os
+import os.path
 import numpy as np
 import mmap
 
@@ -6,7 +6,8 @@ sysfs_root = "/sys/class/udmabuf"
 devfs_root = "/dev/"
 
 class udmadev:
-  def __init__(self, devname):
+  def __init__(self, devno):
+    devname = "udmabuf" + str(devno)
     self.sysfs = sysfs_root + "/" + devname
     self.devfs = devfs_root + devname
 
@@ -32,8 +33,10 @@ class udmadev:
 class udmas:
   def __init__(self):
     self.devices = []
-    for dev in os.listdir(sysfs_root):
-      self.devices.append(udmadev(dev))
+    for devno in range(8):
+      path = sysfs_root + "/udmabuf" + str(devno)
+      if os.path.exists(path):
+        self.devices.append(udmadev(devno))
 
   def getDevice(self, index):
     return self.devices[index]

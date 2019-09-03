@@ -4,7 +4,7 @@ sys.path.append("../..")
 
 import cv2
 import numpy as np
-import udma
+import udmalib.udma as udma
 import proto.fpga_rpc_c as fpga_rpc_client
 
 # bit hacking functions for driving unit
