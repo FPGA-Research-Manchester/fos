@@ -15,7 +15,8 @@ LDFLAGS  += $(GRPC_LIBS) $(OCV_LIBS) $(PROTO_LIBS) $(WX_LIBS)
 
 
 
-SRC_BITPAT    := $(wildcard bit_patch/*.c)
+SRC_BITPAT_L  := bit_patch/bit_patch.c
+SRC_BITPAT_D  := bit_patch/bit_patch_driver.c
 SRC_DAEMON    := $(wildcard daemon/*.cpp)
 SRC_CYNQ      := $(wildcard cynq/*.cpp)
 SRC_PROTO     := proto/fpga_rpc_c.cc proto/fpga_rpc.pb.cc proto/fpga_rpc.grpc.pb.cc
@@ -23,7 +24,8 @@ SRC_UDMALIB   := $(wildcard udmalib/*.cpp)
 SRC_WXMONI    := $(wildcard clients/wxmonitor/*.cpp)
 SRC_SIMPLECPP := $(wildcard clients/simple_cpp/*.cpp)
 
-OBJ_BITPAT     := $(addprefix build/, $(SRC_BITPAT:.c=.o))
+OBJ_BITPAT_L   := $(addprefix build/, $(SRC_BITPAT_L:.c=.o))
+OBJ_BITPAT_D   := $(addprefix build/, $(SRC_BITPAT_D:.c=.o))
 OBJ_DAEMON     := $(addprefix build/, $(SRC_DAEMON:.cpp=.o))
 OBJ_CYNQ       := $(addprefix build/, $(SRC_CYNQ:.cpp=.o))
 OBJ_PROTO      := $(addprefix build/, $(SRC_PROTO:.cc=.o))
@@ -31,9 +33,10 @@ OBJ_UDMALIB    := $(addprefix build/, $(SRC_UDMALIB:.cpp=.o))
 OBJ_WXMONI     := $(addprefix build/, $(SRC_WXMONI:.cpp=.o))
 OBJ_SIMPLECPP  := $(addprefix build/, $(SRC_SIMPLECPP:.cpp=.o))
 
-CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT) $(OBJ_PROTO)
+CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT_L) $(OBJ_PROTO)
 WXMONI_OBJS    := $(OBJ_WXMONI) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLECPP_OBJS := $(OBJ_SIMPLECPP) $(OBJ_UDMALIB) $(OBJ_PROTO)
+BITPAT_OBJS    := $(OBJ_BITPAT_D) $(OBJ_BITPAT_L)
 
 PROTO_CXX_SRCS := proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
 PROTO_PY_SRCS  := proto/fpga_rpc_pb2.py proto/fpga_rpc_pb2_grpc.py
@@ -79,7 +82,10 @@ build/wxmoni_bin: $(WXMONI_OBJS)
 build/simple_cpp_bin: $(SIMPLECPP_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
+build/bit_patch_bin: $(BITPAT_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
-all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin $(PROTO_PY_SRCS)
+all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin build/bit_patch_bin $(PROTO_PY_SRCS)
