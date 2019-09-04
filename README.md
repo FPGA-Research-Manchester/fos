@@ -53,7 +53,7 @@ The source code presented has been tested with following tool versions:
 - Vivado and Vivado HLS 2016.2, 2017.3, 2018.2 and 2018.3.
 - PetaLinux kernel 2018.2.
 - Rootfs: Pynq, PetaLinux, Ubuntu 18, Ubuntu 14, Debian, Linaro u96.
-- GRPC version: 
+- GRPC version: 2019-09
 
 ## Papers
 
