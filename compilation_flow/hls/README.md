@@ -154,7 +154,7 @@ all:
 ```
 7.  Once the bitstream.bif file is created, all you need to do is run the following command:
 ```
-bootgen -image bitstream.bif -arch zynq -process bitstream.bin
+bootgen -image bitstream.bif -arch zynqmp -o bitstream.bin -w
 ```
 
 ## Misc 
