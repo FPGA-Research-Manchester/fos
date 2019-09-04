@@ -138,6 +138,14 @@ class ShellInst:
     return True
 
 
+class RegionInstStub:
+  def __init__(self, fpga, address):
+    self.mmio = mmio(address)
+    self.fpga = fpga
+  
+  def unload(self):
+    return self.fpga.unload()
+
 # manages the sysfs fpga device and is the root of the bitstream graph
 class FPGA:
   def __init__(self, manager):
@@ -145,19 +153,39 @@ class FPGA:
     self.flagfile = manager + "/flags"
     self.firmfile = manager + "/firmware"
     self.shell = None
+    self.regionStub = None
 
   def loadShell(self, shell):
     if self.shell is not None: raise PonqException("called loadShell() on occupied fpga")
     self.writeFlags(0)
     self.writeBinfile(shell.bitfile.binfile)
     self.shell = ShellInst(self, shell)
+    
+  def loadBitstream(self, bs):
+    if self.shell is not None:
+      raise PonqException("called loadBitstream() on occupied fpga")
+    self.writeFlags(0)
+    self.writeBinfile(shell.bitfile.binfile)
+    self.shell = ShellInst(self, shell)
 
   def loadAccel(self, accel):
-    if self.shell is None: raise PonqException("called loadAccel() on blank fpga")
+    if self.shell is None:
+      full_bs = [x for x in accel.bitfiles if x.isFull()]
+      if len(full_bs) > 0:
+        bs = full_bs[0]
+        self.writeFlags(0)
+        self.writeBinfile(bs.binfile)
+        self.regionStub = RegionInstStub(self, bs.acc.address)
+        self.shell = AccelInst(self.regionStub, bs)
+        return self.shell
+        
+    if self.shell is None:
+      raise PonqException("called loadAccel() on blank fpga")
     return self.shell.loadAccel(accel)
 
   def unload(self):
-    if self.shell is None: raise PonqException("called unload() on blank fpga")
+    if self.shell is None:
+      raise PonqException("called unload() on blank fpga")
     self.shell = None
 
   def writeFlags(self, flags):

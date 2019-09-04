@@ -28,13 +28,18 @@ class Bitfile:
     self.stubRegions = []
     self.acc = acc
     self.install()
+    
+  def isFull(self):
+    return self.region == "full"
 
   def install(self):
     firmsrc = self.acc.repo.root + "/" + self.binfile
     firmdst = firmware_directory + "/" + self.binfile
     if not os.path.exists(firmdst):
+      print("Copying file from " + firmsrc + " to " + firmdst)
       copyfile(firmsrc, firmdst)
-
+      input("Press enter to continue")
+      
   @staticmethod
   def fromJSON(acc, metadata):
     return Bitfile(metadata["region"], metadata["name"], acc)
@@ -65,8 +70,9 @@ sibling_slot_map = {
 
 # represents many bitfiles containing the same hardware
 class Accelerator:
-  def __init__(self, name, repo):
+  def __init__(self, name, address, repo):
     self.name = name
+    self.address = parseNumber(address)
     self.repo = repo
     self.bitfiles = []
     self.registers = {}
@@ -91,7 +97,8 @@ class Accelerator:
 
   @staticmethod
   def fromJSON(metadata, repo):
-    acc = Accelerator(metadata["name"], repo)
+    address = metadata["address"] if "address" in metadata else 0
+    acc = Accelerator(metadata["name"], address, repo)
     for bitfile in metadata["bitfiles"]:
       acc.bitfiles.append(Bitfile.fromJSON(acc, bitfile))
     for register in metadata["registers"]:

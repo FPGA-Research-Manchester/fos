@@ -9,13 +9,17 @@ class Ponq:
   def __init__(self, repository="."):
     self.repo = repo.Repository(repository)
     self.fpga = driver.FPGA("/sys/class/fpga_manager/fpga0")
-    self.fpga.loadShell(self.repo.shells[0])
 
   # loads the accelerator into an fpga
   def load(self, accname):
     acc = self.repo.getAccel(accname)
     return self.fpga.loadAccel(acc)
-    # raise driver.PonqException("Could  not find suitable region to load bitstream")
+
+  def loadShell(shellname):
+    shells = [x for x in self.repo.shells if x.name == shellname]
+    if len(shells) == 0: raise driver.PonqException("Failed to find shell")
+    shell = shells[0]
+    self.fpga.loadShell(shell)
 
 
   # loads and runs an accelerator in an fpga
