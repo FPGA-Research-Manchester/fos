@@ -25,6 +25,7 @@ class Bitfile:
   def __init__(self, region, binfile, acc):
     self.region = region
     self.binfile = binfile
+    self.stubRegions = []
     self.acc = acc
     self.install()
 
@@ -37,6 +38,8 @@ class Bitfile:
   @staticmethod
   def fromJSON(acc, metadata):
     return Bitfile(metadata["region"], metadata["name"], acc)
+    if "stubregions" in metadata:
+      self.stubRegions = metadata["stubregions"]
 
 
 # represents a re-programmable region
@@ -74,7 +77,7 @@ class Accelerator:
 
   def generateSiblings(self):
     for basefile in self.bitfiles:                 # for all regions
-      if basefile.region == sibling_slot_base:         # if region can generate siblings
+      if basefile.region == sibling_slot_base and len(basefile.stubRegions) == 0:         # if region can generate siblings
         for slotname in sibling_slot_map:      # for each sibling slot
           count = len([x for x in self.bitfiles if x.region == slotname])
           if count == 0:                                  # check if sibling provided

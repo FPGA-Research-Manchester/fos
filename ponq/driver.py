@@ -11,9 +11,10 @@ def unsetbit(data, bit): return data & ~(1 << bit)
 
 # manages the registers of a loaded peripheral
 class AccelInst:
-  def __init__(self, region, accel):
+  def __init__(self, region, bitstream):
     self.region = region
-    self.accel = accel
+    self.accel = bitstream.acc
+    self.bitstream = bitstream
     self.mmio = region.mmio
 
   def setRegs(self, regs):
@@ -38,8 +39,11 @@ class AccelInst:
 
   def unload(self):
     self.region.unload()
+    for stub in self.bitstream.stubRegions:
+      self.region.regions[stub].unload()
 
 
+# manages a region of the shell
 class RegionInst:
   def __init__(self, shell, region):
     self.region = region
@@ -51,13 +55,22 @@ class RegionInst:
     self.loaded = False
 
   def loadBitstream(self, bitstream):
+    # if we are a stub region
+    if (self.region.name != bitstream.region):
+      print("DRIVER: Stubing " + bitstream.acc.name + " into region " + self.region.name)
+      self.loaded = True
+      return None
+  
+    # if we are re-loading the last loaded bitstream
     if (bitstream == self.bitstream):
+      print("DRIVER: Reusing " + bitstream.acc.name + " into region " + self.region.name)
       self.loaded = True
       return self.accel
 
+    # if we are going through the entire load process
     print("DRIVER: Loading " + bitstream.acc.name + " into region " + self.region.name)
 
-    self.accel = AccelInst(self, bitstream.acc)
+    self.accel = AccelInst(self, bitstream)
     self.bitstream = bitstream
     self.loaded = True
 
@@ -88,19 +101,41 @@ class ShellInst:
       self.regions[region.name] = RegionInst(self, region)
 
   def loadAccel(self, accel):
-    region, bitstream = self.findRegion(accel)
-    return region.loadBitstream(bitstream)
-
-  def findRegion(self, accel):
+    bitstream = self.selectBitstream(accel)
+    return self.loadBitstream(bitstream)
+    
+  def loadBitstream(self, bs):
+    acc = self.regions[bs.region].loadBitstream(bs)
+    for stub in bs.stubRegions:
+      self.regions[stub].loadBitstream(bs)
+    return acc
+    
+  def selectBitstream(self, accel):
     for bitstream in accel.bitfiles:
-      for regionname, region in self.regions.items():
-        if not region.loaded and region.bitstream is bitstream:
-          return (region, bitstream)
-      for regionname, region in self.regions.items():
-        if not region.loaded and regionname == bitstream.region:
-          return (region, bitstream)
+      if self.canQuickLoad(bitstream):
+        return bitstream
+    for bitstream in accel.bitfiles:
+      if self.canLoad(bitstream):
+        return bitstream
     raise PonqException("Could not find suitable region")
-
+  
+  def canLoad(self, bs):
+    if self.regions[bs.region].loaded:
+      return False
+    for stub in bs.stubRegions:
+      if self.regions[stub].loaded:
+        return False
+    return True
+   
+  def canQuickLoad(self, bs):
+    reg = self.regions[bs.region]
+    if reg.loaded or reg.bitstream is not bs:
+      return False
+    for stub in bs.stubRegions:
+      stubreg = self.regions[stub]
+      if stubreg.loaded or stubreg.bitstream is not bs:
+        return False
+    return True
 
 
 # manages the sysfs fpga device and is the root of the bitstream graph

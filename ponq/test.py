@@ -30,20 +30,35 @@ zoom = 0.01
 manager = Ponq(repository="../bitstreams")
 
 # run unit
-for i in range(1):
-  manager.run("Partial_mandelbrot", {
-    "imageWidth":     width,
-    "imageHeight":    height,
-    "maxIterations":  256,
-    "centreRealLow":  bot32(float2fix(cre)),
-    "centreRealHi":   top32(float2fix(cre)),
-    "centreImagLow":  bot32(float2fix(cim)),
-    "centreImagHi":   top32(float2fix(cim)),
-    "zoomLow":        bot32(float2fix(zoom)),
-    "zoomHi":         top32(float2fix(zoom)),
-    "framebufferLow": bot32(udma_addy),
-    "framebufferHi":  top32(udma_addy)
-  })
+# for i in range(1):
+#  manager.run("Partial_mandelbrot", {
+#    "imageWidth":     width,
+#    "imageHeight":    height,
+#    "maxIterations":  256,
+#    "centreRealLow":  bot32(float2fix(cre)),
+#    "centreRealHi":   top32(float2fix(cre)),
+#    "centreImagLow":  bot32(float2fix(cim)),
+#    "centreImagHi":   top32(float2fix(cim)),
+#    "zoomLow":        bot32(float2fix(zoom)),
+#    "zoomHi":         top32(float2fix(zoom)),
+#    "framebufferLow": bot32(udma_addy),
+#    "framebufferHi":  top32(udma_addy)
+#  })
+
+acc0 = manager.load("Partial_mandelbrot")
+acc0.unload()
+
+acc1 = manager.load("Partial_mandelbrot")
+acc2 = manager.load("Partial_mandelbrot")
+acc2.unload()
+acc1.unload()
+
+acc3 = manager.load("Partial_mandelbrot")
+acc4 = manager.load("Partial_mandelbrot")
+acc5 = manager.load("Partial_mandelbrot")
+acc5.unload()
+acc4.unload()
+acc3.unload()
 
 output = np.zeros((height, width), dtype=np.uint8)
 for y in range(height):
