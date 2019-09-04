@@ -37,10 +37,10 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 
 - [How to write HLS accelerators](./compilation_flow/hls/)
 - How to use Ponq
-  - How to use HLS accelerators
-  - How to use RTL accelerators
+  - How to use static accelerator
+  - How to use partially reconfigurable accelerators
+- How to use Cynq
 - How to use Daemon
-  - How to use HLS accelerators
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
 - How to build Linux (Pynq / Ubuntu) image
 - [How to use Linux image as standalone](./standalone_code/Sobel)
@@ -88,7 +88,7 @@ If you would like to ask questions, report bugs or collaborate on research proje
 - Dirk Koch (<dirk.koch@manchester.ac.uk>)
 
 ## Contributors
-Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kristiyan Manev, Dirk Koch 
+Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Dirk Koch 
 
 ## Acknowledgments
 - This work was produced at the University of Manchester as part of PhD and MPhil Projects. 
