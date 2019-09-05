@@ -3,6 +3,8 @@
 ## Python library to drive FPGAs and accelerators
 PONQ is an api to drive an FPGA through the FPGA manager api, as well as accelerators loaded onto the FPGAs.
 
+An example application of mandelbrot viewer with *FPGA acceleration using Ponq* can be found in [bufblit.py](./bufblit.py).
+
 ## Usage: Static full bitstream
 1. Create bitstream of the accelerator
 2. Write JSON description of the accelerator
