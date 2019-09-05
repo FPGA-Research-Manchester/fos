@@ -4,7 +4,7 @@
 Wokring version of the smmu driver that enables user-specified address translation and coherent transactions between the MPSoC and the PL through the CCI
 
 Authors:
-Kyriakos Paraskevas (kiriakos.paraskevas@postgrad.manchester.ac.uk)
+Kyriakos Paraskevas (kiriakos.paraskevas@manchester.ac.uk)
 Andrew Attwood	(andrew.attwood@manchester.ac.uk)
 
 For usage by the University of Manchester
