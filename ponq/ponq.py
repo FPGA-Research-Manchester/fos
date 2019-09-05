@@ -15,7 +15,7 @@ class Ponq:
     acc = self.repo.getAccel(accname)
     return self.fpga.loadAccel(acc)
 
-  def loadShell(shellname):
+  def loadShell(self, shellname):
     shells = [x for x in self.repo.shells if x.name == shellname]
     if len(shells) == 0: raise driver.PonqException("Failed to find shell")
     shell = shells[0]

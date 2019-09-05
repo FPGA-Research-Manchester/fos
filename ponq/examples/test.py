@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+sys.path.append("../..")
 sys.path.append("..")
 
 import udmalib.udma as udma
@@ -27,7 +28,7 @@ cim = 0.3819
 zoom = 0.01
 
 # initialise ponq
-manager = Ponq(repository="../bitstreams")
+manager = Ponq(repository="../../bitstreams")
 
 # run unit
 # for i in range(1):
@@ -45,6 +46,8 @@ manager = Ponq(repository="../bitstreams")
 #    "framebufferHi":  top32(udma_addy)
 #  })
 
+manager.loadShell("Ultra96_100MHz_2")
+
 acc0 = manager.load("Partial_mandelbrot")
 acc0.unload()
 
@@ -59,6 +62,7 @@ acc5 = manager.load("Partial_mandelbrot")
 acc5.unload()
 acc4.unload()
 acc3.unload()
+
 
 output = np.zeros((height, width), dtype=np.uint8)
 for y in range(height):

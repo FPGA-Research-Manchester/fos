@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+sys.path.append("../..")
 sys.path.append("..")
 
 import udmalib.udma as udma
@@ -24,7 +25,6 @@ udma_addy = udmadev.phys_addr
 items = 1024
 size = items*4
 
-print(type(ubuf))
 buf0addr = udmadev.phys_addr
 buf1addr = udmadev.phys_addr + size
 buf2addr = udmadev.phys_addr + 2*size
@@ -37,7 +37,7 @@ for i in range(items):
     ubuf[size + i*4 + b] = byte_val[b]
 
 # initialise ponq
-manager = Ponq(repository="../bitstreams")
+manager = Ponq(repository="../../bitstreams")
 acc0 = manager.load("Full_vecadd")
 acc0.writeReg("ocl_sx", 1)
 acc0.writeReg("ocl_sy", 1)
