@@ -1,9 +1,25 @@
 # PONQ
 
 ## Python library to drive FPGAs and accelerators
-PONQ is an api to drive an FPGA through the FPGA manager api, as well as accelerators loaded onto the FPGAs.
+PONQ is an api to drive an FPGA through the FPGA manager api, as well as accelerators loaded onto the FPGAs. 
+It supports static accelerators and partially reconfigurable accelerators written in (Vivado) HLS and RTL. 
 
 An example application of mandelbrot viewer with *FPGA acceleration using Ponq* can be found in [bufblit.py](./bufblit.py).
+
+## Ways to program your accelerators with Ponq
+
+There are two main ways you can program your accelerators using Ponq:
+1. Manual driver approach whereby you can use the following writeReg function to set the accelerator registers.
+```Python
+acc.writeReg("my_parameter", 0xdeadbeef)
+```
+2. For Vivado HLS generated accelerators, drivers are in-built. You can directly pass the parameters with accelerator name for hardware acceleration. 
+
+```Python
+manager.run("my_accelerator", {
+  "my_parameter":     0xdeadbeef,
+})
+```
 
 ## Usage: Static full bitstream
 1. Create bitstream of the accelerator
