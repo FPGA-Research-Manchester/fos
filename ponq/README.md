@@ -9,9 +9,10 @@ An example application of mandelbrot viewer with *FPGA acceleration using Ponq* 
 ## Ways to program your accelerators with Ponq
 
 There are two main ways you can program your accelerators using Ponq:
-1. Manual driver approach whereby you can use the following writeReg function to set the accelerator registers.
+1. Manual driver approach whereby you can use the following writeReg and readReg functions to set the accelerator registers.
 ```Python
 acc.writeReg("my_parameter", 0xdeadbeef)
+acc.readReg("my_parameter")
 ```
 2. For Vivado HLS generated accelerators, drivers are in-built. You can directly pass the parameters with accelerator name for hardware acceleration. 
 
