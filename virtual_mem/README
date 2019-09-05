@@ -1,0 +1,35 @@
+**************************
+**************************
+
+Wokring version of the smmu driver that enables user-specified address translation and coherent transactions between the MPSoC and the PL through the CCI
+
+Authors:
+Kyriakos Paraskevas (kiriakos.paraskevas@postgrad.manchester.ac.uk)
+Andrew Attwood	(andrew.attwood@manchester.ac.uk)
+
+For usage by the University of Manchester
+
+*******************************
+*******************************
+
+The "pgtest" folder contains the source file for the driver, that will be compiled into a module by the Petalinux tools. The version used is the Petalinux 2017.2
+A new module should be created with the "petalinux-create -t modules -n <module_name>" command, and then the source file must be pasted into the newly created module's "files" folder.
+
+The "ttbruser" folder is the user space program that utilizes the driver module above. Similar procedure must be followed in order to create a user application in Petalinux project.
+The command is "petalinux-create -t apps --name <app_name>".
+
+The project must then be configured to include both module and the user application, by using the "petalinux-config -c rootfs" command and ticking the appropriate boxes.
+
+The exact Xilinx DMA IP block address must be defined in the device tree. Also, some kernel patches may have to be inserted, depending on the kernel version used.
+The folder recipes-kernel contains the patches used on that specific Petalinux version as an example, and can be copied into the corresponding project folder in project-spec/meta-user/recipes-kernel
+
+The hw_design folder contains the block design files and the exported bitstream. In order for the design to run, some registers must be set right after the PL configuration but before the kernel bootup.
+We used the XSDB interface for conveniency, and set the registers below as follow:
+
+1) 0xFD6E1004 to 0x1 (Shareability override register for Slave interface S0 <HPC port>)
+2) 0xFD6E4000 to 0x1 (Snoop Control register for Slave interface S3 <APU>)
+3) 0xFF41A040 to 0x1 (Register that enables broadcasting of outer shareable transactions from the APU)
+
+Be aware that in the existing design, the ACE port is activated for testing coherency and transaction broadcast. IF you have any problems, disable the port from the MPSoC configuration in the Vivado design
+
+*******************************

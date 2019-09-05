@@ -1,0 +1,7 @@
+PetaLinux User Application 
+===================================
+
+Due to the user level program (ttbruser) does not use the exalloc_lib intented to utilize the SMMU driver, this README explaining the user level program is created.
+There is an example of a user level program that defines the libraries in the same file and then uses them. The location of the program is in "exa_malloc/meta-user/recipes-apps/ttbruser/files/ttbruser.c"
+
+There is a struct definition called mem_ops_t that includes the details of the page table segment data, such as the base address of the created page table (from exa_malloc), the size of the page table, the stream match register value that is inserted into the SMMU.

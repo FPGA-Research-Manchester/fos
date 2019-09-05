@@ -1,0 +1,45 @@
+From e9206012058ab002ce56c2d4bea0b12c43541e4d Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Mon, 1 Oct 2018 12:47:10 +0100
+Subject: [PATCH] flush_poc
+
+Signed-off-by: OpenEmbedded <oe.patch@oe>
+---
+ arch/arm64/include/asm/cacheflush.h | 1 +
+ arch/arm64/mm/flush.c               | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/arch/arm64/include/asm/cacheflush.h b/arch/arm64/include/asm/cacheflush.h
+index 9e91c73..b824030 100644
+--- a/arch/arm64/include/asm/cacheflush.h
++++ b/arch/arm64/include/asm/cacheflush.h
+@@ -65,6 +65,7 @@
+  *		- kaddr  - page address
+  *		- size   - region size
+  */
++extern void flush_dcache_poc(void * addr,size_t len);
+ extern void flush_cache_range(struct vm_area_struct *vma, unsigned long start, unsigned long end);
+ extern void flush_icache_range(unsigned long start, unsigned long end);
+ extern void __flush_dcache_area(void *addr, size_t len);
+diff --git a/arch/arm64/mm/flush.c b/arch/arm64/mm/flush.c
+index 8377329..14cb964 100644
+--- a/arch/arm64/mm/flush.c
++++ b/arch/arm64/mm/flush.c
+@@ -88,6 +88,14 @@ void flush_dcache_page(struct page *page)
+ }
+ EXPORT_SYMBOL(flush_dcache_page);
+ 
++void flush_dcache_poc(void * addr,size_t len)
++{
++        __clean_dcache_area_poc(addr,len);
++}
++
++EXPORT_SYMBOL(flush_dcache_poc);
++
++
+ /*
+  * Additional functions defined in assembly.
+  */
+-- 
+2.7.4
+

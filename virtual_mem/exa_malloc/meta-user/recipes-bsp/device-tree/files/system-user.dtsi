@@ -1,0 +1,26 @@
+/include/ "system-conf.dtsi"
+/ {
+chosen {
+        bootargs = "console=ttyPS0,115200 earlyprintk uio_pdrv_genirq.of_id=generic-uio clk_ignore_unused sdhci.debug_quirks=64 cpuidle.off=1";
+    };
+
+ amba_pl: amba_pl@0{
+        axi_gpio_1:     gpio@a0000000 {
+                     compatible = "generic-uio","uio";
+                     reg = <0x0 0xa0000000 0x0 0x100000>;
+                };
+        };
+	my_device@fd800000 {
+    compatible = "pgtest";
+    reg = <0x0 0xfd800000 0x0 0x20000>;
+                        #iommu-cells = <1>;
+                        #global-interrupts = <1>;
+                        interrupt-parent = <&gic>;
+                        interrupts = <0 155 4>,
+                                <0 155 4>, <0 155 4>, <0 155 4>, <0 155 4>,
+                                <0 155 4>, <0 155 4>, <0 155 4>, <0 155 4>,
+                                <0 155 4>, <0 155 4>, <0 155 4>, <0 155 4>,
+                                <0 155 4>, <0 155 4>, <0 155 4>, <0 155 4>;
+	};
+};
+

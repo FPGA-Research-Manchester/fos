@@ -1,0 +1,5 @@
+IMAGE_INSTALL_append = " peekpoke"
+IMAGE_INSTALL_append = " gpio-demo"
+IMAGE_INSTALL_append = " pgtest"
+IMAGE_INSTALL_append = " ttbrtest"
+IMAGE_INSTALL_append = " ttbruser"
