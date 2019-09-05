@@ -36,9 +36,9 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 ## Tutorials
 
 - [How to write HLS accelerators](./compilation_flow/hls/)
-- How to use Ponq
-  - How to use static accelerator
-  - How to use partially reconfigurable accelerators
+- [How to use Ponq](./ponq/)
+  - [How to use static accelerator](./ponq/README.md#usage-static-full-bitstream)
+  - [How to use partially reconfigurable accelerators](./ponq/README.md#usage-dynamic-partial-bitstream-automatic)
 - How to use Cynq
 - How to use Daemon
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
