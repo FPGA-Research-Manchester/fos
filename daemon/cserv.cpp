@@ -21,7 +21,7 @@
 constexpr int history_ticks = 80;         // amount of history elements to keep
 constexpr int printout_interval = 300;    // ms between status printouts
 constexpr int history_interval = 10;      // ms between history elements
-constexpr int logmessage_count = 20;
+constexpr int logmessage_count = 20;      // amount of log items to display
 
 // class in charge of managing udma buffers
 class BufAllocator {
@@ -75,9 +75,11 @@ public:
   int jobno = -1;
 };
 
+// implements the daemon
 class DaemonImpl final : public FPGARPC::Service {
-  BufAllocator allocator;
-  PRManager prmanager;
+  BufAllocator allocator;                             // manager of udma buffers
+  
+  PRManager prmanager;                                // manager of fpga
 
   MQueue<Job*> jobqueue;                              // synchronised queue of incoming jobs
   std::deque<Job*> jobdeque;                          // queue of jobs waiting for loading
@@ -85,7 +87,7 @@ class DaemonImpl final : public FPGARPC::Service {
   std::map<Job*, AccelInst> runningjobs;              // map of running jobs and their instances
 
   std::map<Region*, std::array<int, history_ticks>> jobHistory;  // map of history per region
-
+  
   // takes runmessage, converts to jobs, passes jobs off to executor queue
   bool runJobs(const RunMessage *runmessage, std::string peer) {
     int jobcount = runmessage->jobs_size();
@@ -135,7 +137,7 @@ class DaemonImpl final : public FPGARPC::Service {
           // std::cout << "did unload" << std::endl;
           Job &job = *jobpair.first;
           Region &region = *accel.region;
-          prmanager.fpgaUnload(accel);
+          prmanager.fpgaUnloadRegions(accel);
           runningjobs.erase(&job);
           regionmap.erase(&region);
           for (auto region : accel.bitstream->stubRegions)
@@ -238,6 +240,9 @@ class DaemonImpl final : public FPGARPC::Service {
 
 
 public:
+  DaemonImpl() {
+    prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+  }
   std::thread spawn() {
     return std::thread(&DaemonImpl::executor, this);
   }

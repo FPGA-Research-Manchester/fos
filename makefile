@@ -18,6 +18,8 @@ LDFLAGS  += $(GRPC_LIBS) $(OCV_LIBS) $(PROTO_LIBS) $(WX_LIBS)
 SRC_BITPAT_L  := bit_patch/bit_patch.c
 SRC_BITPAT_D  := bit_patch/bit_patch_driver.c
 SRC_DAEMON    := $(wildcard daemon/*.cpp)
+SRC_CYNQ_E1   := cynq/examples/test.cpp
+SRC_CYNQ_E2   := cynq/examples/test_full.cpp
 SRC_CYNQ      := $(wildcard cynq/*.cpp)
 SRC_PROTO     := proto/fpga_rpc_c.cc proto/fpga_rpc.pb.cc proto/fpga_rpc.grpc.pb.cc
 SRC_UDMALIB   := $(wildcard udmalib/*.cpp)
@@ -28,6 +30,8 @@ OBJ_BITPAT_L   := $(addprefix build/, $(SRC_BITPAT_L:.c=.o))
 OBJ_BITPAT_D   := $(addprefix build/, $(SRC_BITPAT_D:.c=.o))
 OBJ_DAEMON     := $(addprefix build/, $(SRC_DAEMON:.cpp=.o))
 OBJ_CYNQ       := $(addprefix build/, $(SRC_CYNQ:.cpp=.o))
+OBJ_CYNQ_E1    := $(addprefix build/, $(SRC_CYNQ_E1:.cpp=.o))
+OBJ_CYNQ_E2    := $(addprefix build/, $(SRC_CYNQ_E2:.cpp=.o))
 OBJ_PROTO      := $(addprefix build/, $(SRC_PROTO:.cc=.o))
 OBJ_UDMALIB    := $(addprefix build/, $(SRC_UDMALIB:.cpp=.o))
 OBJ_WXMONI     := $(addprefix build/, $(SRC_WXMONI:.cpp=.o))
@@ -37,6 +41,8 @@ CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT_L) $(OBJ
 WXMONI_OBJS    := $(OBJ_WXMONI) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLECPP_OBJS := $(OBJ_SIMPLECPP) $(OBJ_UDMALIB) $(OBJ_PROTO)
 BITPAT_OBJS    := $(OBJ_BITPAT_D) $(OBJ_BITPAT_L)
+CYNQ_E1_OBJS   := $(OBJ_CYNQ_E1) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
+CYNQ_E2_OBJS   := $(OBJ_CYNQ_E2) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
 
 PROTO_CXX_SRCS := proto/fpga_rpc.pb.h proto/fpga_rpc.grpc.pb.h
 PROTO_PY_SRCS  := proto/fpga_rpc_pb2.py proto/fpga_rpc_pb2_grpc.py
@@ -62,7 +68,7 @@ proto/%_pb2_grpc.py proto/%_pb2.py: proto/%.proto
 # build directory
 build:
 	mkdir -p build/daemon build/cynq build/udmalib build/proto build/bit_patch
-	mkdir -p build/clients/wxmonitor build/clients/simple_cpp
+	mkdir -p build/clients/wxmonitor build/clients/simple_cpp build/cynq/examples
 
 # fpga client src needs protos
 proto/fpga_rpc_c.cc: $(PROTO_CXX_SRCS)
@@ -84,8 +90,14 @@ build/simple_cpp_bin: $(SIMPLECPP_OBJS)
 
 build/bit_patch_bin: $(BITPAT_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
+	
+build/cynq_example_bin: $(CYNQ_E1_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+	
+build/cynq_example_full_bin: $(CYNQ_E2_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
-all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin build/bit_patch_bin $(PROTO_PY_SRCS)
+all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin $(PROTO_PY_SRCS)

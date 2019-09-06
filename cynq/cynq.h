@@ -23,6 +23,7 @@ public:
   Bitstream(std::string bits, std::string main);
   bool isInstalled();
   void install();
+  bool isFull();
 };
 
 
@@ -32,7 +33,8 @@ class Accel {
 public:
   std::string name;                       // name of this accelerator
   std::vector<Bitstream> bitstreams;      // bitstreams with this accelerator
-  std::map<std::string, int> registers;   // register -> offset mapping of this accelerator
+  std::map<std::string, int> registers;   // register offsets of this accelerator
+  long address;                           // address of peripheral when not using shell
   Accel();
   Accel(std::string name);
   void addBitstream(const Bitstream &bits);
@@ -43,11 +45,25 @@ public:
 };
 
 
+
+class Shell {
+  public:
+  std::string name, bitstream;
+  std::map<std::string, std::string> blanks;
+  std::map<std::string, long> blockers;
+  std::map<std::string, long> addrs;
+  
+  static Shell loadFromJSON(std::string jsonpath);
+  bool isInstalled();
+  void install();
+};
+
+
 // represents a slot in the shell
 class Region {
 public:
   std::string name;               // region name
-  Bitstream blank;
+  Bitstream blank;                // blanking bitstream
 
   long blockerAddr;               // blocker address
   mapped_device blockerDev;       // mapped blocker
@@ -88,39 +104,63 @@ public:
   void unloadAccel();
 };
 
+
 class AccelInst {
 public:
   Accel *accel;             // accelerator
   Bitstream *bitstream;     // bitstream loaded
   Region *region;           // controlling region
-
+  
   void programAccel(paramlist &regvals);
   void runAccel();
   bool running();
   void wait();
 };
 
+class PRManager;
+
+class StaticAccelInst {
+public:
+  Accel *accel;
+  Bitstream *bitstream;
+  PRManager *prmanager;
+  
+  void programAccel(paramlist &regvals);
+  void runAccel();
+  bool running();
+  void wait();
+  void unload();
+};
+
 
 // manages the fpga, its regions, accelerators, and jobs
 class PRManager {
 public:
-  std::map<std::string, Region> regions;  // shell regions
+  std::map<std::string, Region> regions;
+  std::map<std::string, Shell> shells;    // loadable shells  
   std::map<std::string, Accel> accels;    // loadable accelerators
-  // std::vector<AccelInst> jobs;            // running accelerators
+  
+  Shell *shell = nullptr;
+  Accel *accel = nullptr;
+  mapped_device accelMap;
+  uint32_t *accelRegs;
 
   PRManager();
 
-  void fpgaYeet(Accel& acc, Bitstream &bs);
-  void fpgaUnload(AccelInst &inst);
+  void fpgaLoadRegions(Accel& acc, Bitstream &bs);
+  void fpgaUnloadRegions(AccelInst &inst);
+  AccelInst fpgaLoad(std::string accname);
   AccelInst fpgaRun(std::string accname, paramlist &regvals);
 
   // check if regions used by a bitstream are free and cached
   bool canQuickLoadBitstream(Bitstream &bs);
   bool canLoadBitstream(Bitstream &bs);
 
-  void loadAccel(std::string name);
-  void loadShell(std::string name);
-
+  void fpgaLoadShell(std::string name);
+  StaticAccelInst fpgaLoadStatic(std::string name);
+  
   // sets up initial datastructures with bitstream info
-  void loadDefs();
+  void importAccel(std::string name);
+  void importShell(std::string name);
+  void importDefs();
 };

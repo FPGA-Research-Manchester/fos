@@ -19,6 +19,8 @@ FPGAManager fpga0(0);
 typedef std::map<std::string, uint32_t> paramlist;
 
 
+
+
 Bitstream::Bitstream() {}
 
 Bitstream::Bitstream(std::string bits, std::string main, std::vector<std::string> stubs) :
@@ -35,6 +37,10 @@ bool Bitstream::isInstalled() {
 void Bitstream::install() {
   if (isInstalled()) return;
   fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream);
+}
+
+bool Bitstream::isFull() {
+  return mainRegion == "full";
 }
 
 int zeroSlotID = 0;
@@ -63,7 +69,8 @@ int Accel::getRegister(std::string name) {
 
 void Accel::setupSiblings() {
   for (Bitstream &bs : bitstreams) {
-    if (!bs.multiSlot && slotIDs[bs.mainRegion] == zeroSlotID) {
+    if (bs.multiSlot) continue;
+    if (slotIDs.find(bs.mainRegion) != slotIDs.end() && slotIDs[bs.mainRegion] == zeroSlotID) {
       std::string relocatablebspath = "../bitstreams/" + bs.bitstream;
       for (auto &newSlot : slotIDs) {
         if (newSlot.second == zeroSlotID) continue;
@@ -94,6 +101,10 @@ Accel Accel::loadFromJSON(std::string jsonpath) {
   jsonfile >> json;
   std::string name = json["name"];
   Accel accel(name);
+  if (json.contains("address"))
+    accel.address = std::stol(json["address"].get<std::string>().c_str(), nullptr, 0);
+  else
+    accel.address = 0;
   for (auto &bitfile : json["bitfiles"]) {
     if (bitfile.contains("stubregion")) {
       std::vector<std::string> stubs = bitfile["stubregions"];
@@ -107,6 +118,38 @@ Accel Accel::loadFromJSON(std::string jsonpath) {
   accel.setupSiblings();
   return accel;
 }
+
+
+
+
+Shell Shell::loadFromJSON(std::string jsonpath) {
+  std::ifstream jsonfile(jsonpath);
+  nlohmann::json json;
+  jsonfile >> json;
+  
+  Shell shell;
+  shell.name = json["name"];
+  shell.bitstream = json["bitfile"];
+  for (auto &reg : json["regions"]) {
+    shell.blanks[reg["name"]]  = reg["blank"];
+    shell.blockers[reg["name"]] = std::stol(reg["bridge"].get<std::string>().c_str(), nullptr, 0);
+    shell.addrs[reg["name"]]    = std::stol(reg["addr"].get<std::string>().c_str(), nullptr, 0);
+  }
+  shell.install();
+  return shell;
+}
+
+
+bool Shell::isInstalled() {
+  std::string path = "/lib/firmware/" + bitstream;
+  struct stat buffer;
+  return (stat(path.c_str(), &buffer) == 0);
+}
+void Shell::install() {
+  if (isInstalled()) return;
+  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream);
+}
+
 
 
 
@@ -269,19 +312,53 @@ void AccelInst::wait() {
 
 
 
+void StaticAccelInst::programAccel(paramlist &regvals) {
+  if (!prmanager->accel)
+    throw std::runtime_error("running from unlocked accel");
+  for (auto &param : regvals) {
+    int offy = accel->getRegister(param.first) / 4;
+    //std::cout << "setting " << param.first << ":" << offy << ":" << &regs[offy] << " to " << param.second << std::endl;
+    prmanager->accelRegs[offy] = param.second;
+  }
+}
+
+void StaticAccelInst::runAccel() {
+  if (!prmanager->accel)
+    throw std::runtime_error("running from unlocked accel");
+  // std::cout << "Starting Accelerator" << std::endl;
+  int offy = accel->getRegister("control") / 4;
+  prmanager->accelRegs[offy] = 1;
+}
+
+bool StaticAccelInst::running() {
+  if (!prmanager->accel)
+    throw std::runtime_error("running from unlocked accel");
+  int offy = accel->getRegister("control") / 4;
+  return (prmanager->accelRegs[offy] & 4) == 0;
+}
+
+void StaticAccelInst::wait() {
+  if (!prmanager->accel)
+    throw std::runtime_error("running from unlocked accel");
+  int offy = accel->getRegister("control") / 4;
+  while ((prmanager->accelRegs[offy] & 4) == 0);
+}
+
+
+
 
 // manages the fpga, its regions, accelerators, and jobs
 PRManager::PRManager() {
-  loadDefs();
+  importDefs();
 }
 
-void PRManager::fpgaYeet(Accel& acc, Bitstream &bs) {
+void PRManager::fpgaLoadRegions(Accel& acc, Bitstream &bs) {
   regions.at(bs.mainRegion).loadAccel(acc, bs);   // load main
   for (auto &stub : bs.stubRegions)               // load stubs
     regions.at(stub).loadStub(acc, bs);
 }
 
-void PRManager::fpgaUnload(AccelInst &inst) {
+void PRManager::fpgaUnloadRegions(AccelInst &inst) {
   regions.at(inst.bitstream->mainRegion).unloadAccel();  // unload main
   for (auto &stub : inst.bitstream->stubRegions)         // unload stubs
     regions.at(stub).unloadAccel();
@@ -289,30 +366,31 @@ void PRManager::fpgaUnload(AccelInst &inst) {
 
 // loads a region
 AccelInst PRManager::fpgaRun(std::string accname, paramlist &regvals) {
+  AccelInst inst = fpgaLoad(accname);
+  inst.programAccel(regvals);
+  inst.runAccel();
+  return inst;
+}
+
+AccelInst PRManager::fpgaLoad(std::string accname) {
   Accel &toload = accels[accname];
+  AccelInst instance;
+  instance.accel = &toload;
   for (auto &bitstream : toload.bitstreams) {
     if (canQuickLoadBitstream(bitstream)) {
       Region &tohost = regions[bitstream.mainRegion];
-      fpgaYeet(toload, bitstream);
-      AccelInst instance;
-      instance.accel = &toload;
+      fpgaLoadRegions(toload, bitstream);
       instance.bitstream = &bitstream;
       instance.region = &tohost;
-      instance.programAccel(regvals);
-      instance.runAccel();
       return instance;
     }
   }
   for (auto &bitstream : toload.bitstreams) {
     if (canLoadBitstream(bitstream)) {
       Region &tohost = regions[bitstream.mainRegion];
-      fpgaYeet(toload, bitstream);
-      AccelInst instance;
-      instance.accel = &toload;
+      fpgaLoadRegions(toload, bitstream);
       instance.bitstream = &bitstream;
       instance.region = &tohost;
-      instance.programAccel(regvals);
-      instance.runAccel();
       return instance;
     }
   }
@@ -324,9 +402,11 @@ bool PRManager::canQuickLoadBitstream(Bitstream &bs) {
   try {
     Region &mainreg = regions.at(bs.mainRegion);
     if (!mainreg.locked && mainreg.canElideLoad(bs)) {
-      for (std::string &stub : bs.stubRegions)
-        if (regions.at(stub).locked)
+      for (std::string &stub : bs.stubRegions) {
+        if (regions.at(stub).locked) {
           return false;
+        }
+      }
       return true;
     }
   } catch (std::out_of_range a) {
@@ -349,31 +429,62 @@ bool PRManager::canLoadBitstream(Bitstream &bs) {
   return true;
 }
 
-void PRManager::loadAccel(std::string name) {
-  accels.emplace(name, Accel::loadFromJSON("../bitstreams/" + name + ".json"));
+void PRManager::fpgaLoadShell(std::string name) {
+  if (shell || accel)
+    throw std::runtime_error("FPGA already loaded");
+
+  Shell &toLoad = shells.at(name);
+  for (auto& blank : toLoad.blanks)
+    regions.try_emplace(blank.first, blank.first, blank.second, 
+        toLoad.blockers[blank.first], toLoad.addrs[blank.first]);
+
+  fpga0.loadFull(toLoad.bitstream);
+
+  shell = &toLoad;
 }
 
-void PRManager::loadShell(std::string name) {
-  std::ifstream jsonfile("../bitstreams/" + name + ".json");
-  nlohmann::json json;
-  jsonfile >> json;
-
-  fpga0.loadFull(json["bitfile"]);
-
-  for (auto &reg : json["regions"]) {
-    regions.try_emplace(reg["name"], reg["name"], reg["blank"],
-        std::stol(reg["bridge"].get<std::string>().c_str(), nullptr, 0),
-        std::stol(reg["addr"].get<std::string>().c_str(), nullptr, 0));
+StaticAccelInst PRManager::fpgaLoadStatic(std::string name) {
+  if (accel || shell) {
+    throw std::runtime_error("FPGA already loaded");
+  } else {
+    Accel& acc = accels.at(name);
+    Bitstream *bs = nullptr;
+    for (auto& bitstream : acc.bitstreams)
+      if (bitstream.isFull())
+        bs = &bitstream;
+    if (bs == nullptr)
+      throw std::runtime_error("no suitable bitstream");
+    StaticAccelInst inst;
+    inst.accel = &acc;
+    inst.bitstream  = bs;
+    inst.prmanager = this;
+    fpga0.loadFull(bs->bitstream);
+    
+    accelMap = mmioGetMmap("/dev/mem", acc.address, 4096);
+    if (accelMap.fd == -1)
+      throw std::runtime_error("could not mmap accel");
+    accelRegs = (uint32_t*)accelMap.mmap;
+    
+    accel = &acc;
+    return inst;
   }
 }
 
+void PRManager::importAccel(std::string name) {
+  accels.emplace(name, Accel::loadFromJSON("../bitstreams/" + name + ".json"));
+}
+
+void PRManager::importShell(std::string name) {
+  shells.emplace(name, Shell::loadFromJSON("../bitstreams/" + name + ".json"));
+}
+
 // sets up initial datastructures with bitstream info
-void PRManager::loadDefs() {
+void PRManager::importDefs() {
   std::ifstream jsonfile("../bitstreams/repo.json");
   nlohmann::json json;
   jsonfile >> json;
 
-  loadShell(json["shell"]);
+  importShell(json["shell"]);
   for (auto &accelname : json["accelerators"])
-    loadAccel(accelname);
+    importAccel(accelname);
 }
