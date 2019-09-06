@@ -1,0 +1,6 @@
+.build
+.ccache
+rootfs.img
+build
+output
+ccache

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Thu Jun  6 17:03:32 2019
+# Process ID: 18408
+# Current directory: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b
+# Command line: vivado -mode batch -source sensors96b.tcl -notrace
+# Log file: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b/vivado.log
+# Journal file: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b/vivado.jou
+#-----------------------------------------------------------
+source sensors96b.tcl -notrace
