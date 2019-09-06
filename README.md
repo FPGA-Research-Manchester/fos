@@ -29,9 +29,13 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 
 - Download SD Card image
 - Set board to SD Card mode and turn it on
-- Go to directoy : XYZ
-- run ./daemon
-- run ./demo_gui
+- login with username `xilinx` password `xilinx`
+- open a terminal for the server:
+  - `cd fos`
+  - `sudo ./runServer`
+- open a terminal for the client:
+  - `cd fos`
+  - `sudo ./runServer`
 
 ## Tutorials
 
@@ -42,7 +46,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - How to use Cynq
 - [How to use Daemon mode](./clients#usage-standard-flow)
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
-- How to build Linux (Pynq / Ubuntu) image
+- [How to build/download Linux (Pynq / Ubuntu) image](./sd_card_images)
 - [How to use Linux image as standalone](./standalone_code/Sobel)
 
 ## Compatibility

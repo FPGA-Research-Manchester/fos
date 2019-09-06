@@ -1,0 +1,384 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version     : Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
+| Date             : Wed Jun 19 15:57:37 2019
+| Host             : joe-ubu-vm running 64-bit Ubuntu 18.04.2 LTS
+| Command          : report_power -file sensors96b_wrapper_power_routed.rpt -pb sensors96b_wrapper_power_summary_routed.pb -rpx sensors96b_wrapper_power_routed.rpx
+| Design           : sensors96b_wrapper
+| Device           : xczu3eg-sbva484-1-i
+| Design State     : routed
+| Grade            : industrial
+| Process          : typical
+| Characterization : Production
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Power Report
+
+Table of Contents
+-----------------
+1. Summary
+1.1 On-Chip Components
+1.2 Power Supply Summary
+1.3 Confidence Level
+2. Settings
+2.1 Environment
+2.2 Clock Constraints
+3. Detailed Reports
+3.1 By Hierarchy
+
+1. Summary
+----------
+
++--------------------------+--------------+
+| Total On-Chip Power (W)  | 2.119        |
+| Design Power Budget (W)  | Unspecified* |
+| Power Budget Margin (W)  | NA           |
+| Dynamic (W)              | 1.803        |
+| Device Static (W)        | 0.316        |
+| Effective TJA (C/W)      | 2.7          |
+| Max Ambient (C)          | 94.2         |
+| Junction Temperature (C) | 30.8         |
+| Confidence Level         | Low          |
+| Setting File             | ---          |
+| Simulation Activity File | ---          |
+| Design Nets Matched      | NA           |
++--------------------------+--------------+
+* Specify Design Power Budget using, set_operating_conditions -design_power_budget <value in Watts>
+
+
+1.1 On-Chip Components
+----------------------
+
++--------------------------+-----------+----------+-----------+-----------------+
+| On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
++--------------------------+-----------+----------+-----------+-----------------+
+| Clocks                   |     0.012 |        3 |       --- |             --- |
+| CLB Logic                |     0.017 |    10450 |       --- |             --- |
+|   LUT as Logic           |     0.009 |     3153 |     70560 |            4.47 |
+|   LUT as Distributed RAM |     0.005 |      128 |     28800 |            0.44 |
+|   LUT as Shift Register  |     0.001 |      436 |     28800 |            1.51 |
+|   Register               |     0.001 |     5157 |    141120 |            3.65 |
+|   CARRY8                 |    <0.001 |      142 |      8820 |            1.61 |
+|   Others                 |     0.000 |      218 |       --- |             --- |
+|   F7/F8 Muxes            |     0.000 |      201 |     70560 |            0.28 |
+|   BUFG                   |     0.000 |        1 |        24 |            4.17 |
+| Signals                  |     0.012 |     8951 |       --- |             --- |
+| Block RAM                |     0.005 |        1 |       216 |            0.46 |
+| DSPs                     |     0.002 |       24 |       360 |            6.67 |
+| I/O                      |     0.001 |       14 |        82 |           17.07 |
+| PS8                      |     1.753 |        1 |       --- |             --- |
+| Static Power             |     0.316 |          |           |                 |
+|   PS Static              |     0.100 |          |           |                 |
+|   PL Static              |     0.216 |          |           |                 |
+| Total                    |     2.119 |          |           |                 |
++--------------------------+-----------+----------+-----------+-----------------+
+
+
+1.2 Power Supply Summary
+------------------------
+
++-----------------+-------------+-----------+-------------+------------+
+| Source          | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
++-----------------+-------------+-----------+-------------+------------+
+| Vccint          |       0.850 |     0.111 |       0.057 |      0.054 |
+| Vccint_io       |       0.850 |     0.027 |       0.000 |      0.027 |
+| Vccbram         |       0.850 |     0.001 |       0.001 |      0.001 |
+| Vccaux          |       1.800 |     0.048 |       0.000 |      0.048 |
+| Vccaux_io       |       1.800 |     0.026 |       0.000 |      0.025 |
+| Vcco33          |       3.300 |     0.000 |       0.000 |      0.000 |
+| Vcco25          |       2.500 |     0.000 |       0.000 |      0.000 |
+| Vcco18          |       1.800 |     0.000 |       0.000 |      0.000 |
+| Vcco15          |       1.500 |     0.000 |       0.000 |      0.000 |
+| Vcco135         |       1.350 |     0.000 |       0.000 |      0.000 |
+| Vcco12          |       1.200 |     0.000 |       0.000 |      0.000 |
+| Vcco10          |       1.000 |     0.000 |       0.000 |      0.000 |
+| Vccadc          |       1.800 |     0.008 |       0.000 |      0.008 |
+| VCC_PSINTFP     |       0.850 |     0.971 |       0.935 |      0.037 |
+| VCC_PSINTLP     |       0.850 |     0.316 |       0.309 |      0.007 |
+| VPS_MGTRAVCC    |       0.850 |     0.135 |       0.134 |      0.001 |
+| VCC_PSINTFP_DDR |       0.850 |     0.195 |       0.190 |      0.005 |
+| VCC_PSPLL       |       1.200 |     0.070 |       0.068 |      0.002 |
+| VPS_MGTRAVTT    |       1.800 |     0.034 |       0.033 |      0.001 |
+| VCCO_PSDDR_504  |       1.200 |     0.249 |       0.215 |      0.034 |
+| VCC_PSAUX       |       1.800 |     0.002 |       0.000 |      0.002 |
+| VCC_PSBATT      |       1.200 |     0.000 |       0.000 |      0.000 |
+| VCC_PSDDR_PLL   |       1.800 |     0.012 |       0.011 |      0.001 |
+| VCCO_PSIO0_500  |       1.800 |     0.001 |       0.000 |      0.001 |
+| VCCO_PSIO1_501  |       1.800 |     0.001 |       0.000 |      0.001 |
+| VCCO_PSIO2_502  |       1.800 |     0.001 |       0.000 |      0.001 |
+| VCCO_PSIO3_503  |       1.800 |     0.001 |       0.000 |      0.001 |
+| VCC_PSADC       |       1.800 |     0.002 |       0.000 |      0.002 |
++-----------------+-------------+-----------+-------------+------------+
+
+
+1.3 Confidence Level
+--------------------
+
++-----------------------------+------------+--------------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+| User Input Data             | Confidence | Details                                                | Action                                                                                                     |
++-----------------------------+------------+--------------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+| Design implementation state | High       | Design is routed                                       |                                                                                                            |
+| Clock nodes activity        | High       | User specified more than 95% of clocks                 |                                                                                                            |
+| I/O nodes activity          | Low        | More than 75% of inputs are missing user specification | Provide missing input activity with simulation results or by editing the "By Resource Type -> I/Os" view   |
+| Internal nodes activity     | Medium     | User specified less than 25% of internal nodes         | Provide missing internal nodes activity with simulation results or by editing the "By Resource Type" views |
+| Device models               | High       | Device models are Production                           |                                                                                                            |
+|                             |            |                                                        |                                                                                                            |
+| Overall confidence level    | Low        |                                                        |                                                                                                            |
++-----------------------------+------------+--------------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+
+
+2. Settings
+-----------
+
+2.1 Environment
+---------------
+
++-----------------------+--------------------------+
+| Ambient Temp (C)      | 25.0                     |
+| ThetaJA (C/W)         | 2.7                      |
+| Airflow (LFM)         | 250                      |
+| Heat Sink             | medium (Medium Profile)  |
+| ThetaSA (C/W)         | 8.8                      |
+| Board Selection       | medium (10"x10")         |
+| # of Board Layers     | 12to15 (12 to 15 Layers) |
+| Board Temperature (C) | 25.0                     |
++-----------------------+--------------------------+
+
+
+2.2 Clock Constraints
+---------------------
+
++----------+----------------------------------------------------------+-----------------+
+| Clock    | Domain                                                   | Constraint (ns) |
++----------+----------------------------------------------------------+-----------------+
+| clk_pl_0 | sensors96b_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0] |            10.0 |
++----------+----------------------------------------------------------+-----------------+
+
+
+3. Detailed Reports
+-------------------
+
+3.1 By Hierarchy
+----------------
+
++---------------------------------------------------------------------------------------------------+-----------+
+| Name                                                                                              | Power (W) |
++---------------------------------------------------------------------------------------------------+-----------+
+| sensors96b_wrapper                                                                                |     1.803 |
+|   BT_ctsn_IBUF_inst                                                                               |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_0                                                                        |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_1                                                                        |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_2                                                                        |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_3                                                                        |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_4                                                                        |    <0.001 |
+|   GPIO_SENSORS_tri_iobuf_5                                                                        |    <0.001 |
+|   UART0_ctsn_IBUF_inst                                                                            |    <0.001 |
+|   UART0_rxd_IBUF_inst                                                                             |    <0.001 |
+|   UART1_rxd_IBUF_inst                                                                             |    <0.001 |
+|   sensors96b_i                                                                                    |     1.802 |
+|     axi_smc                                                                                       |     0.016 |
+|       inst                                                                                        |     0.016 |
+|         clk_map                                                                                   |    <0.001 |
+|           psr_aclk                                                                                |    <0.001 |
+|             U0                                                                                    |    <0.001 |
+|               EXT_LPF                                                                             |    <0.001 |
+|                 ACTIVE_LOW_AUX.ACT_LO_AUX                                                         |    <0.001 |
+|               SEQ                                                                                 |    <0.001 |
+|                 SEQ_COUNTER                                                                       |    <0.001 |
+|         m00_exit_pipeline                                                                         |     0.003 |
+|           m00_exit                                                                                |     0.003 |
+|             inst                                                                                  |     0.003 |
+|               ar_reg                                                                              |    <0.001 |
+|               aw_reg                                                                              |    <0.001 |
+|               b_reg                                                                               |    <0.001 |
+|               exit_inst                                                                           |    <0.001 |
+|                 gen_r_cmd_fifo.r_cmd_fifo                                                         |    <0.001 |
+|                   gen_srls[14].srl_nx1                                                            |    <0.001 |
+|                   gen_srls[15].srl_nx1                                                            |    <0.001 |
+|                   gen_srls[1].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[8].srl_nx1                                                             |    <0.001 |
+|                 gen_w_cmd_fifo.w_cmd_fifo                                                         |    <0.001 |
+|               r_reg                                                                               |    <0.001 |
+|               w_reg                                                                               |    <0.001 |
+|         s00_entry_pipeline                                                                        |     0.004 |
+|           s00_mmu                                                                                 |     0.004 |
+|             inst                                                                                  |     0.004 |
+|               ar_reg_stall                                                                        |    <0.001 |
+|               ar_sreg                                                                             |    <0.001 |
+|               aw_reg_stall                                                                        |    <0.001 |
+|               aw_sreg                                                                             |    <0.001 |
+|               b_sreg                                                                              |    <0.001 |
+|               gen_endpoint.decerr_slave_inst                                                      |    <0.001 |
+|               r_sreg                                                                              |    <0.001 |
+|               w_sreg                                                                              |    <0.001 |
+|           s00_si_converter                                                                        |    <0.001 |
+|             inst                                                                                  |    <0.001 |
+|               splitter_inst                                                                       |    <0.001 |
+|                 gen_no_wsplitter.gen_endpoint_woffset.gen_wbypass_offset_fifo.wbypass_offset_fifo |    <0.001 |
+|                   gen_srls[0].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[13].srl_nx1                                                            |    <0.001 |
+|                   gen_srls[2].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[3].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[4].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[5].srl_nx1                                                             |    <0.001 |
+|                   gen_srls[6].srl_nx1                                                             |    <0.001 |
+|         s00_nodes                                                                                 |     0.009 |
+|           s00_ar_node                                                                             |     0.002 |
+|             inst                                                                                  |     0.002 |
+|               inst_mi_handler                                                                     |     0.002 |
+|                 gen_normal_area.inst_fifo_node_payld                                              |     0.002 |
+|                   gen_xpm_memory_fifo.inst_fifo                                                   |     0.002 |
+|                     gen_mem_rep[0].inst_rd_addrb                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_wr_addra                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_xpm_memory                                                |     0.002 |
+|                       xpm_memory_base_inst                                                        |     0.002 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_0_5                                 |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_36_41                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_42_47                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_48_53                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_54_59                               |    <0.001 |
+|                     gen_wr.inst_wr_addra_p1                                                       |    <0.001 |
+|               inst_si_handler                                                                     |    <0.001 |
+|                 inst_arb_stall_late                                                               |    <0.001 |
+|           s00_aw_node                                                                             |     0.002 |
+|             inst                                                                                  |     0.002 |
+|               inst_mi_handler                                                                     |     0.002 |
+|                 gen_normal_area.inst_fifo_node_payld                                              |     0.002 |
+|                   gen_xpm_memory_fifo.inst_fifo                                                   |     0.002 |
+|                     gen_mem_rep[0].inst_rd_addrb                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_wr_addra                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_xpm_memory                                                |     0.002 |
+|                       xpm_memory_base_inst                                                        |     0.002 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_0_5                                 |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_36_41                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_42_47                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_48_53                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_54_59                               |    <0.001 |
+|                     gen_wr.inst_wr_addra_p1                                                       |    <0.001 |
+|               inst_si_handler                                                                     |    <0.001 |
+|                 inst_arb_stall_late                                                               |    <0.001 |
+|           s00_b_node                                                                              |    <0.001 |
+|             inst                                                                                  |    <0.001 |
+|               inst_mi_handler                                                                     |    <0.001 |
+|                 gen_normal_area.inst_fifo_node_payld                                              |    <0.001 |
+|                   gen_xpm_memory_fifo.inst_fifo                                                   |    <0.001 |
+|                     gen_mem_rep[0].inst_rd_addrb                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_wr_addra                                                  |    <0.001 |
+|                     gen_wr.inst_wr_addra_p1                                                       |    <0.001 |
+|               inst_si_handler                                                                     |    <0.001 |
+|                 inst_arb_stall_late                                                               |    <0.001 |
+|           s00_r_node                                                                              |     0.002 |
+|             inst                                                                                  |     0.002 |
+|               inst_mi_handler                                                                     |     0.002 |
+|                 gen_normal_area.inst_fifo_node_payld                                              |     0.002 |
+|                   gen_xpm_memory_fifo.inst_fifo                                                   |     0.002 |
+|                     gen_mem_rep[0].inst_rd_addrb                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_wr_addra                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_xpm_memory                                                |     0.001 |
+|                       xpm_memory_base_inst                                                        |     0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_12_17                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_18_23                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_6_11                                |    <0.001 |
+|                     gen_wr.inst_wr_addra_p1                                                       |    <0.001 |
+|               inst_si_handler                                                                     |    <0.001 |
+|                 inst_arb_stall_late                                                               |    <0.001 |
+|           s00_w_node                                                                              |     0.002 |
+|             inst                                                                                  |     0.002 |
+|               inst_mi_handler                                                                     |     0.002 |
+|                 gen_normal_area.inst_fifo_node_payld                                              |     0.002 |
+|                   gen_xpm_memory_fifo.inst_fifo                                                   |     0.002 |
+|                     gen_mem_rep[0].inst_rd_addrb                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_wr_addra                                                  |    <0.001 |
+|                     gen_mem_rep[0].inst_xpm_memory                                                |     0.001 |
+|                       xpm_memory_base_inst                                                        |     0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_12_17                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_18_23                               |    <0.001 |
+|                         gen_wr_a.gen_word_narrow.mem_reg_0_31_6_11                                |    <0.001 |
+|                     gen_wr.inst_wr_addra_p1                                                       |    <0.001 |
+|               inst_si_handler                                                                     |    <0.001 |
+|                 inst_arb_stall_late                                                               |    <0.001 |
+|     axi_uart16550_0                                                                               |     0.001 |
+|       U0                                                                                          |     0.001 |
+|         AXI_LITE_IPIF_I                                                                           |    <0.001 |
+|           I_SLAVE_ATTACHMENT                                                                      |    <0.001 |
+|             I_DECODER                                                                             |    <0.001 |
+|         XUART_I_1                                                                                 |     0.001 |
+|           IPIC_IF_I_1                                                                             |    <0.001 |
+|           UART16550_I_1                                                                           |     0.001 |
+|             GENERATING_FIFOS.rx_fifo_block_1                                                      |    <0.001 |
+|               rx_fifo_control_1                                                                   |    <0.001 |
+|               srl_fifo_rbu_f_i1                                                                   |    <0.001 |
+|                 CNTR_INCR_DECR_ADDN_F_I                                                           |    <0.001 |
+|                 DYNSHREG_F_I                                                                      |    <0.001 |
+|             GENERATING_FIFOS.tx_fifo_block_1                                                      |    <0.001 |
+|               srl_fifo_rbu_f_i1                                                                   |    <0.001 |
+|                 CNTR_INCR_DECR_ADDN_F_I                                                           |    <0.001 |
+|                 DYNSHREG_F_I                                                                      |    <0.001 |
+|             rx16550_1                                                                             |    <0.001 |
+|             tx16550_1                                                                             |    <0.001 |
+|             xuart_tx_load_sm_1                                                                    |    <0.001 |
+|     ps8_0_axi_periph                                                                              |     0.004 |
+|       s00_couplers                                                                                |     0.004 |
+|         auto_pc                                                                                   |     0.004 |
+|           inst                                                                                    |     0.004 |
+|             gen_axilite.gen_b2s_conv.axilite_b2s                                                  |     0.004 |
+|               RD.ar_channel_0                                                                     |    <0.001 |
+|                 ar_cmd_fsm_0                                                                      |    <0.001 |
+|                 cmd_translator_0                                                                  |    <0.001 |
+|                   incr_cmd_0                                                                      |    <0.001 |
+|                   wrap_cmd_0                                                                      |    <0.001 |
+|               RD.r_channel_0                                                                      |    <0.001 |
+|                 rd_data_fifo_0                                                                    |    <0.001 |
+|                 transaction_fifo_0                                                                |    <0.001 |
+|               SI_REG                                                                              |     0.001 |
+|                 ar.ar_pipe                                                                        |    <0.001 |
+|                 aw.aw_pipe                                                                        |    <0.001 |
+|                 b.b_pipe                                                                          |    <0.001 |
+|                 r.r_pipe                                                                          |    <0.001 |
+|               WR.aw_channel_0                                                                     |    <0.001 |
+|                 aw_cmd_fsm_0                                                                      |    <0.001 |
+|                 cmd_translator_0                                                                  |    <0.001 |
+|                   incr_cmd_0                                                                      |    <0.001 |
+|                   wrap_cmd_0                                                                      |    <0.001 |
+|               WR.b_channel_0                                                                      |    <0.001 |
+|                 bid_fifo_0                                                                        |    <0.001 |
+|                 bresp_fifo_0                                                                      |    <0.001 |
+|       xbar                                                                                        |    <0.001 |
+|         inst                                                                                      |    <0.001 |
+|           gen_sasd.crossbar_sasd_0                                                                |    <0.001 |
+|             addr_arbiter_inst                                                                     |    <0.001 |
+|             gen_decerr.decerr_slave_inst                                                          |    <0.001 |
+|             reg_slice_r                                                                           |    <0.001 |
+|             splitter_ar                                                                           |    <0.001 |
+|             splitter_aw                                                                           |    <0.001 |
+|     rst_ps8_0_99M                                                                                 |    <0.001 |
+|       U0                                                                                          |    <0.001 |
+|         EXT_LPF                                                                                   |    <0.001 |
+|           ACTIVE_LOW_AUX.ACT_LO_AUX                                                               |    <0.001 |
+|           ACTIVE_LOW_EXT.ACT_LO_EXT                                                               |    <0.001 |
+|         SEQ                                                                                       |    <0.001 |
+|           SEQ_COUNTER                                                                             |    <0.001 |
+|     vadd_0                                                                                        |     0.027 |
+|       inst                                                                                        |     0.027 |
+|         vadd_control_s_axi_U                                                                      |     0.001 |
+|         vadd_gmem_m_axi_U                                                                         |     0.013 |
+|           bus_read                                                                                |     0.007 |
+|             buff_rdata                                                                            |     0.004 |
+|             fifo_rctl                                                                             |    <0.001 |
+|             fifo_rreq                                                                             |    <0.001 |
+|             rs_rdata                                                                              |    <0.001 |
+|             rs_rreq                                                                               |    <0.001 |
+|           bus_write                                                                               |     0.006 |
+|             buff_wdata                                                                            |     0.003 |
+|             bus_equal_gen.fifo_burst                                                              |    <0.001 |
+|             fifo_resp                                                                             |    <0.001 |
+|             fifo_resp_to_user                                                                     |    <0.001 |
+|             fifo_wreq                                                                             |     0.002 |
+|             rs_wreq                                                                               |    <0.001 |
+|           wreq_throttl                                                                            |    <0.001 |
+|     xlconcat_0                                                                                    |     0.000 |
+|     zynq_ultra_ps_e_0                                                                             |     1.754 |
+|       inst                                                                                        |     1.754 |
++---------------------------------------------------------------------------------------------------+-----------+
+
+

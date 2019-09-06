@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root VersionMajor="1" VersionMinor="11">
+  <GenAppInfo Name="Vivado" Version="2018.2" CL="2258646" TimeStamp="Thu Jun  6 17:17:11 2019"/>
+  <DSA Vendor="xilinx.com" BoardId="xd" Name="sensors96b" VersionMajor="2" VersionMinor="0" Description="Vivado generated DSA" FeatureRomTimestamp="0" DcpLogicFunctionStripped="false" DcpEncrypt="false" Unified="true" Fixed="false">
+    <Build UsesPR="false" PlatformState="pre_synth" TopModuleName="sensors96b_wrapper"/>
+    <Board Name="" Vendor="" Part="">
+      <Images>
+        <Img Type="HDPI" File=""/>
+        <Img Type="MDPI" File=""/>
+        <Img Type="LDPI" File=""/>
+      </Images>
+    </Board>
+    <Devices>
+      <Device Name="fpga0" Type="8" FpgaDevice="zynquplus:xczu3eg:sbva484:-1:i">
+        <Core Name="OCL_REGION_0" Type="clc_region" ComputeUnits="60" DRBaseAddress="0"/>
+      </Device>
+    </Devices>
+    <Files>
+      <File Type="HPFM" Name="sensors96b.hpfm"/>
+      <File Type="REBUILD_TCL" Name="prj/rebuild.tcl"/>
+      <File Type="IP_CACHE_DIR" Name="ipcache"/>
+    </Files>
+  </DSA>
+</Root>

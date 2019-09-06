@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Fri Jun 14 15:21:03 2019
+# Process ID: 32683
+# Current directory: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b/sensors96b/sensors96b.runs/sensors96b_vadd_0_0_synth_1
+# Command line: vivado -log sensors96b_vadd_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source sensors96b_vadd_0_0.tcl
+# Log file: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b/sensors96b/sensors96b.runs/sensors96b_vadd_0_0_synth_1/sensors96b_vadd_0_0.vds
+# Journal file: /home/joe/Ultra96-PYNQ/Ultra96/sensors96b/sensors96b/sensors96b.runs/sensors96b_vadd_0_0_synth_1/vivado.jou
+#-----------------------------------------------------------
+source sensors96b_vadd_0_0.tcl -notrace

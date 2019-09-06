@@ -1,0 +1,3 @@
+STAGE2_PACKAGES_aarch64 := libsds
+STAGE2_PACKAGES_aarch64 += phantomjs-fix wifi_connect
+STAGE3_PACKAGES_aarch64 := pynq resizefs
