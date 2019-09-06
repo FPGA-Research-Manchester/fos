@@ -1,0 +1,45 @@
+{
+   ExpandedHierarchyInLayout: "",
+   guistr: "# # String gsaved with Nlview 6.8.5  2018-01-30 bk=1.4354 VDI=40 GEI=35 GUI=JA:1.6 TLS
+#  -string -flagsOSRD
+preplace port GPIO_SENSORS -pg 1 -y 110 -defaultsOSRD
+preplace port UART0_txd -pg 1 -y 260 -defaultsOSRD
+preplace port UART0_rtsn -pg 1 -y 220 -defaultsOSRD
+preplace port BT_ctsn -pg 1 -y 480 -defaultsOSRD
+preplace port UART1 -pg 1 -y 90 -defaultsOSRD
+preplace port UART0_rxd -pg 1 -y 520 -defaultsOSRD
+preplace port BT_rtsn -pg 1 -y 130 -defaultsOSRD
+preplace port UART0_ctsn -pg 1 -y 500 -defaultsOSRD
+preplace inst rst_ps8_0_99M -pg 1 -lvl 2 -y 370 -defaultsOSRD
+preplace inst ps8_0_axi_periph -pg 1 -lvl 3 -y 270 -defaultsOSRD
+preplace inst zynq_ultra_ps_e_0 -pg 1 -lvl 2 -y 160 -defaultsOSRD
+preplace inst vadd_0 -pg 1 -lvl 4 -y 400 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 1 -y 130 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 1 -y 340 -defaultsOSRD
+preplace inst axi_uart16550_0 -pg 1 -lvl 4 -y 230 -defaultsOSRD
+preplace netloc vadd_0_interrupt 1 0 5 30 470 320 490 N 490 N 490 1710
+preplace netloc sin_1 1 0 5 0J 530 NJ 530 NJ 530 NJ 530 1750
+preplace netloc zynq_ultra_ps_e_0_UART_1 1 2 3 990 90 N 90 N
+preplace netloc zynq_ultra_ps_e_0_pl_clk0 1 0 4 30 210 330 470 1010 130 1340
+preplace netloc zynq_ultra_ps_e_0_GPIO_0 1 2 3 N 110 N 110 N
+preplace netloc axi_smc_M00_AXI 1 1 1 N
+preplace netloc zynq_ultra_ps_e_0_M_AXI_HPM0_FPD 1 2 1 980
+preplace netloc axi_uart16550_0_ip2intc_irpt 1 0 5 20 510 N 510 N 510 N 510 1720
+preplace netloc axi_uart16550_0_sout 1 4 1 NJ
+preplace netloc rst_ps8_0_99M_peripheral_aresetn 1 0 4 10 520 N 520 1030 410 1350
+preplace netloc ps8_0_axi_periph_M01_AXI 1 3 1 1330
+preplace netloc vadd_0_m_axi_gmem 1 0 5 10 20 N 20 N 20 N 20 1730
+preplace netloc xlconcat_0_dout 1 1 1 320
+preplace netloc ps8_0_axi_periph_M00_AXI 1 3 1 1330
+preplace netloc emio_uart0_ctsn_1 1 0 3 NJ 480 NJ 480 960J
+preplace netloc zynq_ultra_ps_e_0_pl_resetn0 1 1 2 340J 30 970J
+preplace netloc axi_uart16550_0_rtsn 1 4 1 NJ
+preplace netloc rst_ps8_0_99M_interconnect_aresetn 1 2 1 1020
+preplace netloc zynq_ultra_ps_e_0_emio_uart0_rtsn 1 2 3 1000 120 N 120 1750
+preplace netloc UART0_ctsn 1 0 5 NJ 500 NJ 500 NJ 500 NJ 500 1740
+levelinfo -pg 1 -20 180 650 1180 1530 1780 -top 0 -bot 540
+",
+}
+{
+   da_axi4_cnt: "12",
+}

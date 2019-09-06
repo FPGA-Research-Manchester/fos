@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="sensors96b_axi_smc_2_synth_1" LaunchDir="/home/joe/Ultra96-PYNQ/Ultra96/sensors96b/sensors96b/sensors96b.runs/sensors96b_axi_smc_2_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+</Runs>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Project Version="1" Minor="3" DIGEST="">
+	<TOOL_VERSION Version="2018.2"/>
+	<MODE Name="Pre-Synthesis"/>
+	<SYSTEMINFO BOARD="" PART="xczu3eg-sbva484-1-i" ARCH="zynquplus" PACKAGE="sbva484" DEVICE="xczu3eg" SPEED="-1"/>
+	<HIERARCHY Name="sensors96b_wrapper"/>
+	<File Type="HW_HANDOFF" Name="sensors96b.hwh" DESIGN_HIERARCHY="sensors96b_i" BD_TYPE="DEFAULT_BD"/>
+	<File Type="BD_TCL" Name="sensors96b_bd.tcl"/>
+	<File Type="PS_FSBL_INIT" Name="psu_init.c"/>
+	<File Type="PS_FSBL_INIT" Name="psu_init.h"/>
+	<File Type="PS_FSBL_INIT_GPL" Name="psu_init_gpl.c"/>
+	<File Type="PS_FSBL_INIT_GPL" Name="psu_init_gpl.h"/>
+	<File Type="PS_INIT_HELP" Name="psu_init.html"/>
+	<File Type="PS_XMD_INIT" Name="psu_init.tcl"/>
+	<File Type="PS_PMU_INIT" Name="psu_pmucfg.c"/>
+	<USEDRESOURCES/>
+</Project>
+
