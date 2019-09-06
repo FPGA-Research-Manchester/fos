@@ -1,6 +1,7 @@
 {
   "shell": "Ultra96_100MHz_2",
   "accelerators": [
+    "Full_vecadd",
     "Partial_sobel",
     "Partial_mandelbrot"
   ]
