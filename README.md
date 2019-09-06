@@ -43,7 +43,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - [How to use Ponq](./ponq/)
   - [How to use static accelerator](./ponq/README.md#usage-static-full-bitstream)
   - [How to use partially reconfigurable accelerators](./ponq/README.md#usage-dynamic-partial-bitstream-automatic)
-- How to use Cynq
+- [How to use Cynq](./cynq)
 - [How to use Daemon mode](./clients#usage-standard-flow)
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
 - [How to build/download Linux (Pynq / Ubuntu) image](./sd_card_images)
