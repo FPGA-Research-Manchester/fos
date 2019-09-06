@@ -1,4 +1,5 @@
 #!/bin/bash
 
 cd build
-sudo ./wxmoni_bin
+xhost +
+sudo DISPLAY=:0 ./wxmoni_bin
