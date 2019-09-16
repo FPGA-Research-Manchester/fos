@@ -45,6 +45,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
   - [How to use partially reconfigurable accelerators](./ponq/README.md#usage-dynamic-partial-bitstream-automatic)
 - [How to use Cynq](./cynq)
 - [How to use Daemon mode](./clients#usage-standard-flow)
+- [How to use Jupyter notebooks with FOS](./jupyter_notebooks)
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
 - [How to build/download Linux (Pynq / Ubuntu) image](./sd_card_images)
 - [How to use Linux image as standalone](./standalone_code/Sobel)
@@ -58,6 +59,9 @@ The source code presented has been tested with following tool versions:
 - PetaLinux kernel 2018.2.
 - Rootfs: Pynq, PetaLinux, Ubuntu 18, Ubuntu 14, Debian, Linaro u96.
 - GRPC version: 2019-09
+- Monitor: Any monitor with Mini displayport to VGA cable (passive)
+- Keyboard/Mouse: standard USB versions
+- Storage/PenDrives: EXT3, EXT4 and FAT32 (PetaLinux kernel does not support fuse for NTFS)
 
 ## Papers
 
