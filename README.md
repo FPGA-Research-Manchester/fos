@@ -35,7 +35,7 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
   - `sudo ./runServer`
 - open a terminal for the client:
   - `cd fos`
-  - `sudo ./runServer`
+  - `sudo ./runClient`
 
 ## Tutorials
 
