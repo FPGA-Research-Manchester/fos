@@ -47,24 +47,24 @@ For this tutorial, we are using a 32-bit AXI Lite slave port and 32-bit AXI full
     - Change the top module to the module name: **set top_module xx**
     - *source ./pr_module_xx.tcl*
 
-Thsi will run the entire logic synthesis, as well as the physical implementation all the way to a (full) bitstream. The implementation scripts will use blocker macros (provided as DCPs) that constrain the routing of the module in strict bounding boxes.
+This will run the entire logic synthesis, as well as the physical implementation all the way to a (full) bitstream. The implementation scripts will use blocker macros (provided as DCPs) that constrain the routing of the module in strict bounding boxes.
 
 The physical implementation results are as the following figure:
 
 ![2 slot blocker and module](./images/2_slot_blocker_module.png)
 
 ### Merge the PR Module into the Given Static Design Bitstream
-Now, we start mering the PR module to the static design at bitstream level. The static design is as the following figure:
+Now, we start merging the PR module to the static design at bitstream level. The static design is as the following figure:
 
 ![static shell](./images/static_ultra_zed.png)
 
 The tool BitMan is used to conduct this step:
 1.  Merging the PR module which is allocated in Slot 0 to the static:
-    - *bitman_linux-m 21 0 99 59 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit*
+    - `bitman_linux -m 21 0 99 59 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
 2.  Merging the PR module which is allocated in either Slot 0 or 1 to the static: 
-    - *bitman_linux-m 21 0 99 119 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit*
+    - `bitman_linux -m 21 0 99 119 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
 3.  Merging the PR module which is allocated in either Slot 0, 1 or 2 to the static:
-    - *bitman_linux-m 21 0 99 179 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit*
+    - `bitman_linux -m 21 0 99 179 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
     
 The three commands are essentially the same and only differ in the number of slots that are cut out from the (full) module configuration bitstream that is then merged into the full static bitstream (*Ultra96_100MHz.bit*). This process is carried out in a way that will not touch the routing information of the global clock resources.
 
@@ -72,17 +72,17 @@ The three commands are essentially the same and only differ in the number of slo
 The partial bitstreams can be extracted from the aforementioned merged bitstream by the following BitMan commands: 
 
 1.  In order to cut out the module and place it in one of the three slots, use one of the following lines. This will generate the corresponding partial bitstreams:
-    - *bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit –M 21 0 ./Partial_{module’s top name}_Slot_0.bit*
-    - *bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit –M 21 60 ./Partial_{module’s top name}_Slot_1.bit*
-    - *bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit –M 21 120 ./Partial_{module’s top name}_Slot_2.bit*
+    - `bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 0 ./Partial_{module’s top name}_Slot_0.bit`
+    - `bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 60 ./Partial_{module’s top name}_Slot_1.bit`
+    - `bitman_linux -x 21 0 99 59 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 120 ./Partial_{module’s top name}_Slot_2.bit`
 2. To perform the same for placing a two-slot module use:
-    - *bitman_linux -x 21 0 99 119 ./Merge_{module’s top name}_Ultra96_100MHz.bit–M 21 0 ./Partial_{module’s top name}_Slot_0_1.bit*
-    - *bitman_linux -x 21 0 99 119 ./Merge_{module’s top name}_Ultra96_100MHz.bit–M 21 60 ./Partial_{module’s top name}_Slot_1_2.bit*
+    - `bitman_linux -x 21 0 99 119 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 0 ./Partial_{module’s top name}_Slot_0_1.bit`
+    - `bitman_linux -x 21 0 99 119 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 60 ./Partial_{module’s top name}_Slot_1_2.bit`
     
 3.  To perform the same for place a three-slots module use:
-    - *bitman_linux -x21 0 99 179./Merge_{module’s top name}_Ultra96_100MHz.bit–M 21 0 ./Partial_{module’s top name}_Slot_0_1_2.bit*
+    - `bitman_linux -x 21 0 99 179 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 0 ./Partial_{module’s top name}_Slot_0_1_2.bit`
       
-These are all Xilinx-compatible partial bitstreams. However, in order to use PCACP to load those partial bitstreams onto an FPGA at runtime, we need to convert them to another Xilinx format. This step is automatically done by the Xilinx SDK tool (installed with Vivado Design Suite). We follow the following steps:
+These are all Xilinx-compatible partial bitstreams. However, in order to use PCAP to load those partial bitstreams onto an FPGA at runtime, we need to convert them to another Xilinx format. This step is automatically done by the Xilinx SDK tool (installed with Vivado Design Suite). We follow the following steps:
 1.  Put the below command into the XSCT console:
 ```
 bootgen -image Bitstream.bif -arch zynqmp -o ./{module's top name}_Slot.bin -w
