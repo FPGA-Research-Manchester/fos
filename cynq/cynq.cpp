@@ -67,29 +67,48 @@ int Accel::getRegister(std::string name) {
   return registers[name];
 }
 
+
+// for all 'base' (in slot zero) bitstreams 
+//   for all slots which can fit bitstream (slotno < slotcount - bs.segcount)
+//     if (bitstreams.contains(slotno, size)) continue;
+//     new_bs_file = relocate_bitstream(old, new, slotno);
+//     new_bs = Bitstream(new_bs_file, slotno, width)
+//     bitstreams.add(new_bs)
+
 void Accel::setupSiblings() {
-  for (Bitstream &bs : bitstreams) {
-    if (bs.multiSlot) continue;
-    if (slotIDs.find(bs.mainRegion) != slotIDs.end() && slotIDs[bs.mainRegion] == zeroSlotID) {
+  std::vector<Bitstream> oldbslist = bitstreams;
+  for (Bitstream &bs : oldbslist) { // for each bitstream
+    if (!bs.isFull() && slotIDs.at(bs.mainRegion) == zeroSlotID) { // if bitstream is a candidate (in slot zero)
+      std::cout << "Attempting to create siblings for " << bs.bitstream << std::endl;
       std::string relocatablebspath = "../bitstreams/" + bs.bitstream;
-      for (auto &newSlot : slotIDs) {
-        if (newSlot.second == zeroSlotID) continue;
+      for (auto &newSlot : slotIDs) { // for each slot in shell
+        if (newSlot.second > slotIDs.size() - bs.slotCount) continue;
         bool exists = false;
-        for (Bitstream &candidate : bitstreams) {
-          if (!candidate.multiSlot && candidate.mainRegion == newSlot.first) {
+        for (Bitstream &candidate : bitstreams) { // check if bitstream already exists
+          if (candidate.slotCount == bs.slotCount && candidate.mainRegion == newSlot.first) {
             exists = true;
             break;
           }
         }
-        if (exists) continue;
-        std::string newBSName = name + "_slot_" + std::to_string(newSlot.second) + ".gen.bin";
+        if (exists) continue; // if not, we need to create it
+        std::string newBSName = name + "_slot_" + std::to_string(newSlot.second);
+        if (bs.slotCount > 1)
+          newBSName += "_width_" + std::to_string(bs.slotCount);
+        newBSName += ".gen.bin";
+        std::cout << "  creating sibling " << newBSName << std::endl;
         std::string path = "../bitstreams/" + newBSName;
         struct stat buffer;
-        if (stat(path.c_str(), &buffer) != 0) {
-          if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0)
+        if (stat(path.c_str(), &buffer) != 0) // if file doesn't exist (if stat() fails))
+          if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0) // try to relocate
             throw std::runtime_error("Failed to relocate bitstream");
+        std::vector<std::string> stubs;
+        for (auto& stub : bs.stubRegions) {
+          int id = slotIDs[stub];
+          for (auto &slot : slotIDs)
+            if (slot.second == id)
+              stubs.push_back(slot.first);
         }
-        addBitstream(Bitstream(newBSName, newSlot.first));
+        addBitstream(Bitstream(newBSName, newSlot.first, stubs));
       }
     }
   }
@@ -106,7 +125,7 @@ Accel Accel::loadFromJSON(std::string jsonpath) {
   else
     accel.address = 0;
   for (auto &bitfile : json["bitfiles"]) {
-    if (bitfile.contains("stubregion")) {
+    if (bitfile.contains("stubregions")) {
       std::vector<std::string> stubs = bitfile["stubregions"];
       accel.addBitstream(Bitstream(bitfile["name"], bitfile["region"], stubs));
     } else {
