@@ -1,7 +1,7 @@
 # setting top_module
 set top_module mandelbrot
 
-# open_checkpoint ./Synth/Static/static_v1_32bit_SYN.dcp
+open_checkpoint ./Synth/Static/static_v1_32bit_SYN.dcp
 
 create_pblock pblock_0
 
