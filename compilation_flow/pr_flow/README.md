@@ -83,17 +83,19 @@ The partial bitstreams can be extracted from the aforementioned merged bitstream
     - `bitman_linux -x 21 0 99 179 ./Merge_{module’s top name}_Ultra96_100MHz.bit -M 21 0 ./Partial_{module’s top name}_Slot_0_1_2.bit`
       
 These are all Xilinx-compatible partial bitstreams. However, in order to use PCAP to load those partial bitstreams onto an FPGA at runtime, we need to convert them to another Xilinx format. This step is automatically done by the Xilinx SDK tool (installed with Vivado Design Suite). We follow the following steps:
-1.  Put the below command into the XSCT console:
-```
-bootgen -image Bitstream.bif -arch zynqmp -o ./{module's top name}_Slot.bin -w
-```
-2. The Bitstream.bif file contains:
+
+1. Create a Bitstream.bif file, containing the following:
 ```
 all:
 {
     {Bitstream file name}.bit
 }
 ```
+2. Put the below command into the XSCT console or terminal after sourcing SDK settings:
+```
+bootgen -image Bitstream.bif -arch zynqmp -o ./{module's top name}_Slot.bin -w
+```
+
 ## Misc
 When you synthesise the module out-of-context you may want to use the following instruction instead:
 - *Copy the VHDL folder from your Vivado HLS project to the ./Sources folder*
