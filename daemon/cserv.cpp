@@ -23,6 +23,7 @@ constexpr int printout_interval = 300;    // ms between status printouts
 constexpr int history_interval = 10;      // ms between history elements
 constexpr int logmessage_count = 20;      // amount of log items to display
 
+
 // class in charge of managing udma buffers
 class BufAllocator {
 public:
@@ -60,6 +61,10 @@ public:
 enum JobState {WAITING, RUNNING, DONE};
 class Job {
 public:
+  std::string accname, peer;
+  paramlist params;
+  JobState state;
+  int jobno = -1;
   Job(AccJob accjob, std::string peer) {
     accname = accjob.accname();
     this->peer = peer;
@@ -67,12 +72,52 @@ public:
     for (auto &param : accjob.parameters())
       params[param.first] = param.second;
   }
-  Job() {
+  Job() {}
+};
+
+class User {
+public:
+  std::deque<Job*> jobs;
+  std::string peername;
+};
+
+// round robin access to jobs
+class JobManager {
+public:
+  std::deque<User*> users;
+  void addJob(Job* job) {
+    for (User *user : users) {
+      if (user->peername == job->peer) {
+        user->jobs.push_back(job);
+        return;
+      }
+    }
+    User *user = new User();
+    user->peername = job->peer;
+    user->jobs.push_back(job);
+    users.push_back(user);
   }
-  std::string accname, peer;
-  paramlist params;
-  JobState state;
-  int jobno = -1;
+  Job* peekJob() {
+    return users.front()->jobs.front();
+  }
+  Job* popJob() {
+    User* user = users.front();
+    Job* job = user->jobs.front();
+
+    user->jobs.pop_front();
+    users.pop_front();
+
+    if (user->jobs.size() == 0) {
+      delete user;
+    } else {
+      users.push_back(user);
+    }
+
+    return job;
+  }
+  bool hasJobs() {
+    return users.size() > 0;
+  }
 };
 
 // implements the daemon
@@ -82,7 +127,10 @@ class DaemonImpl final : public FPGARPC::Service {
   PRManager prmanager;                                // manager of fpga
 
   MQueue<Job*> jobqueue;                              // synchronised queue of incoming jobs
-  std::deque<Job*> jobdeque;                          // queue of jobs waiting for loading
+  JobManager jobmanager;
+
+
+  // std::deque<Job*> jobdeque;                          // queue of jobs waiting for loading
   std::map<Region*, Job*> regionmap;                  // map of jobs on each region
   std::map<Job*, AccelInst> runningjobs;              // map of running jobs and their instances
 
@@ -93,16 +141,21 @@ class DaemonImpl final : public FPGARPC::Service {
     int jobcount = runmessage->jobs_size();
     Job **jobs = new Job*[jobcount];
 
+    // build list of jobs from protobuf object
     for (int jobno = 0; jobno < jobcount; jobno++) {
       Job *job = new Job(runmessage->jobs(jobno), peer);
-      jobqueue.push(job);
       jobs[jobno] = job;
     }
 
     for (int jobno = 0; jobno < jobcount; jobno++)
+      jobqueue.push(jobs[jobno]);
+
+    // wait for each job to finish
+    for (int jobno = 0; jobno < jobcount; jobno++)
       while (jobs[jobno]->state != DONE)
         std::this_thread::yield();
 
+    // free job memory
     for (int jobno = 0; jobno < jobcount; jobno++)
       delete jobs[jobno];
     delete[] jobs;
@@ -148,14 +201,15 @@ class DaemonImpl final : public FPGARPC::Service {
 
       // pop from queue & load accelerators
       while (!jobqueue.empty()) {
-        jobdeque.push_back(jobqueue.peek());
+        Job *job = jobqueue.peek();
+        jobmanager.addJob(job);
         jobqueue.pop();
       }
 
       // pop from queue & load accelerators
-      while (!jobdeque.empty()) {
+      while (jobmanager.hasJobs()) {
         didthing = true;
-        Job* job = jobdeque.front();
+        Job* job = jobmanager.peekJob();
         AccelInst accel;
         try {
           accel = prmanager.fpgaRun(job->accname, job->params);
@@ -167,7 +221,7 @@ class DaemonImpl final : public FPGARPC::Service {
         regionmap[accel.region] = job;
         for (auto region : accel.bitstream->stubRegions)
           regionmap[&prmanager.regions.at(region)] = job;
-        jobdeque.pop_front();
+        jobmanager.popJob();
       }
 
 
@@ -223,8 +277,11 @@ class DaemonImpl final : public FPGARPC::Service {
           std::cout << ansi4colour(-1) << std::endl;
         }
         std::cout << ansi4colour(3) << "Jobs Waiting: " << ansi4colour(-1) << std::endl;
-        for (Job *waiting : jobdeque)
-          std::cout << " - " << waiting->accname << ": " << waiting->peer << std::endl;
+        for (User *user : jobmanager.users) {
+          std::cout << " - " << user->peername << std::endl;
+          for (Job *job : user->jobs)
+            std::cout << "   - " << job->accname << std::endl;
+        }
 
         std::cout << ansi4colour(6) << "Log messages: " << ansi4colour(-1) << std::endl;
         for (std::string &msg : logMessages)
