@@ -22,7 +22,7 @@ We start the process by synthesising the module's RTL code to be an out-of-conte
     - *synth_design -mode out_of_context -flatten_hierarchy rebuilt -part xczu3eg-sbva484-1-e -top* {**module's top name**}
     - *write_checkpoint -force ./Synth/reconfig_modules/*{**module's top name**}
     - *close_design*
-    - *close_proect*
+    - *close_project*
 
 ### Implement the PR Module Using Blocker Templates
 In this step, we are going to physically implement the module nased on provided blocker templates. We have templates for modules occupying 1, 2 or 3 slots. The AXI interfaces between the module and the static system is pre-placed and pre-routed in clock row Y0.
