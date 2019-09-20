@@ -6,7 +6,10 @@ for the ZUCL shell on Ultra96/UltraZed board using Vivado 2018.2, BitMan and ted
 
 If you plan to use the runtime software provided in this repo, you do not need to generate a bitstream for each slot. The relocation function provided in the daemon and libs can perform this at runtime for you. 
 
-Make sure you use the 64-bit address for AXI and have selected the right data-width (32/128) bit for IP before starting the compilation process. 
+**Make sure of the following before starting the compilation process:**
+- you use the 64-bit address for AXI
+- have selected the right data-width (32/128) bit for IP
+- installed/imported tedtcl library
 
 ![compilation flow](./images/fig-flow.png)
 
