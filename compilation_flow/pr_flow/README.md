@@ -19,7 +19,7 @@ We start the process by synthesising the module's RTL code to be an out-of-conte
 
 1.  Create a Vivado project with the sources and IPs
 2.  In Vivado, use the following TCL comments:
-    - *synth_design -mode out_of_context -flatten_hierachy rebuilt -part xczu3eg-sbva484-1-e -top* {**module's top name**}
+    - *synth_design -mode out_of_context -flatten_hierarchy rebuilt -part xczu3eg-sbva484-1-e -top* {**module's top name**}
     - *write_checkpoint -force ./Synth/reconfig_modules/*{**module's top name**}
     - *close_design*
     - *close_proect*
