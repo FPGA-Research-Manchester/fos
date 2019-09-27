@@ -23,6 +23,8 @@ The aim of this project is to make FPGAs easy to use and allow the deployment an
 - **Don't repeat yourself:** Standard Linux backend for software development.
 - **Don't forget your I/O:** All types of I/Os (from monitors to storage to network) are supported via host CPU.
 
+See it in action on YouTube: https://www.youtube.com/watch?v=WciuDXEIsr8
+
 <img align="right" width="50%" src="./images/demo_screenshot.png">
 
 ## Quick Getting Started
