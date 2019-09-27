@@ -193,8 +193,7 @@ It should be noted that, a pragma should allows be created for return:
 
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
-  - Found no way to test OpenCL code, using testbenches, on Vivado HLS
-  - 
+  - Can only test single work-group for OpenCL kernels. 
   
 ## Errors
 
