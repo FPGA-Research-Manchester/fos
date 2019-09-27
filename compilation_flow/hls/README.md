@@ -170,7 +170,7 @@ In order a 64 bit data bus, you just need to add option to the configuration in 
 
 Now after synthesis, your data buses should be 64 bits wide
 
-**N.B.** Remember that if you create a 64 bit interface, the modules internal registers will be 64 bits. You need to set those upper 32 bits to 0, or something more relevant to your project, otherwise the module will use whatever value is stored in upper 32 bits and you will have some weird bugs when using the module.
+**N.B.** Remember that if you create a 64 bit interface, the modules internal registers will be 64 bits. You need to set those upper 32 bits to 0, otherwise the module will use whatever value is stored in upper 32 bits and result in arbitary behaviour.
 
 ### Master and Slave AXI Pragma in HLS
 #### Master Pragmas
