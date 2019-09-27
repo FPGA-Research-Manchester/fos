@@ -9,6 +9,8 @@ This allows users to easily program accelerators with its in-built driver suppor
 
 Moreover, the accelerator development, shell development and user application development can be performed in isolation as FOS provides built-in modularity and abstraction levels. 
 
+<center><img src="./images/Modular_FPGA_Development.png"></center>
+
 The aim of this project is to make FPGAs easy to use and allow the deployment and development of FPGA systems at scale. We hope FOS can improve your productivity and make FPGAs more fun to use while retaining its performance and energy.
 
 ## Key Features
@@ -104,4 +106,3 @@ Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kyriakos Paraskevas, 
 - This work was produced at the University of Manchester as part of PhD and MPhil Projects.
 - This work is supported by the European Commission under the H2020 Programme and the ECOSCALE project (grant agreement 671632). 
 - This work is supported by the Xilinx University Program. 
-
