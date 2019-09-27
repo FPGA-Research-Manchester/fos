@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Here we provide a step-by-step tutorial on how to generate a static bitstream. We use the Sobel edge detection algorithm as an example to demonstrate the process. However, the steps remain the same for other modules you may to want to create. 
+Here we provide a step-by-step tutorial on how to generate a static bitstream. We use the Sobel edge detection algorithm as an example to demonstrate the process. However, the steps remain the same for other modules you may want to create. 
 ## Contents
   - [Set-up](#set-up) 
   - [Creating a Custom Module with Vivado HLS](#creating-a-custom-module-with-vivado-hls)
@@ -33,21 +33,21 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
 
     ![alt tag](./images/Step1.3.JPG)
 
-4.  The same applies for the testbench files. 
+4.  The same applies to the testbench files. 
 
     ![alt tag](./images/Step1.4.JPG)
   
-5.  This screen allows to us to tailor our module to a certain architecture. Click the 3 dots in the 'Part Selection' area of the next window. From this window you can pick a specific FPGA or board. In this tutorial we be selecting a specific board to synthesise our module for. It should be noted that Vivado 2018.3 does not contain an entry for the Ultra96 platform. However, when designing the modules, we found that it works fine by using the ZCU102 platform as they both use the same ZYNQ FPGA. 
+5.  This screen allows us to tailor our module to a certain architecture. Click the 3 dots in the 'Part Selection' area of the next window. From this window, you can pick a specific FPGA or board. In this tutorial, we are selecting a specific board to synthesise our module for. It should be noted that Vivado 2018.3 does not contain an entry for the Ultra96 platform. However, when designing the modules, we found that it works fine by using the ZCU102 platform as they both use the same ZYNQ FPGA. 
 
     ![alt tag](./images/Step1.5.JPG)
 
-    We don't need to worry about any of the options in the clock section of the window. Obviously, you can choose a different name for your solution.
+    We don't need to worry about any of the options in the clock section of the window. You can choose a different name for your solution.
 6.  The final thing to do is select the **Finish** button.
-7.  From here right-click on source in the **Explorer** menu and select **New File...**. From here you navigate to the directory that contains the source files you want to import. The same goes for 'Test Bench' in the same **Explorer** menu. It should be noted that you should include any header files or test data that the module needs to be tested.
+7.  From here right-click on the source in the **Explorer** menu and select **New File...**. From here you navigate to the directory that contains the source files you want to import. The same goes for 'Test Bench' in the same **Explorer** menu. It should be noted that you should include any header files or test data that the module needs to be tested.
 
     ![alt tag](./images/Step1.7.JPG)
 
-8.  You can view and modify the source code by opening the file from the **Source** directory. For the purposes of the tutorial, the source code will synthesise without modification. The ['Misc'](#misc) section contains modifications that we made to source code, such that it would be compatible with the larger project. 
+8.  You can view and modify the source code by opening the file from the **Source** directory. For this tutorial, the source code will synthesise without modification. The ['Misc'](#misc) section contains modifications that we made to source code, such that it would be compatible with the larger project. 
 
     ![alt tag](./images/Step1.8.JPG)
   
@@ -88,7 +88,7 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
 
     ![alt tag](./images/Vivado/Step1.4.JPG)
 
-    For the purposes of this tutorial, we use a different method. However, both are equal
+    For this tutorial, we use a different method. However, both are equal
 5.  We will not be adding any constraints in this tutorial
 6.  For the default part menu, we will be going to **Boards** and selecting the Ultra96v1 Evaluation Platform
 
@@ -107,7 +107,7 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
     ![alt tag](./images/Vivado/Step2.1.JPG)
 
     Keep everything the same except the design name, which can be changed at your discretion. 
-2.  From the **Diagram** section of the Vivado window you can click the **+**, or press **CTRL + I**, to add new IP to the diagram
+2.  From the **Diagram** section of the Vivado window, you can click the **+**, or press **CTRL + I**, to add new IP to the diagram
 3.  Start by getting the block that represents your processing system, PS. For this tutorial, we use the Zynq Ultrascale+ MPSoC PS. Then click the 'Run Block Automation' link from the pop up that appears. Make sure the PS is selected and click **OK** 
 
     ![alt tag](./images/Vivado/Step2.3.JPG)
@@ -116,11 +116,11 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
 
     ![alt tag](./images/Vivado/Stemp2.4.JPG)
     
-5. Now we add the Sobel module we created. To do so navigate to the menu you would normally select the IP you want and search for the name of top function that you specified in Vivado HLS. In our case, this is Krnl_sobel. Add this to the block design.
+5. Now we add the Sobel module we created. To do so navigate to the menu you would normally select the IP you want and search for the name of the top function that you specified in Vivado HLS. In our case, this is Krnl_sobel. Add this to the block design.
     
     ![alt tag](./images/Vivado/Step2.5.JPG)
     
-6. Click the 'Run Connection Automation' link from the pop-up that appears. This will add in the neccessary connection blocks that we need to be able to use the Sobel module. Make sure all the boxes are checked before pressing **OK**.
+6. Click the 'Run Connection Automation' link from the pop-up that appears. This will add in the necessary connection blocks that we need to be able to use the Sobel module. Make sure all the boxes are checked before pressing **OK**.
     
     ![alt tag](./images/Vivado/Step2.6.JPG)
     
@@ -130,7 +130,7 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
     
 ### Step 3 - Generating the Bitstream
 
-1.  Generating the bitstream is an easy task, but first we need validate our design. Select the **Validate Design** option from the top of the **Diagram** window, or press **F6**. If this was done correctly, it should tell you that a slave AXI port was excluded. 
+1.  Generating the bitstream is an easy task, but first, we need to validate our design. Select the **Validate Design** option from the top of the **Diagram** window or press **F6**. If this was done correctly, it should tell you that a slave AXI port was excluded. 
     
     ![alt tag](./images/Vivado/Step3.1.JPG)
     
@@ -139,13 +139,13 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
     ![alt tag](./images/Vivado/Step3.1.2.JPG)
     
 2.  Re-validate the design
-3.  Before we can generate the bitsream we need to create a HDL wrapper for our design. This is easy to do. Go to the sources menu on the Vivado screen, right-click on the design file you want to create the wrapper for and select 'Create HDL Wrapper'. Keep all as default and select **OK**.     
+3.  Before we can generate the bitstream we need to create an HDL wrapper for our design. This is easy to do. Go to the sources menu on the Vivado screen, right-click on the design file you want to create the wrapper for and select 'Create HDL Wrapper'. Keep all as default and select **OK**.     
     
     ![alt tag](./images/Vivado/Step3.3.JPG)
     
 4.  Select **Generate Bitstream** from the Flow Navigator menu. Keep everything as default and click **OK**. This step will take some time, so go and grab a drink and come back.
-5.  To find the bitstream, navigate to directory you created for the project. For us, we will navigate to **sobel.runs/impl_1/design_1_wrapper.bit**. Note, sobel is the name of our directory, this will be replaced with whatever you named the directory.
-6.  Once you've found the .bit file we need to convert the image file that we can load onto the FPGA. To this we use Xilinx's Bootgen. This is straightforward to do. Preferably in the same directory as you found the .bit file, create a file called bitstream.bif. It contents should be as follows:
+5.  To find the bitstream, navigate to the directory you created for the project. For us, we will navigate to **sobel.runs/impl_1/design_1_wrapper.bit**. Note, sobel is the name of our directory, this will be replaced with whatever you named the directory.
+6.  Once you've found the .bit file we need to convert the image file that we can load onto the FPGA. To do this we use Xilinx's Bootgen. This is straightforward to do. Preferably in the same directory as you found the .bit file, create a file called bitstream.bif. Its contents should be as follows:
 ```
 all:
 {
@@ -162,15 +162,15 @@ bootgen -image bitstream.bif -arch zynqmp -o bitstream.bin -w
 This section contains helpful modifications that you may need or want during development
 
 ### 32 and 64 bit interfaces
-Using the original Sobel OpenCL code, the data bas is 512 bits. For us, this is still usable but it could be changed. To do so, we changed the function parameter list to pass ints and int pointers, depending on the variable. We then took the input parameters and cast them into new variables of the original types. This allowed us to control the width of the data bus.
+Using the original Sobel OpenCL code, the data bus is 512 bits. For us, this is still usable but it could be changed. To do so, we changed the function parameter list to pass ints and int pointers, depending on the variable. We then took the input parameters and cast them into new variables of the original types. This allowed us to control the width of the data bus.
 
-In order a 64 bit data bus, you just need to add option to the configuration in HLS before synthesis. In Vivado HLS, click on the two yellow cogs called **Solution Settings...**, go to **Add** and select **config_interface** from the **Command** drop down menu. Ensure that the **m_axi_addr64** option is selected.
+In order a 64 bit data bus, you just need to add an option to the configuration in HLS before synthesis. In Vivado HLS, click on the two yellow cogs called **Solution Settings...**, go to **Add** and select **config_interface** from the **Command** drop-down menu. Ensure that the **m_axi_addr64** option is selected.
 
 ![alt tag](./images/Misc/64-bit-interface.JPG)
 
 Now after synthesis, your data buses should be 64 bits wide
 
-**N.B.** Remember that if you create a 64 bit interface, the modules internal registers will be 64 bits. You need to set those upper 32 bits to 0, otherwise the module will use whatever value is stored in upper 32 bits and result in arbitary behaviour.
+**N.B.** Remember that if you create a 64 bit interface, the modules internal registers will be 64 bits. You need to set those upper 32 bits to 0, otherwise, the module will use whatever value is stored in upper 32 bits and result in arbitrary behaviour.
 
 ### Master and Slave AXI Pragma in HLS
 #### Master Pragmas
@@ -178,15 +178,15 @@ If you find you need to map an argument to the memory port, the basic structure 
 ```C
 #pragma HLS INTERFACE m_axi port=<variable_name> offset=slave bundle=gmem
 ```
-Variable_name is a variable that denotes an array. It should be noted that, you should only map arrays to the memory ports
+Variable_name is a variable that denotes an array. It should be noted that you should only map arrays to the memory ports
 
 #### Slave Pragmas
-If you find you need to map a argument to the control port, the basic structure is as follows:
+If you find you need to map an argument to the control port, the basic structure is as follows:
 ```C
 #pragma HLS INTERFACE s_axilite port=<variable_name> bundle=control
 ```
 What these allowed us to do was map variables, both input and output, to registers within the hardware module. Which in turn, allowed us to tell the module where to find the data it needed.
-It should be noted that, a pragma should allows be created for return:
+It should be noted that a pragma should be created for return:
 ```C
 #pragma HLS INTERFACE s_axilite port=return bundle=control
 ```
@@ -194,7 +194,5 @@ It should be noted that, a pragma should allows be created for return:
 ## Known Issues
   - There is a bug in Vivado HLS 2018.3, such that, sometimes, you will have to create a new project in order to see the changes to the interface
   - Can only test single work-group for OpenCL kernels. 
-  
-## Errors
 
 [Return to Top](#hls-to-static-bitstream)
