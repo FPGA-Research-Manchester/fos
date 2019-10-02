@@ -75,7 +75,8 @@ If you found FOS useful please consider citing following paper:
 
 If you would like to learn more about how the system works or what it can do in detail, you can read the following papers.
 
-Hardware: 
+Hardware:
+- K.D. Pham, K. Paraskevas, A. Vaishnav, A. Attwood, M. Vesper and D. Koch, "**ZUCL 2.0: Virtualised Memory and Communication for ZYNQ UltraScale+ FPGAs**", 6th FSP, 2019.
 - K.D. Pham, A. Vaishnav, M. Vesper and D. Koch, "**ZUCL: A ZYNQ UltraScale+ Framework for OpenCL HLS Applications**", 5th FSP, 2018.
 - K.D. Pham, E. Horta and D. Koch, "**BITMAN: A tool and API for FPGA bitstream manipulations**", DATE, 2017.
 
