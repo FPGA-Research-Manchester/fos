@@ -132,4 +132,4 @@ write_checkpoint -force ./DCPs/${top_module}_route_final
 # generate bitstream
 set_property BITSTREAM.GENERAL.CRC DISABLE [current_design]
 
-write_bitstream -bin_file ./${top_module}_full
+write_bitstream ./${top_module}_full

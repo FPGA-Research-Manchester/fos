@@ -15,8 +15,8 @@ read_checkpoint -cell nodeultra_top_i/PR_SLOT_0_0/U0/inst_PR_WRP/PR_Kernel ./Syn
 
 create_pblock pblock_PR_Kernel
 
-resize_pblock pblock_PR_Kernel -add {SLICE_X15Y0:SLICE_X48Y59 DSP48E2_X1Y0:DSP48E2_X4Y23 RAMB18_X2Y0:RAMB18_X5Y23 RAMB36_X2Y0:RAMB36_X5Y11}
-
+# resize_pblock pblock_PR_Kernel -add {SLICE_X15Y0:SLICE_X48Y59 DSP48E2_X1Y0:DSP48E2_X4Y23 RAMB18_X2Y0:RAMB18_X5Y23 RAMB36_X2Y0:RAMB36_X5Y11}
+resize_pblock pblock_PR_Kernel -add {SLICE_X15Y5:SLICE_X48Y54 DSP48E2_X1Y2:DSP48E2_X4Y21 RAMB18_X2Y2:RAMB18_X5Y21 RAMB36_X2Y1:RAMB36_X5Y10}
 add_cells_to_pblock pblock_PR_Kernel [get_cells [list nodeultra_top_i/PR_SLOT_0_0/U0/inst_PR_WRP]]
 
 opt_design

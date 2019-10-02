@@ -90,7 +90,7 @@ route_design -nets [get_nets $env(clk_sgnl_name)]
 ted::routing::blockNodes [ted::routing::getNetVCC] [get_wires -of_objects  [get_tiles -filter {TYPE==INT_INTF_RIGHT_TERM_IO && GRID_POINT_Y>62}] -regexp -filter {NAME=~[^/]*/EASTBUSOUT_.*}]
 
 # bottom border
-ted::routing::blockNodes [ted::routing::getNetVCC] [get_wires -of_objects [get_tiles -filter {TYPE==INT_TERM_B && GRID_POINT_X>192}] -regexp -filter {NAME=~[^/]*/SOUTHBUSOUT_.*}]
+ted::routing::blockNodes [ted::routing::getNetVCC] [get_wires -of_objects [get_tiles -filter {TYPE==INT_TERM_B && GRID_POINT_X>186}] -regexp -filter {NAME=~[^/]*/SOUTHBUSOUT_.*}]
 
 # left border
 ted::routing::blockFreeNodesOnTiles [ted::routing::getNetVCC] [get_tiles -filter {TYPE==CLEL_R && GRID_POINT_X==187 && GRID_POINT_Y>62}]
@@ -113,4 +113,4 @@ write_checkpoint -force ./DCPs/${top_module}_route_final
 # generate bitstream
 set_property BITSTREAM.GENERAL.CRC DISABLE [current_design]
 
-write_bitstream -bin_file ./${top_module}_full
+write_bitstream ./${top_module}_full
