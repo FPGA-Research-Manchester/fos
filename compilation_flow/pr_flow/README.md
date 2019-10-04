@@ -61,9 +61,9 @@ Now, we start merging the PR module to the static design at bitstream level. The
 The tool BitMan is used to conduct this step:
 1.  Merging the PR module which is allocated in Slot 0 to the static:
     - `bitman_linux -m 21 0 99 59 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
-2.  Merging the PR module which is allocated in either Slot 0 or 1 to the static: 
+2.  Merging the PR module which is allocated in both Slot 0 and 1 to the static: 
     - `bitman_linux -m 21 0 99 119 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
-3.  Merging the PR module which is allocated in either Slot 0, 1 or 2 to the static:
+3.  Merging the PR module which is allocated in Slot 0, 1 and 2 to the static:
     - `bitman_linux -m 21 0 99 179 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
     
 The three commands are essentially the same and only differ in the number of slots that are cut out from the (full) module configuration bitstream that is then merged into the full static bitstream (*Ultra96_100MHz.bit*). This process is carried out in a way that will not touch the routing information of the global clock resources.
