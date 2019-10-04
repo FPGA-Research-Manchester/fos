@@ -29,6 +29,15 @@ We start the process by synthesising the module's RTL code to be an out-of-conte
     - *close_design*
     - *close_project*
 
+### Use TedTCL library
+We have compressed the TedTCL library into the tedtcl.zip file for a lightweight repository. However, as this library is essential for the coming steps, we will show here how to use it in the process:
+
+1. Unzip the tedtcl.zip file.
+
+2. Put the below TCL commands into either your {path to Vivado 2018.2}/scripts/Vivado_init.tcl or the pr_module_xx.tcl:
+*lappend auto_path {path to tedtcl}
+package require ted*
+
 ### Implement the PR Module Using Blocker Templates
 In this step, we are going to physically implement the module nased on provided blocker templates. We have templates for modules occupying 1, 2 or 3 slots. The AXI interfaces between the module and the static system is pre-placed and pre-routed in clock row Y0.
 
