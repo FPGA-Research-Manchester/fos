@@ -60,7 +60,7 @@ class RegionInst:
       print("DRIVER: Stubing " + bitstream.acc.name + " into region " + self.region.name)
       self.loaded = True
       return None
-  
+
     # if we are re-loading the last loaded bitstream
     if (bitstream == self.bitstream):
       print("DRIVER: Reusing " + bitstream.acc.name + " into region " + self.region.name)
@@ -103,13 +103,13 @@ class ShellInst:
   def loadAccel(self, accel):
     bitstream = self.selectBitstream(accel)
     return self.loadBitstream(bitstream)
-    
+
   def loadBitstream(self, bs):
     acc = self.regions[bs.region].loadBitstream(bs)
     for stub in bs.stubRegions:
       self.regions[stub].loadBitstream(bs)
     return acc
-    
+
   def selectBitstream(self, accel):
     for bitstream in accel.bitfiles:
       if self.canQuickLoad(bitstream):
@@ -118,7 +118,7 @@ class ShellInst:
       if self.canLoad(bitstream):
         return bitstream
     raise PonqException("Could not find suitable region")
-  
+
   def canLoad(self, bs):
     if self.regions[bs.region].loaded:
       return False
@@ -126,8 +126,9 @@ class ShellInst:
       if self.regions[stub].loaded:
         return False
     return True
-   
+
   def canQuickLoad(self, bs):
+    if bs not in self.regions: return False
     reg = self.regions[bs.region]
     if reg.loaded or reg.bitstream is not bs:
       return False
@@ -142,7 +143,7 @@ class RegionInstStub:
   def __init__(self, fpga, address):
     self.mmio = mmio(address)
     self.fpga = fpga
-  
+
   def unload(self):
     return self.fpga.unload()
 
@@ -160,7 +161,7 @@ class FPGA:
     self.writeFlags(0)
     self.writeBinfile(shell.bitfile.binfile)
     self.shell = ShellInst(self, shell)
-    
+
   def loadBitstream(self, bs):
     if self.shell is not None:
       raise PonqException("called loadBitstream() on occupied fpga")
@@ -178,7 +179,7 @@ class FPGA:
         self.regionStub = RegionInstStub(self, bs.acc.address)
         self.shell = AccelInst(self.regionStub, bs)
         return self.shell
-        
+
     if self.shell is None:
       raise PonqException("called loadAccel() on blank fpga")
     return self.shell.loadAccel(accel)

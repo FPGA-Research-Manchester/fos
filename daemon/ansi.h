@@ -2,6 +2,10 @@
 
 #include <string>
 
+int simple_pallete[] = {
+  0x00dfff, 0x1fff00, 0xfff400, 0xffab00, 0xff0000, 0xff00d8, 0x8000ff, 0x0000ff
+};
+
 std::string ansi24colour(char red, char green, char blue) {
   std::string escapecode = "\033[38;2;";
   escapecode += std::to_string(red) + ";";

@@ -23,8 +23,11 @@ SRC_CYNQ_E2   := cynq/examples/test_full.cpp
 SRC_CYNQ      := $(wildcard cynq/*.cpp)
 SRC_PROTO     := proto/fpga_rpc_c.cc proto/fpga_rpc.pb.cc proto/fpga_rpc.grpc.pb.cc
 SRC_UDMALIB   := $(wildcard udmalib/*.cpp)
-SRC_WXMONI    := $(wildcard clients/wxmonitor/*.cpp)
+SRC_WXMONI_D  := $(wildcard clients/wxmonitor/wxmoni_double.cpp)
+SRC_WXMONI_S  := $(wildcard clients/wxmonitor/wxmoni_sobel.cpp)
+SRC_WXMONI_M  := $(wildcard clients/wxmonitor/wxmoni_mandel.cpp)
 SRC_SIMPLECPP := $(wildcard clients/simple_cpp/*.cpp)
+SRC_SIMPLEOCL := $(wildcard clients/simple_cpp_ocl/*.cpp)
 
 OBJ_BITPAT_L   := $(addprefix build/, $(SRC_BITPAT_L:.c=.o))
 OBJ_BITPAT_D   := $(addprefix build/, $(SRC_BITPAT_D:.c=.o))
@@ -34,12 +37,18 @@ OBJ_CYNQ_E1    := $(addprefix build/, $(SRC_CYNQ_E1:.cpp=.o))
 OBJ_CYNQ_E2    := $(addprefix build/, $(SRC_CYNQ_E2:.cpp=.o))
 OBJ_PROTO      := $(addprefix build/, $(SRC_PROTO:.cc=.o))
 OBJ_UDMALIB    := $(addprefix build/, $(SRC_UDMALIB:.cpp=.o))
-OBJ_WXMONI     := $(addprefix build/, $(SRC_WXMONI:.cpp=.o))
+OBJ_WXMONI_D   := $(addprefix build/, $(SRC_WXMONI_D:.cpp=.o))
+OBJ_WXMONI_S   := $(addprefix build/, $(SRC_WXMONI_S:.cpp=.o))
+OBJ_WXMONI_M   := $(addprefix build/, $(SRC_WXMONI_M:.cpp=.o))
 OBJ_SIMPLECPP  := $(addprefix build/, $(SRC_SIMPLECPP:.cpp=.o))
+OBJ_SIMPLEOCL  := $(addprefix build/, $(SRC_SIMPLEOCL:.cpp=.o))
 
 CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT_L) $(OBJ_PROTO)
-WXMONI_OBJS    := $(OBJ_WXMONI) $(OBJ_UDMALIB) $(OBJ_PROTO)
+WXMONI_D_OBJS  := $(OBJ_WXMONI_D) $(OBJ_UDMALIB) $(OBJ_PROTO)
+WXMONI_S_OBJS  := $(OBJ_WXMONI_S) $(OBJ_UDMALIB) $(OBJ_PROTO)
+WXMONI_M_OBJS  := $(OBJ_WXMONI_M) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLECPP_OBJS := $(OBJ_SIMPLECPP) $(OBJ_UDMALIB) $(OBJ_PROTO)
+SIMPLEOCL_OBJS := $(OBJ_SIMPLEOCL) $(OBJ_UDMALIB) $(OBJ_PROTO)
 BITPAT_OBJS    := $(OBJ_BITPAT_D) $(OBJ_BITPAT_L)
 CYNQ_E1_OBJS   := $(OBJ_CYNQ_E1) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
 CYNQ_E2_OBJS   := $(OBJ_CYNQ_E2) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
@@ -69,23 +78,27 @@ proto/%_pb2_grpc.py proto/%_pb2.py: proto/%.proto
 build:
 	mkdir -p build/daemon build/cynq build/udmalib build/proto build/bit_patch
 	mkdir -p build/clients/wxmonitor build/clients/simple_cpp build/cynq/examples
+	mkdir -p build/clients/simple_cpp_ocl
 
-# fpga client src needs protos
-proto/fpga_rpc_c.cc: $(PROTO_CXX_SRCS)
-
-# cserv src depends on protos
-$(SRC_CSERV): $(PROTO_CXX_SRCS)
-
-# wxmoni src depends on protos
-$(SRC_WXMONI): $(PROTO_CXX_SRCS)
+# fpga client, wxmoni and cserv depends on protos
+proto/fpga_rpc_c.cc $(SRC_WXMONI_D) $(SRC_WXMONI_S) $(SRC_WXMONI_M) $(SRC_CSERV): $(PROTO_CXX_SRCS)
 
 build/daemon_bin: $(CSERV_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
-build/wxmoni_bin: $(WXMONI_OBJS)
+build/wxmoni_bin: $(WXMONI_D_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+build/wxmoni_sobel_bin: $(WXMONI_S_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+build/wxmoni_mandel_bin: $(WXMONI_M_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 build/simple_cpp_bin: $(SIMPLECPP_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+build/simple_ocl_bin: $(SIMPLEOCL_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 build/bit_patch_bin: $(BITPAT_OBJS)
@@ -100,4 +113,4 @@ build/cynq_example_full_bin: $(CYNQ_E2_OBJS)
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
-all: build/wxmoni_bin build/daemon_bin build/simple_cpp_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin $(PROTO_PY_SRCS)
+all: build/wxmoni_bin build/wxmoni_sobel_bin build/wxmoni_mandel_bin build/daemon_bin build/simple_cpp_bin build/simple_ocl_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin $(PROTO_PY_SRCS)
