@@ -2,6 +2,28 @@
 
 #include <grpc++/grpc++.h>
 
+void createOCLJobs(Job& injob, std::vector<Job>& outjobs,
+    int xdim, int xsize, int ydim, int ysize, int zdim, int zsize) {
+  if (xdim % xsize != 0 || ydim % ysize != 0 || zdim % zsize != 0)
+    throw std::runtime_error("Dimensions not multiple of wg size");
+  Job job = injob;
+  xdim /= xsize;
+  ydim /= ysize;
+  zdim /= zsize;
+  for (int z = 0; z < zdim; z++) {
+    job.params["group_id_z"] = z;
+    for (int y = 0; y < ydim; y++) {
+      job.params["group_id_y"] = y;
+      for (int x = 0; x < xdim; x++) {
+        job.params["group_id_x"] = x;
+        outjobs.push_back(job);
+      }
+    }
+  }
+}
+
+
+
 FPGARPCClient::FPGARPCClient(const std::string &address) :
       stub_(FPGARPC::NewStub(grpc::CreateChannel(address, grpc::InsecureChannelCredentials()))) {}
 

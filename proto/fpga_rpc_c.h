@@ -14,6 +14,9 @@ struct Job {
   paramlist params;
 };
 
+void createOCLJobs(Job& injob, std::vector<Job>& outjobs,
+    int xdim, int xsize, int ydim, int ysize, int zdim, int zsize);
+
 
 class FPGARPCClient {
   std::unique_ptr<FPGARPC::Stub> stub_;
