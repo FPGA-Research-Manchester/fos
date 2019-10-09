@@ -112,3 +112,15 @@ bootgen -image Bitstream.bif -arch zynqmp -o ./{module's top name}_Slot.bin -w
 When you synthesise the module out-of-context you may want to use the following instruction instead:
 - *Copy the VHDL folder from your Vivado HLS project to the ./Sources folder*
 - *read_vhdl* {**list of all the contents in the vhdl folder**}
+- Or using the following TCL commands:
+    *set hdlfs [glob -nocomplain ./*.vhd ./*.v]
+     *if {$hdlfs != "" } {*
+        *add_files -norecurse $hdlfs*
+     *}*
+- Some module may contain subcore IPs such as DSP blocks. We can use the following TCL commands to generate those IPs:
+    *set tclfiles [glob -nocomplain *_ip.tcl]*
+    *if { $tclfiles != ""} {
+      *foreach file $tclfiles {
+         *source $file
+      *}
+    *}
