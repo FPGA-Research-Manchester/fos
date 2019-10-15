@@ -1,5 +1,5 @@
 # setting top_module
-set top_module sobel_1_slot_5k
+# set top_module sobel_1_slot_5k
 
 lappend auto_path ../../tedtcl
 package require ted
@@ -94,4 +94,4 @@ write_checkpoint -force ./DCPs/${top_module}_route_final
 # generate bitstream
 set_property BITSTREAM.GENERAL.CRC DISABLE [current_design]
 
-write_bitstream ./${top_module}_full
+write_bitstream -force ./bins/${top_module}_full
