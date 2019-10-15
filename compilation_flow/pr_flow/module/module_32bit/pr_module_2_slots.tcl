@@ -1,6 +1,9 @@
 # setting top_module
 set top_module mandelbrot
 
+lappend auto_path ../../tedtcl
+package require ted
+
 open_checkpoint ./Synth/Static/static_v1_32bit_SYN.dcp
 
 create_pblock pblock_0

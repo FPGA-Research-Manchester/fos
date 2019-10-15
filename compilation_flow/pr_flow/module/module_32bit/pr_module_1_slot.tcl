@@ -1,7 +1,10 @@
 # setting top_module
-set top_module mandelbrot
+# set top_module sobel_1_slot_5k
 
-# open_checkpoint ./Synth/Static/static_v1_32bit_SYN.dcp
+lappend auto_path ../../tedtcl
+package require ted
+
+open_checkpoint ./Synth/Static/static_v1_32bit_SYN.dcp
 
 create_pblock pblock_0
 
@@ -91,4 +94,4 @@ write_checkpoint -force ./DCPs/${top_module}_route_final
 # generate bitstream
 set_property BITSTREAM.GENERAL.CRC DISABLE [current_design]
 
-write_bitstream ./${top_module}_full
+write_bitstream -force ./bins/${top_module}_full

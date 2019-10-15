@@ -35,8 +35,10 @@ We have compressed the TedTCL library into the tedtcl.zip file for a lightweight
 1. Unzip the tedtcl.zip file.
 
 2. Put the below TCL commands into either your {path to Vivado 2018.2}/scripts/Vivado_init.tcl or the pr_module_xx.tcl:
-*lappend auto_path {path to tedtcl}
-package require ted*
+```
+lappend auto_path {path to tedtcl}
+package require ted
+```
 
 ### Implement the PR Module Using Blocker Templates
 In this step, we are going to physically implement the module nased on provided blocker templates. We have templates for modules occupying 1, 2 or 3 slots. The AXI interfaces between the module and the static system is pre-placed and pre-routed in clock row Y0.
@@ -112,3 +114,21 @@ bootgen -image Bitstream.bif -arch zynqmp -o ./{module's top name}_Slot.bin -w
 When you synthesise the module out-of-context you may want to use the following instruction instead:
 - *Copy the VHDL folder from your Vivado HLS project to the ./Sources folder*
 - *read_vhdl* {**list of all the contents in the vhdl folder**}
+- Or using the following TCL commands:
+    ```
+    set hdlfs [glob -nocomplain ./*.vhd ./*.v]
+    
+     if {$hdlfs != "" } {
+        add_files -norecurse $hdlfs   
+     }
+    ```
+- Some module may contain subcore IPs such as DSP blocks. We can use the following TCL commands to generate those IPs:
+    ```
+    set tclfiles [glob -nocomplain *_ip.tcl]
+    if { $tclfiles != ""} {   
+      foreach file $tclfiles {
+         source $file         
+      }
+    }
+    ```
+    
