@@ -21,7 +21,7 @@
 constexpr int history_ticks = 80;         // amount of history elements to keep
 constexpr int printout_interval = 300;    // ms between status printouts
 constexpr int history_interval = 10;      // ms between history elements
-constexpr int logmessage_count = 20;      // amount of log items to display
+constexpr int logmessage_count = 10;      // amount of log items to display
 
 
 // class in charge of managing udma buffers
@@ -123,7 +123,7 @@ public:
 // implements the daemon
 class DaemonImpl final : public FPGARPC::Service {
   BufAllocator allocator;                             // manager of udma buffers
-  
+
   PRManager prmanager;                                // manager of fpga
 
   MQueue<Job*> jobqueue;                              // synchronised queue of incoming jobs
@@ -135,10 +135,11 @@ class DaemonImpl final : public FPGARPC::Service {
   std::map<Job*, AccelInst> runningjobs;              // map of running jobs and their instances
 
   std::map<Region*, std::array<int, history_ticks>> jobHistory;  // map of history per region
-  
+
   // takes runmessage, converts to jobs, passes jobs off to executor queue
   bool runJobs(const RunMessage *runmessage, std::string peer) {
     int jobcount = runmessage->jobs_size();
+    addLogMessage("Recieved " + std::to_string(jobcount) + " jobs from " + peer);
     Job **jobs = new Job*[jobcount];
 
     // build list of jobs from protobuf object
@@ -217,6 +218,7 @@ class DaemonImpl final : public FPGARPC::Service {
           break;
         }
         job->jobno = jobnumber++;
+        addLogMessage("Loaded job number " + std::to_string(job->jobno));
         runningjobs[job] = accel;
         regionmap[accel.region] = job;
         for (auto region : accel.bitstream->stubRegions)
@@ -235,7 +237,14 @@ class DaemonImpl final : public FPGARPC::Service {
           Region &region = regionpair.second;
           if (region.locked) {
             Job *job = regionmap[&region];
-            addJobHistory(&region, 1 + (job->jobno % 14));
+            int base_index = std::hash<std::string>{}(job->peer) % sizeof(simple_pallete);
+            int base_colour = simple_pallete[base_index];
+            float shade = (5.f + (float)(job->jobno % 11)) / 15.f;
+            char red   = (char)(base_colour >> 16) * shade;
+            char green = (char)(base_colour >> 8) * shade;
+            char blue  = (char)(base_colour) * shade;
+            int shaded_colour = red << 16 | green << 8 | blue;
+            addJobHistory(&region, shaded_colour);
           } else {
             addJobHistory(&region, 0);
           }
@@ -246,7 +255,7 @@ class DaemonImpl final : public FPGARPC::Service {
       timenow = std::chrono::high_resolution_clock::now();
       timediff = timenow - lastPrintoutTime;
       timediffMillis = std::chrono::duration_cast<std::chrono::milliseconds>(timediff).count();
-      if (timediffMillis > printout_interval) {
+      if (!quiet && timediffMillis > printout_interval) {
         lastPrintoutTime = timenow;
         std::cout << "\033[2J\033[1;1H";
         std::cout << ansi4colour(5) << "Buffers Allocated: " << ansi4colour(-1) << std::endl << "   ";
@@ -272,7 +281,7 @@ class DaemonImpl final : public FPGARPC::Service {
           // print trace of region history
           std::array<int, history_ticks> &history = jobHistory[&region];
           for (int i = history_ticks - 1; i >= 0; i--) {
-            std::cout << ansi4colour(history[i]) << "█";
+            std::cout << ansi24colour(history[i] >> 16, history[i] >> 8, history[i]) << "█";
           }
           std::cout << ansi4colour(-1) << std::endl;
         }
@@ -297,6 +306,7 @@ class DaemonImpl final : public FPGARPC::Service {
 
 
 public:
+  bool quiet;
   DaemonImpl() {
     prmanager.fpgaLoadShell("Ultra96_100MHz_2");
   }
@@ -326,13 +336,19 @@ public:
 int main(int argv, char **argc) {
   std::cout << "Starting C++ FPGA-PR Driver" << std::endl;
 
-  std::cout << "Starting grpc service" << std::endl;
+  bool quiet = false;
+  for (int i = 1; i < argv; i++) {
+    std::string parameter(argc[i]);
+    if (parameter == "-q" || parameter == "--quiet")
+      quiet = true;
+  }
 
+  std::cout << "Starting grpc service" << std::endl;
   DaemonImpl service;
+  service.quiet = quiet;
   grpc::ServerBuilder builder;
   builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
   builder.RegisterService(&service);
-  // return builder.BuildAndStart();
   std::unique_ptr<grpc::Server> server = builder.BuildAndStart();
   std::cout << "Server listening" << std::endl;
 
