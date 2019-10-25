@@ -71,7 +71,7 @@ The source code presented has been tested with following tool versions:
 
 If you found FOS useful please consider citing following paper:
 
-- A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "**FOS (FPGA Operating System) Demo**", FPL, 2019. 
+- A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "**The FOS (FPGA Operating System) Demo**", FPL, 2019. 
 
 If you would like to learn more about how the system works or what it can do in detail, you can read the following papers.
 
