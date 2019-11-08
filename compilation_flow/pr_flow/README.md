@@ -18,7 +18,16 @@ If you plan to use the runtime software provided in this repo, you do not need t
   - [Petalinux 2018.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/archive.html)
   - [Vivado 2018.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive.html)
   
-## Generating PR Accelerators
+## Generating PR Accelerators (Automatically)
+1. Synthesize and Export the Vivado HLS solution
+2. Enter the directory relating to the module type you want to generate (32bit vs 128bit)
+   - `cd fos/compilation_flow/pr_flow/module/module_32bit`
+3. Start the automodule script agains the solution data json
+   - `./automodule.py <path_to_hls_project>/<hls_solution>/<hls_solution>_data.json`
+   - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`
+     - `./automodule.py ~/vec_add/solution1/solution1_data.json`
+
+## Generating PR Accelerators (Manually (for expert users))
 ### Synthesise the Module Out-Of-Context
 We start the process by synthesising the module's RTL code to be an out-of-context module. Note, this RTL can be generated via [Vivado HLS for HLS accelerators](../hls/).
 
