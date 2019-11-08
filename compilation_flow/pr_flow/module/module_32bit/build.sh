@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # check arguments
 if [ $# -eq 0 ]; then
   echo "No arguments supplied"
@@ -22,12 +24,12 @@ vivado -mode tcl -journal logs/vivado.jou -log logs/vivado.log <<- EOF
 EOF
 
 #### merge shell and module
-../bitman_linux -m 21 0 99 59 bins/${module_name}_full.bit ./${shell_name}.bit -F bins/${merge_name}.bit
+../bitman_linux -m 21 0 99 59 ./bins/${module_name}_full.bit ./${shell_name}.bit -F ./bins/${merge_name}.bit
 
 #### chop module from shell
-../bitman_linux -x 21 0 99 59 bins/${merge_name}.bit -M 21 0 bins/Partial_${module_name}_slot_0.bit
+../bitman_linux -x 21 0 99 59 ./bins/${merge_name}.bit -M 21 0 ./bins/Partial_${module_name}_slot_0.bit
 
 #### create bins from bits
-bit2bin bins/${module_name}_full.bit
-bit2bin bins/${merge_name}.bit
-bit2bin bins/Partial_${module_name}_slot_0.bit
+./bit2bin ./bins/${module_name}_full.bit
+./bit2bin ./bins/${merge_name}.bit
+./bit2bin ./bins/Partial_${module_name}_slot_0.bit
