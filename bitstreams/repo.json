@@ -3,6 +3,7 @@
   "accelerators": [
     "Full_vecadd",
     "Partial_sobel",
-    "Partial_mandelbrot"
+    "Partial_mandelbrot",
+    "Partial_shrek"
   ]
 }
