@@ -26,6 +26,7 @@ SRC_UDMALIB   := $(wildcard udmalib/*.cpp)
 SRC_WXMONI_D  := $(wildcard clients/wxmonitor/wxmoni_double.cpp)
 SRC_WXMONI_S  := $(wildcard clients/wxmonitor/wxmoni_sobel.cpp)
 SRC_WXMONI_M  := $(wildcard clients/wxmonitor/wxmoni_mandel.cpp)
+SRC_WXMONI_G  := $(wildcard clients/wxmonitor/wxmoni_shrek.cpp)
 SRC_SIMPLECPP := $(wildcard clients/simple_cpp/*.cpp)
 SRC_SIMPLEOCL := $(wildcard clients/simple_cpp_ocl/*.cpp)
 
@@ -40,6 +41,7 @@ OBJ_UDMALIB    := $(addprefix build/, $(SRC_UDMALIB:.cpp=.o))
 OBJ_WXMONI_D   := $(addprefix build/, $(SRC_WXMONI_D:.cpp=.o))
 OBJ_WXMONI_S   := $(addprefix build/, $(SRC_WXMONI_S:.cpp=.o))
 OBJ_WXMONI_M   := $(addprefix build/, $(SRC_WXMONI_M:.cpp=.o))
+OBJ_WXMONI_G   := $(addprefix build/, $(SRC_WXMONI_G:.cpp=.o))
 OBJ_SIMPLECPP  := $(addprefix build/, $(SRC_SIMPLECPP:.cpp=.o))
 OBJ_SIMPLEOCL  := $(addprefix build/, $(SRC_SIMPLEOCL:.cpp=.o))
 
@@ -47,6 +49,7 @@ CSERV_OBJS     := $(OBJ_DAEMON) $(OBJ_CYNQ) $(OBJ_UDMALIB) $(OBJ_BITPAT_L) $(OBJ
 WXMONI_D_OBJS  := $(OBJ_WXMONI_D) $(OBJ_UDMALIB) $(OBJ_PROTO)
 WXMONI_S_OBJS  := $(OBJ_WXMONI_S) $(OBJ_UDMALIB) $(OBJ_PROTO)
 WXMONI_M_OBJS  := $(OBJ_WXMONI_M) $(OBJ_UDMALIB) $(OBJ_PROTO)
+WXMONI_G_OBJS  := $(OBJ_WXMONI_G) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLECPP_OBJS := $(OBJ_SIMPLECPP) $(OBJ_UDMALIB) $(OBJ_PROTO)
 SIMPLEOCL_OBJS := $(OBJ_SIMPLEOCL) $(OBJ_UDMALIB) $(OBJ_PROTO)
 BITPAT_OBJS    := $(OBJ_BITPAT_D) $(OBJ_BITPAT_L)
@@ -95,6 +98,9 @@ build/wxmoni_sobel_bin: $(WXMONI_S_OBJS)
 build/wxmoni_mandel_bin: $(WXMONI_M_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
+build/wxmoni_shrek_bin: $(WXMONI_G_OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
 build/simple_cpp_bin: $(SIMPLECPP_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
@@ -103,14 +109,14 @@ build/simple_ocl_bin: $(SIMPLEOCL_OBJS)
 
 build/bit_patch_bin: $(BITPAT_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
-	
+
 build/cynq_example_bin: $(CYNQ_E1_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
-	
+
 build/cynq_example_full_bin: $(CYNQ_E2_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
-all: build/wxmoni_bin build/wxmoni_sobel_bin build/wxmoni_mandel_bin build/daemon_bin build/simple_cpp_bin build/simple_ocl_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin $(PROTO_PY_SRCS)
+all: build/wxmoni_bin build/wxmoni_sobel_bin build/wxmoni_mandel_bin build/wxmoni_shrek_bin build/daemon_bin build/simple_cpp_bin build/simple_ocl_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin $(PROTO_PY_SRCS)
