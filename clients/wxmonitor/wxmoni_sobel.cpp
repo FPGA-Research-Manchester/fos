@@ -196,9 +196,9 @@ private:
       for (int unit = 0; unit < units; unit++) {
         Job &job = jobs.emplace_back();
         job.accname = "Partial_sobel";
-        job.params["in_pixels"] = (buffer + unit*(width*(height/units)))+ 2*width;
+        job.params["in_pixels"] = (buffer + unit*(width*(height/units)));
         job.params["in_pixels_msb"] = 0;
-        job.params["out_pixels"] = (buffer + src_size + unit*(width*(height/units)));
+        job.params["out_pixels"] = (buffer + src_size + unit*(width*(height/units))) + 2*unit*width;
         job.params["out_pixels_msb"] = 0;
         job.params["im_width"]  = width;
         job.params["im_height"] = (height/units)+2;
@@ -225,12 +225,17 @@ private:
 
   void copySobelData(wxNativePixelData &dst, char *src) {
     wxNativePixelData::Iterator p(dst);
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++, p++) {
-        char iter = src[y*width+x];
-        p.Red() = iter;
-        p.Green() = iter;
-        p.Blue() = iter;
+    int units = jobCount > 0 ? jobCount : 1;
+    for (int unit = 0; unit < units; unit++) {
+      int segheight = height/units;
+      int segbase = unit*width*segheight + 2*(unit+1)*width;
+      for (int y = 0; y < segheight; y++) {
+        for (int x = 0; x < width; x++, p++) {
+          char iter = src[segbase+y*width+x];
+          p.Red() = iter;
+          p.Green() = iter;
+          p.Blue() = iter;
+	}
       }
     }
   }
