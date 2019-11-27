@@ -5,8 +5,8 @@
 Here we provide a step-by-step tutorial on how to generate a static bitstream. We use the Sobel edge detection algorithm as an example to demonstrate the process. However, the steps remain the same for other modules you may want to create. 
 ## Contents
   - [Set-up](#set-up) 
-  - [Creating a Custom Module with Vivado HLS](#phase-1:-creating-a-custom-module-with-vivado-hls)
-  - [Using Your Custom Module in Vivado](#phase-2:-using-your-custom-module-in-vivado)
+  - [Creating a Custom Module with Vivado HLS](#phase-1-creating-a-custom-module-with-vivado-hls)
+  - [Using Your Custom Module in Vivado](#phase-2-using-your-custom-module-in-vivado)
   - [Misc](#misc)
   - [Known Issues](#known-issues)
   
