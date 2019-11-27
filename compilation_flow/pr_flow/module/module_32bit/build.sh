@@ -30,6 +30,6 @@ EOF
 ../bitman_linux -x 21 0 99 59 ./bins/${merge_name}.bit -M 21 0 ./bins/Partial_${module_name}_slot_0.bit
 
 #### create bins from bits
-./bit2bin ./bins/${module_name}_full.bit
-./bit2bin ./bins/${merge_name}.bit
-./bit2bin ./bins/Partial_${module_name}_slot_0.bit
+./bit2bin.sh ./bins/${module_name}_full.bit
+./bit2bin.sh ./bins/${merge_name}.bit
+./bit2bin.sh ./bins/Partial_${module_name}_slot_0.bit
