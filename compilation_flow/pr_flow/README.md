@@ -19,7 +19,7 @@ If you plan to use the runtime software provided in this repo, you do not need t
   - [Vivado 2018.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive.html)
   
 ## Generating PR Accelerators (Automatically)
-1. Synthesize and Export the Vivado HLS solution
+1. Synthesize and Export the Vivado HLS solution to generate RTL module (see Phase 1 of [HLS tutorial](../hls#phase-1-creating-a-custom-module-with-vivado-hls))
 2. Enter the directory relating to the module type you want to generate (32bit vs 128bit)
    - `cd fos/compilation_flow/pr_flow/module/module_32bit`
 3. Start the automodule script agains the solution data json
