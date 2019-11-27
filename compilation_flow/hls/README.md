@@ -5,8 +5,8 @@
 Here we provide a step-by-step tutorial on how to generate a static bitstream. We use the Sobel edge detection algorithm as an example to demonstrate the process. However, the steps remain the same for other modules you may want to create. 
 ## Contents
   - [Set-up](#set-up) 
-  - [Creating a Custom Module with Vivado HLS](#creating-a-custom-module-with-vivado-hls)
-  - [Using Your Custom Module in Vivado](#using-your-custom-module-in-vivado)
+  - [Creating a Custom Module with Vivado HLS](#phase-1:-creating-a-custom-module-with-vivado-hls)
+  - [Using Your Custom Module in Vivado](#phase-2:-using-your-custom-module-in-vivado)
   - [Misc](#misc)
   - [Known Issues](#known-issues)
   
@@ -20,7 +20,7 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
   - OpenCL, OpenCV, C/C++
   - [Sobel OpenCL Code](https://github.com/Xilinx/SDAccel_Examples/tree/1e273f6ef01073f878a4c2b5ca4d6ad5aec7e616/vision/edge_detection)
   
-## Creating a Custom Module with Vivado HLS
+## Phase 1: Creating a Custom Module with Vivado HLS
 
 ### Step 1 - Creating a New Project
 
@@ -74,7 +74,7 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
     
     For this tutorial, you can leave these options as the defaults.
 
-## Using Your Custom Module in Vivado
+## Phase 2: Using Your Custom Module in Vivado
 
 ### Step 1 - Create a New Project 
 1.  To create a new project, go to **File** > **Project** > **New...**
