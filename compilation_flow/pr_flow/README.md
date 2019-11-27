@@ -27,6 +27,11 @@ If you plan to use the runtime software provided in this repo, you do not need t
    - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`
      - `./automodule.py ~/vec_add/solution1/solution1_data.json`
 
+### Common Problems
+**Problem:** Compilation fails with the following error: `Could not replace X with Y because of a port interface mismatch; these ports are missing on the replacing cell: 's_axi_control_ARADDR[6]' 's_axi_control_AWADDR[6]'`.
+
+**Solution:** After exporting RTL in the solution change `C_S_AXI_ADDR_WIDTH` in `impl/verilog/xxx_control_s_axi.v` and `C_S_AXI_CONTROL_ADDR_WIDTH` in `impl/verilog/xxx.v` to 7 bits.
+
 ## Generating PR Accelerators (Manually (for expert users))
 ### Synthesise the Module Out-Of-Context
 We start the process by synthesising the module's RTL code to be an out-of-context module. Note, this RTL can be generated via [Vivado HLS for HLS accelerators](../hls/).
