@@ -1,0 +1,7 @@
+module/module_32bit/logs/
+module/module_32bit/bins/
+module/module_32bit/.srcs/
+module/module_32bit/DCPs/
+module/module_32bit/Synth/reconfig_modules/
+module/module_32bit/usage_statistics_webtalk.*
+module/module_32bit/Partial_*
