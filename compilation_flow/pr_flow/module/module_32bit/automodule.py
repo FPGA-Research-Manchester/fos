@@ -21,9 +21,22 @@ modname = origdata["Top"]
 
 print("Automodule building " + modname + " module")
 print("Stage 1: initial synthesis")
-subprocess.call("./autotcl.py " + in_json + " - | vivado -mode tcl -journal logs/vivado.jou -log logs/vivado.log", shell=True)
+ret = subprocess.call("./autotcl.py " + in_json + " - > "+modname+".s1.tcl", shell=True)
+ret = subprocess.call("vivado -mode batch -journal logs/vivado.jou -log logs/vivado.log -source "+modname+".s1.tcl", shell=True)
+if ret is not 0:
+  print("Failed to perform initial synthesis")
+  sys.exit(1)
+
 print("Stage 2: module synthesis & p&r")
-subprocess.call("./build.sh " + modname, shell=True)
+ret = subprocess.call("./build.sh " + modname, shell=True)
+if ret is not 0:
+  print("Failed to perform module synthesis & p&r")
+  sys.exit(1)
+
 print("Stage 3: register description parsing")
-subprocess.call("./autojson.py " + in_json + " Partial_" + modname + ".json", shell=True)
+ret = subprocess.call("./autojson.py " + in_json + " Partial_" + modname + ".json", shell=True)
+if ret is not 0:
+  print("Failed to perform description parsing")
+  sys.exit(1)
+
 subprocess.call("cp bins/Partial_" + modname + "_slot_0.bin .", shell=True)

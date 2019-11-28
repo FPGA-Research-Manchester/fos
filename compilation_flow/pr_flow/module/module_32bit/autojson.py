@@ -34,5 +34,9 @@ newdata["registers"] = [{
   "name": register["name"], "offset": register["offset"]
 } for register in registers]
 
+for reg in newdata["registers"]:
+  if reg["name"] == "CTRL":
+    reg["name"] = "control"
+
 # write output
 saveJSON(newdata, out_json)
