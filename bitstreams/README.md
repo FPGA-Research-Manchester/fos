@@ -37,3 +37,18 @@ Accelerators are described in the following format.
 }
 ```
 
+
+## Registering Hardware Into Repo
+Accelerators and shells are loaded into the repo using the following format.
+##### &lt;accelerator name&gt;.json #####
+```json
+{
+  "shell": "<shell name>",
+  "accelerators": [
+    "<accelerator name>",
+    "<accelerator name>",
+    "<accelerator name>"
+  ]
+}
+```
+
