@@ -22,8 +22,9 @@ origdata = loadJSON(in_json)
 # write tcl output
 if out_tcl == "-":
   print("create_project -in_memory")
-  for subcoreip in origdata["Files"]["Subcore"]:
-    print("source " + in_hls + "/" + subcoreip)
+  if "Subcore" in origdata["Files"]:
+    for subcoreip in origdata["Files"]["Subcore"]:
+      print("source " + in_hls + "/" + subcoreip)
   for vlogfile in origdata["Files"]["Verilog"]:
     print("read_verilog " + in_hls + "/" + vlogfile)
   print("synth_design -mode out_of_context -flatten_hierarchy rebuilt -part xczu3eg-sbva484-1-e -top " + origdata["RtlTop"])
@@ -31,8 +32,9 @@ if out_tcl == "-":
 else:
   with open(out_tcl, "w") as file:
     file.write("create_project -in_memory\n")
-    for subcoreip in origdata["Files"]["Subcore"]:
-      file.write("source " + in_hls + "/" + subcoreip + "\n")
+    if "Subcore" in origdata["Files"]:
+      for subcoreip in origdata["Files"]["Subcore"]:
+        file.write("source " + in_hls + "/" + subcoreip + "\n")
     for vlogfile in origdata["Files"]["Verilog"]:
       file.write("read_verilog " + in_hls + "/" + vlogfile + "\n")
     file.write("synth_design -mode out_of_context -flatten_hierarchy rebuilt -part xczu3eg-sbva484-1-e -top " + origdata["RtlTop"] + "\n")
