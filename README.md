@@ -37,12 +37,9 @@ See it in action on YouTube: https://www.youtube.com/watch?v=WciuDXEIsr8
 - open a terminal for the server:
   - `cd fos`
   - `sudo ./runServer`
-- open a terminal for the Mandelbrot client:
+- open a terminal for the client:
   - `cd fos`
-  - `sudo ./runMandelClient.sh`
-- open a terminal for the Sobel client:
-  - `cd fos`
-  - `sudo ./runSobelClient.sh`
+  - `sudo ./runClient
 
 ## Tutorials
 
