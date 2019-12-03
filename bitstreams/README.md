@@ -19,7 +19,7 @@ Shells are described by the following json format.
 
 ## Accelerators
 Accelerators are described in the following format.
-##### &lt;accelerator name&gt;.json #####
+##### repo.json #####
 ```json
 {
   "name": "<accelerator name>",
