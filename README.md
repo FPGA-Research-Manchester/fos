@@ -39,7 +39,7 @@ See it in action on YouTube: https://www.youtube.com/watch?v=WciuDXEIsr8
   - `sudo ./runServer`
 - open a terminal for the client:
   - `cd fos`
-  - `sudo ./runClient
+  - `sudo ./runClient`
 
 ## Tutorials
 
