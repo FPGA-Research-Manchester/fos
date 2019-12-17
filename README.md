@@ -53,6 +53,7 @@ See it in action on YouTube: https://www.youtube.com/watch?v=WciuDXEIsr8
 - [How to compile partially reconfigurable modules](./compilation_flow/pr_flow/)
 - [How to build/download Linux (Pynq / Ubuntu) image](./sd_card_images)
 - [How to use Linux image as standalone](./standalone_code/Sobel)
+- [How to use your own shell with FOS](./compilation_flow/README.md#how-to-use-your-own-shell-with-fos)
 
 ## Compatibility
 
