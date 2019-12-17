@@ -43,7 +43,7 @@ UdmaDevice::~UdmaDevice() {
 char *UdmaDevice::map() {
   if (mapped)
     return buffer;
-  if ((fd  = open(devfsPath.c_str(), O_RDWR)) != -1) {
+  if ((fd  = open(devfsPath.c_str(), O_RDWR|O_SYNC)) != -1) {
     if ((buffer = (char*) mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)) != MAP_FAILED) {
       mapped = true;
       return buffer;
