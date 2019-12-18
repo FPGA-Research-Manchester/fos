@@ -1,0 +1,10 @@
+open_project -reset {{ project }}
+set_top {{ top }}
+add_files "{{ files }}"
+open_solution -reset "{{ project }}"
+set_part {{ '{' }}{{ part }}{{ '}' }} -tool vivado
+create_clock -name default -period 10
+config_interface -m_axi_addr64 -m_axi_offset off -register_io off -trim_dangling_port=0
+csynth_design
+export_design -rtl verilog -format ip_catalog
+

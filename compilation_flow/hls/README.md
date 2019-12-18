@@ -22,6 +22,32 @@ Listed below are the tools that I used to generate the static bitstream of a Sob
   
 ## Phase 1: Creating a Custom Module with Vivado HLS
 
+### Step 0 - Automated script
+
+The following phase can be replaced with running the `autohls` python tool.
+However following steps described below may be more appropriate for more
+advanced users as there is more control over the synthesis and export
+process.
+
+The `autohls` tool takes following arguments:
+
+```
+./autohls.py <project_name> <top_function_name> <target_device> <list_of_files>
+```
+
+Script will create project and solution called `<project_name>` in the current
+working directory. The top level function (entry point for the accelerator) is
+specified by `<top_function_name>`. Target device is passed as `<target_device>`.
+And list of files is space separated list of files with the HLS design. 
+Files will be copied to the solution directory and their hierarchy will be
+flatten(!).
+
+Example:
+
+```
+./autohls.py vadd vadd xczu9eg-ffvb1156-2-i ~/Projects/my_code/vadd.cl
+```
+
 ### Step 1 - Creating a New Project
 
 1.  To create a new project go to **File** > **New Project**
