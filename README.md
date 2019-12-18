@@ -102,7 +102,7 @@ If you would like to ask questions, report bugs or collaborate on research proje
 - Dirk Koch (<dirk.koch@manchester.ac.uk>)
 
 ## Contributors
-Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kyriakos Paraskevas, Andrew Attwood, Malte Vesper, and Dirk Koch 
+Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kyriakos Paraskevas, Andrew Attwood, Malte Vesper, Igor Wodiany, and Dirk Koch 
 
 ## Acknowledgments
 - This work was produced at the University of Manchester as part of PhD and MPhil Projects.
