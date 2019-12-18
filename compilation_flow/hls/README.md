@@ -35,17 +35,21 @@ The `autohls` tool takes following arguments:
 ./autohls.py <project_name> <top_function_name> <target_device> <list_of_files>
 ```
 
-Script will create project and solution called `<project_name>` in the current
-working directory. The top level function (entry point for the accelerator) is
-specified by `<top_function_name>`. Target device is passed as `<target_device>`.
-And list of files is space separated list of files with the HLS design. 
-Files will be copied to the solution directory and their hierarchy will be
-flatten(!).
+Script will create project and solution called `<project_name>` and `<solution_name>`
+in the current working directory. The top level function (entry point for
+the accelerator) is specified by `<top_function_name>`. Target device is
+passed as `<target_device>`. And list of files is space separated list of
+files with the HLS design. Files will be copied to the solution directory
+and their hierarchy will be flatten(!).
+
+To use existing project `--use-existing` flag should be passed. To run
+Vivado HLS without dropping into interactive shell after compilation
+`--no-legacy` flag can be passed.
 
 Example:
 
 ```
-./autohls.py vadd vadd xczu9eg-ffvb1156-2-i ~/Projects/my_code/vadd.cl
+./autohls.py vadd vadd vadd xczu9eg-ffvb1156-2-i ~/Projects/my_code/vadd.cl
 ```
 
 ### Step 1 - Creating a New Project

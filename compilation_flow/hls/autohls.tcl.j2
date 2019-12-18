@@ -1,10 +1,26 @@
+{% if existing %}
+open_project {{ project }}
+{% else %}
 open_project -reset {{ project }}
+{% endif %}
+
+{% if not existing %}
 set_top {{ top }}
 add_files "{{ files }}"
-open_solution -reset "{{ project }}"
+{% endif %}
+
+{% if existing %}
+open_solution "{{ solution }}"
+{% else %}
+open_solution -reset "{{ solution }}"
+{% endif %}
+
+{% if not existing %}
 set_part {{ '{' }}{{ part }}{{ '}' }} -tool vivado
 create_clock -name default -period 10
 config_interface -m_axi_addr64 -m_axi_offset off -register_io off -trim_dangling_port=0
+{% endif %}
+
 csynth_design
 export_design -rtl verilog -format ip_catalog
 
