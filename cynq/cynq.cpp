@@ -78,7 +78,9 @@ int Accel::getRegister(std::string name) {
 void Accel::setupSiblings() {
   std::vector<Bitstream> oldbslist = bitstreams;
   for (Bitstream &bs : oldbslist) { // for each bitstream
-    if (!bs.isFull() && slotIDs.at(bs.mainRegion) == zeroSlotID) { // if bitstream is a candidate (in slot zero)
+    if (bs.isFull()) continue;
+    if (slotIDs.find(bs.mainRegion) == slotIDs.end()) continue;
+    if (slotIDs.at(bs.mainRegion) == zeroSlotID) { // if bitstream is a candidate (in slot zero)   
       std::cout << "Attempting to create siblings for " << bs.bitstream << std::endl;
       std::string relocatablebspath = "../bitstreams/" + bs.bitstream;
       for (auto &newSlot : slotIDs) { // for each slot in shell
