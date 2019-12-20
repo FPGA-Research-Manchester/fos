@@ -8,4 +8,4 @@ fi
 
 
 cd build
-sudo ./daemon_bin
+sudo ./daemon_bin $*
