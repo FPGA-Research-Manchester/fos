@@ -36,7 +36,8 @@ bool Bitstream::isInstalled() {
 }
 void Bitstream::install() {
   if (isInstalled()) return;
-  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream);
+  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream, \
+     fs::copy_options::update_existing);
 }
 
 bool Bitstream::isFull() {
@@ -168,7 +169,8 @@ bool Shell::isInstalled() {
 }
 void Shell::install() {
   if (isInstalled()) return;
-  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream);
+  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream, \
+     fs::copy_options::update_existing);
 }
 
 
@@ -338,7 +340,7 @@ void StaticAccelInst::programAccel(paramlist &regvals) {
     throw std::runtime_error("running from unlocked accel");
   for (auto &param : regvals) {
     int offy = accel->getRegister(param.first) / 4;
-    //std::cout << "setting " << param.first << ":" << offy << ":" << &regs[offy] << " to " << param.second << std::endl;
+    //std::cout << "setting " << param.first << "(" << offy <<  "): " << param.second << std::endl;
     prmanager->accelRegs[offy] = param.second;
   }
 }
