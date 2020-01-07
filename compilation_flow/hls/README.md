@@ -32,7 +32,7 @@ process.
 The `autohls` tool takes following arguments:
 
 ```
-./autohls.py <project_name> <top_function_name> <target_device> <list_of_files>
+./autohls.py <project_name> <solution_name> <top_function_name> <target_device> <list_of_files>
 ```
 
 Script will create project and solution called `<project_name>` and `<solution_name>`
