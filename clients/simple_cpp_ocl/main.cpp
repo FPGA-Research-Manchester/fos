@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <iostream>
 
 #include "udmalib/udma.h"
@@ -20,7 +21,7 @@ int main(int argc, char **argv) {
   UdmaDevice *device = repo.device(bufno);
 
   // setup buffer pointers
-  int elems = 4096;
+  int elems = 128;
   int size = elems * sizeof(int);
   int *buf0 = ((int*)device->map()) + 0*elems;
   int *buf1 = ((int*)device->map()) + 1*elems;
@@ -39,19 +40,23 @@ int main(int argc, char **argv) {
   // build and fire off fpga job
   Job job;
   job.accname = "Partial_vadd";      // set accelerator name
+  job.params["group_id_x"] = 0;
+  job.params["group_id_y"] = 0;
+  job.params["group_id_z"] = 0;
   job.params["global_offset_x"] = 0;
   job.params["global_offset_y"] = 0;
   job.params["global_offset_z"] = 0;
-  job.params["ina_lo"] = bot32(buf0addr);
-  job.params["ina_hi"] = top32(buf0addr);
-  job.params["inb_lo"] = bot32(buf1addr);
-  job.params["inb_hi"] = top32(buf1addr);
-  job.params["out_lo"] = bot32(buf2addr);
-  job.params["out_hi"] = top32(buf2addr);
+  job.params["ina_1"] = bot32(buf0addr);
+  job.params["ina_2"] = top32(buf0addr);
+  job.params["inb_1"] = bot32(buf1addr);
+  job.params["inb_2"] = top32(buf1addr);
+  job.params["out_r_1"] = bot32(buf2addr);
+  job.params["out_r_2"] = top32(buf2addr);
 
   std::vector<Job> jobs;                              // create list of jobs
   createOCLJobs(job, jobs, elems, 16, 1, 1, 1, 1);    // generate opencl workgroups
   fpgaRpc.Run(jobs);                                  // send the jobs to the daemon
+  sleep(1);
 
   int errors = 0;
   for (int i = 0; i < elems; i++) {

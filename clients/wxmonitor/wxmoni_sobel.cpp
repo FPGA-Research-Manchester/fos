@@ -196,12 +196,12 @@ private:
       for (int unit = 0; unit < units; unit++) {
         Job &job = jobs.emplace_back();
         job.accname = "Partial_sobel";
-        job.params["in_pixels"] = (buffer + unit*(width*(height/units)));
-        job.params["in_pixels_msb"] = 0;
-        job.params["out_pixels"] = (buffer + src_size + unit*(width*(height/units))) + 2*unit*width;
-        job.params["out_pixels_msb"] = 0;
-        job.params["im_width"]  = width;
-        job.params["im_height"] = (height/units)+2;
+        job.params["in_pixels_1"] = (buffer + unit*(width*(height/units)));
+        job.params["in_pixels_2"] = 0;
+        job.params["out_pixels_1"] = (buffer + src_size + unit*(width*(height/units))) + 2*unit*width;
+        job.params["out_pixels_2"] = 0;
+        job.params["image_width"]  = width;
+        job.params["image_height"] = (height/units)+2;
       }
 
       // dispatch job to fpga daemon

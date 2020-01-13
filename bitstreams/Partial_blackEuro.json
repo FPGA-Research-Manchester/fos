@@ -1,0 +1,75 @@
+{
+    "name": "Partial_blackEuro",
+    "registers": [
+        {
+            "name": "control",
+            "offset": "0x00"
+        },
+        {
+            "name": "GIER",
+            "offset": "0x04"
+        },
+        {
+            "name": "IP_IER",
+            "offset": "0x08"
+        },
+        {
+            "name": "IP_ISR",
+            "offset": "0x0c"
+        },
+        {
+            "name": "pCall_1",
+            "offset": "0x10"
+        },
+        {
+            "name": "pCall_2",
+            "offset": "0x14"
+        },
+        {
+            "name": "pPut_1",
+            "offset": "0x1c"
+        },
+        {
+            "name": "pPut_2",
+            "offset": "0x20"
+        },
+        {
+            "name": "timeT",
+            "offset": "0x28"
+        },
+        {
+            "name": "freeRate",
+            "offset": "0x30"
+        },
+        {
+            "name": "volatility",
+            "offset": "0x38"
+        },
+        {
+            "name": "initPrice",
+            "offset": "0x40"
+        },
+        {
+            "name": "strikePrice",
+            "offset": "0x48"
+        },
+        {
+            "name": "steps",
+            "offset": "0x50"
+        },
+        {
+            "name": "sims",
+            "offset": "0x58"
+        },
+        {
+            "name": "g_id",
+            "offset": "0x60"
+        }
+    ],
+    "bitfiles": [
+        {
+            "name": "Partial_blackEuro_slot_0.bin",
+            "region": "pr0"
+        }
+    ]
+}

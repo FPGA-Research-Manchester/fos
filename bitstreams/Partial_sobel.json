@@ -1,15 +1,52 @@
 {
   "name": "Partial_sobel",
   "bitfiles": [
-    {"name": "Partial_sobel_slot_0.bin", "region": "pr0"}
+    {
+      "name": "Partial_sobel_slot_0.bin",
+      "region": "pr0",
+      "stubregions": []
+    }
   ],
   "registers": [
-    {"name": "control", "offset": "0x0"},
-    {"name": "in_pixels", "offset": "0x10"},
-    {"name": "in_pixels_msb", "offset": "0x14"},
-    {"name": "out_pixels", "offset": "0x1c"},
-    {"name": "out_pixels_msb", "offset": "0x20"},
-    {"name": "im_width", "offset": "0x28"},
-    {"name": "im_height", "offset": "0x30"}
+    {
+      "name": "control",
+      "offset": "0x00"
+    },
+    {
+      "name": "GIER",
+      "offset": "0x04"
+    },
+    {
+      "name": "IP_IER",
+      "offset": "0x08"
+    },
+    {
+      "name": "IP_ISR",
+      "offset": "0x0c"
+    },
+    {
+      "name": "in_pixels_1",
+      "offset": "0x10"
+    },
+    {
+      "name": "in_pixels_2",
+      "offset": "0x14"
+    },
+    {
+      "name": "out_pixels_1",
+      "offset": "0x1c"
+    },
+    {
+      "name": "out_pixels_2",
+      "offset": "0x20"
+    },
+    {
+      "name": "image_width",
+      "offset": "0x28"
+    },
+    {
+      "name": "image_height",
+      "offset": "0x30"
+    }
   ]
 }

@@ -1,21 +1,73 @@
 {
     "name": "Partial_vadd",
     "bitfiles": [
-        {"name": "Partial_vadd_zucl_slot_1.bin", "region": "zucl1"}
+        {"name": "Partial_vadd_zucl_slot_1.bin", "region": "zucl1"},
+        {"name": "Partial_vadd_u96_slot_0.bin", "region": "pr0"}
     ],
     "registers": [
-        {"name": "control", "offset": "0x0"},
-        {"name": "group_id_x", "offset": "0x10"},
-        {"name": "group_id_y", "offset": "0x18"},
-        {"name": "group_id_z", "offset": "0x20"},
-        {"name": "global_offset_x", "offset": "0x28"},
-        {"name": "global_offset_y", "offset": "0x30"},
-        {"name": "global_offset_z", "offset": "0x38"},
-        {"name": "ina_lo", "offset": "0x40"},
-        {"name": "ina_hi", "offset": "0x44"},
-        {"name": "inb_lo", "offset": "0x4c"},
-        {"name": "inb_hi", "offset": "0x50"},
-        {"name": "out_lo", "offset": "0x58"},
-        {"name": "out_hi", "offset": "0x5c"}
+        {
+            "name": "control",
+            "offset": "0x00"
+        },
+        {
+            "name": "GIER",
+            "offset": "0x04"
+        },
+        {
+            "name": "IP_IER",
+            "offset": "0x08"
+        },
+        {
+            "name": "IP_ISR",
+            "offset": "0x0c"
+        },
+        {
+            "name": "group_id_x",
+            "offset": "0x10"
+        },
+        {
+            "name": "group_id_y",
+            "offset": "0x18"
+        },
+        {
+            "name": "group_id_z",
+            "offset": "0x20"
+        },
+        {
+            "name": "global_offset_x",
+            "offset": "0x28"
+        },
+        {
+            "name": "global_offset_y",
+            "offset": "0x30"
+        },
+        {
+            "name": "global_offset_z",
+            "offset": "0x38"
+        },
+        {
+            "name": "ina_1",
+            "offset": "0x40"
+        },
+        {
+            "name": "ina_2",
+            "offset": "0x44"
+        },
+        {
+            "name": "inb_1",
+            "offset": "0x4c"
+        },
+        {
+            "name": "inb_2",
+            "offset": "0x50"
+        },
+        {
+            "name": "out_r_1",
+            "offset": "0x58"
+        },
+        {
+            "name": "out_r_2",
+            "offset": "0x5c"
+        }
     ]
 }

@@ -43,12 +43,12 @@ for y in range(height):
 fpga_rpc.Run([{
   "name": "Partial_sobel",
   "params": {
-    "in_pixels":      bot32(buf0addr),
-    "in_pixels_msb":  top32(buf0addr),
-    "out_pixels":     bot32(buf1addr),
-    "out_pixels_msb": top32(buf1addr),
-    "im_width":       width,
-    "im_height":      height
+    "in_pixels_1":  bot32(buf0addr),
+    "in_pixels_2":  top32(buf0addr),
+    "out_pixels_1": bot32(buf1addr),
+    "out_pixels_2": top32(buf1addr),
+    "image_width":  width,
+    "image_height": height
   }
 }])
 

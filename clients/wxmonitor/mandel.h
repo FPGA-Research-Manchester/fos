@@ -97,17 +97,17 @@ uint64_t float2fix(double a) {
 }
 
 void initParams(int width, int height, double cre, double cim, double zoom, int iters, int buffer, std::map<std::string, uint32_t> &params) {
-  params["imageWidth"]     = width;
-  params["imageHeight"]    = height;
-  params["maxIterations"]  = iters;
-  params["centreRealLow"]  = bot32(float2fix(cre));
-  params["centreRealHi"]   = top32(float2fix(cre));
-  params["centreImagLow"]  = bot32(float2fix(cim));
-  params["centreImagHi"]   = top32(float2fix(cim));
-  params["zoomLow"]        = bot32(float2fix(zoom));
-  params["zoomHi"]         = top32(float2fix(zoom));
-  params["framebufferLow"] = bot32(buffer);
-  params["framebufferHi"]  = top32(buffer);
+  params["ImageWidth"]     = width;
+  params["ImageHeight"]    = height;
+  params["MaxIterations"]  = iters;
+  params["cRe_1"]          = bot32(float2fix(cre));
+  params["cRe_2"]          = top32(float2fix(cre));
+  params["cIm_1"]          = bot32(float2fix(cim));
+  params["cIm_2"]          = top32(float2fix(cim));
+  params["zoom_1"]         = bot32(float2fix(zoom));
+  params["zoom_2"]         = top32(float2fix(zoom));
+  params["display_1"]      = bot32(buffer);
+  params["display_2"]      = top32(buffer);
 }
 
 void multParams(int width, int height, double cre, double cim, double zoom, int iters, int buffer, std::map<std::string, uint32_t> &params, int unit, int units) {
@@ -116,11 +116,11 @@ void multParams(int width, int height, double cre, double cim, double zoom, int 
   double ncim = zim + nheight*(units-unit-0.5)*zoom;
   int nbuffer = buffer + nheight*width*unit;
 
-  params["imageHeight"]    = nheight;
-  params["centreImagLow"]  = bot32(float2fix(ncim));
-  params["centreImagHi"]   = top32(float2fix(ncim));
-  params["framebufferLow"] = bot32(nbuffer);
-  params["framebufferHi"]  = top32(nbuffer);
+  params["ImageHeight"] = nheight;
+  params["cIm_1"]       = bot32(float2fix(ncim));
+  params["cIm_2"]       = top32(float2fix(ncim));
+  params["display_1"]   = bot32(nbuffer);
+  params["display_2"]   = top32(nbuffer);
 }
 
 /* void jej() {

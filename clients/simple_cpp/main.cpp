@@ -49,12 +49,12 @@ int main(int argc, char **argv) {
   std::vector<Job> jobs;              // create list of jobs
   Job& job = jobs.emplace_back();     // add job
   job.accname = "Partial_sobel";      // set accelerator name
-  job.params["in_pixels"]      = bot32(buf0addr);
-  job.params["in_pixels_msb"]  = top32(buf0addr);
-  job.params["out_pixels"]     = bot32(buf1addr);
-  job.params["out_pixels_msb"] = top32(buf1addr);
-  job.params["im_width"]       = width;
-  job.params["im_height"]      = height;
+  job.params["in_pixels_1"]  = bot32(buf0addr);
+  job.params["in_pixels_2"]  = top32(buf0addr);
+  job.params["out_pixels_1"] = bot32(buf1addr);
+  job.params["out_pixels_2"] = top32(buf1addr);
+  job.params["image_width"]  = width;
+  job.params["image_height"] = height;
 
   fpgaRpc.Run(jobs);                  // send the jobs to the daemon
 

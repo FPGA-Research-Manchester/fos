@@ -40,12 +40,12 @@ int main(int argc, char **argv) {
   PRManager prmanager;
   prmanager.fpgaLoadShell("Ultra96_100MHz_2");
   paramlist params({
-    {"in_pixels",      bot32(buf0addr)},
-    {"in_pixels_msb",  top32(buf0addr)},
-    {"out_pixels",     bot32(buf1addr)},
-    {"out_pixels_msb", top32(buf1addr)},
-    {"im_width",       width},
-    {"im_height",      height}
+    {"in_pixels_1",  bot32(buf0addr)},
+    {"in_pixels_2",  top32(buf0addr)},
+    {"out_pixels_1", bot32(buf1addr)},
+    {"out_pixels_2", top32(buf1addr)},
+    {"image_width",  width},
+    {"image_height", height}
   });
   AccelInst inst = prmanager.fpgaRun("Partial_sobel", params);
   inst.wait();
