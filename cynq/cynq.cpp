@@ -94,7 +94,7 @@ void Accel::setupSiblings() {
           }
         }
         if (exists) continue; // if not, we need to create it
-        std::string newBSName = name + "_slot_" + std::to_string(newSlot.second);
+        std::string newBSName = name + "_u96_slot_" + std::to_string(newSlot.second);
         if (bs.slotCount > 1)
           newBSName += "_width_" + std::to_string(bs.slotCount);
         newBSName += ".gen.bin";
