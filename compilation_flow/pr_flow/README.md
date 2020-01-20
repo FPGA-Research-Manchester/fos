@@ -63,10 +63,10 @@ For this tutorial, we are using a 32-bit AXI Lite slave port and 32-bit AXI full
 
     | Available Resources | Numbers |
     |---------------------|---------|
-    | CLB LUTs            | 17760   |
-    | RAMB36/FIFO         | 60      |
-    | RAMB18              | 120     |
-    | DSPs                | 96      |
+    | CLB LUTs            | 13600   |
+    | RAMB36/FIFO         | 40      |
+    | RAMB18              | 80      |
+    | DSPs                | 80      |
     
 2.  According to the neccesary resources, choose to run: *pr_module_1_slot.tcl, pr_module_2_slots.tcl,* or *pr_module_3_slots.tcl*.
     - Change the top module to the module name: **set top_module xx**
