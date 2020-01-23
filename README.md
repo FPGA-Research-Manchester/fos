@@ -106,5 +106,5 @@ Anuj Vaishnav, Khoa Dang Pham, Joe Powell, Alasdair Olway, Kyriakos Paraskevas, 
 
 ## Acknowledgments
 - This work was produced at the University of Manchester as part of PhD and MPhil Projects.
-- This work is supported by the European Commission under the H2020 Programme and the ECOSCALE project (grant agreement 671632). 
+- This work is supported by the European Commission under the H2020 Programme and the ECOSCALE & EuroEXA projects (grant agreement 671632 & 754337).
 - This work is supported by the Xilinx University Program. 
