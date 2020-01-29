@@ -72,21 +72,22 @@ The source code presented has been tested with following tool versions:
 
 If you found FOS useful please consider citing following paper:
 
-- A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "**The FOS (FPGA Operating System) Demo**", FPL, 2019. 
+- A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "[The FOS (FPGA Operating System) Demo](https://www.research.manchester.ac.uk/portal/en/publications/the-fos-fpga-operating-system-demo(bb41a0b4-d3b5-4dad-831f-7f938253c864).html)", FPL, 2019. 
+- A. Vaishnav, K. Pham, J. Powell and D. Koch, "[FOS: A Modular FPGA Operating System for Dynamic Workloads](https://arxiv.org/abs/2001.09990)", arXiv.org, 2020. Available: [https://arxiv.org/abs/2001.09990](https://arxiv.org/abs/2001.09990)
 
 If you would like to learn more about how the system works or what it can do in detail, you can read the following papers.
 
 Hardware:
-- K.D. Pham, K. Paraskevas, A. Vaishnav, A. Attwood, M. Vesper and D. Koch, "**ZUCL 2.0: Virtualised Memory and Communication for ZYNQ UltraScale+ FPGAs**", 6th FSP, 2019.
-- K.D. Pham, A. Vaishnav, M. Vesper and D. Koch, "**ZUCL: A ZYNQ UltraScale+ Framework for OpenCL HLS Applications**", 5th FSP, 2018.
-- K.D. Pham, E. Horta and D. Koch, "**BITMAN: A tool and API for FPGA bitstream manipulations**", DATE, 2017.
+- K.D. Pham, K. Paraskevas, A. Vaishnav, A. Attwood, M. Vesper and D. Koch, "[ZUCL 2.0: Virtualised Memory and Communication for ZYNQ UltraScale+ FPGAs](https://www.researchgate.net/publication/335883857_ZUCL_20_Virtualised_Memory_and_Communication_for_ZYNQ_UltraScale_FPGAs)", 6th FSP, 2019.
+- K.D. Pham, A. Vaishnav, M. Vesper and D. Koch, "[ZUCL: A ZYNQ UltraScale+ Framework for OpenCL HLS Applications](https://www.researchgate.net/publication/327368678_ZUCL_A_ZYNQ_UltraScale_Framework_for_OpenCL_HLS_Applications)", 5th FSP, 2018.
+- K.D. Pham, E. Horta and D. Koch, "[BITMAN: A tool and API for FPGA bitstream manipulations](https://www.researchgate.net/publication/315786796_BITMAN_A_tool_and_API_for_FPGA_bitstream_manipulations)", DATE, 2017.
 
-- K.D. Pham, M. Vesper, D. Koch and E. Hung, "**EFCAD -- An Embedded FPGA CAD Tool Flow for Enabling On-chip Self-Compilation**", FCCM, 2019.
+- K.D. Pham, M. Vesper, D. Koch and E. Hung, "[EFCAD -- An Embedded FPGA CAD Tool Flow for Enabling On-chip Self-Compilation](https://www.researchgate.net/publication/332820773_EFCAD_-an_Embedded_FPGA_CAD_Tool_Flow_for_Enabling_On-Chip_Self-Compilation)", FCCM, 2019.
 
 Software: 
-- A. Vaishnav, K.D. Pham, D. Koch and J. Garside, "**Resource Elastic Virtualization for FPGAs using OpenCL**", 28th FPL, 2018.
-- A. Vaishnav, K.D. Pham and D. Koch, "**Live Migration for OpenCL FPGA Accelerators**", FPT, 2018. 
-- A. Vaishnav, K.D. Pham and D. Koch, "**Heterogeneous Resource-Elastic Scheduling for CPU+FPGA Architectures**", 10th HEART, 2019.
+- A. Vaishnav, K.D. Pham, D. Koch and J. Garside, "[Resource Elastic Virtualization for FPGAs using OpenCL](https://www.researchgate.net/publication/327368953_Resource_Elastic_Virtualization_for_FPGAs_using_OpenCL)", 28th FPL, 2018.
+- A. Vaishnav, K.D. Pham and D. Koch, "[Live Migration for OpenCL FPGA Accelerators](https://www.researchgate.net/publication/327688890_Live_Migration_for_OpenCL_FPGA_Accelerators)", FPT, 2018. 
+- A. Vaishnav, K.D. Pham and D. Koch, "[Heterogeneous Resource-Elastic Scheduling for CPU+FPGA Architectures](https://www.researchgate.net/publication/332911741_Heterogeneous_Resource-Elastic_Scheduling_for_CPUFPGA_Architectures)", 10th HEART, 2019.
 
 
 ## License information
