@@ -8,6 +8,15 @@
 #include <vector>
 
 
+struct FPGAFullException : std::exception {
+public:
+  virtual char const * what() const throw(){ return "FPGA is full"; }
+};
+
+struct RegionNotFoundException : std::exception {
+public:
+  virtual char const * what() const throw(){ return "No such region"; }
+};
 
 typedef std::map<std::string, uint32_t> paramlist;
 

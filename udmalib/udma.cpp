@@ -62,6 +62,8 @@ void UdmaDevice::unmap() {
 
 // finds loaded udma buffers
 UdmaRepo::UdmaRepo () {
+  if (!file_exists(sysfsRoot))
+    throw std::runtime_error("Udmabuf kernel module not loaded");
   for (int i = 0; ; i++) {
     std::string devname = "udmabuf" + std::to_string(i);
     if (!file_exists(sysfsRoot + "/" + devname)) break;
@@ -74,5 +76,9 @@ int UdmaRepo::count() {
 }
 
 UdmaDevice *UdmaRepo::device(int index) {
-  return &devices[index];
+  try {
+    return &devices.at(index);
+  } catch (std::out_of_range& e) {
+    throw std::runtime_error("Attempted to load non-existant buffer");
+  }
 }

@@ -63,12 +63,12 @@ class Job {
 public:
   std::string accname, peer;
   paramlist params;
-  JobState state;
+  JobState state = WAITING;
+  bool error = false;
   int jobno = -1;
   Job(AccJob accjob, std::string peer) {
     accname = accjob.accname();
     this->peer = peer;
-    state = WAITING;
     for (auto &param : accjob.parameters())
       params[param.first] = param.second;
   }
@@ -156,11 +156,16 @@ class DaemonImpl final : public FPGARPC::Service {
       while (jobs[jobno]->state != DONE)
         std::this_thread::yield();
 
+    bool success = true;
+    for (int jobno = 0; jobno < jobcount; jobno++)
+      if (jobs[jobno]->error)
+	success = false;
+
     // free job memory
     for (int jobno = 0; jobno < jobcount; jobno++)
       delete jobs[jobno];
     delete[] jobs;
-    return true;
+    return success;
   }
 
   void addJobHistory(Region* region, int job) {
@@ -214,9 +219,16 @@ class DaemonImpl final : public FPGARPC::Service {
         AccelInst accel;
         try {
           accel = prmanager.fpgaRun(job->accname, job->params);
-        } catch (std::runtime_error a) {
+        } catch (FPGAFullException a) {
           break;
-        }
+        } catch (std::exception& e) {
+	  addLogMessage("Failed to add job " + std::to_string(job->jobno) + "(" + job->accname + ")");
+	  addLogMessage("Error was: " + std::string(e.what()));
+	  jobmanager.popJob();
+	  job->error = true;
+	  job->state = DONE;
+	  break;
+	}
         job->jobno = jobnumber++;
         addLogMessage("Loaded job number " + std::to_string(job->jobno));
         runningjobs[job] = accel;

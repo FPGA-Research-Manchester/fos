@@ -30,7 +30,7 @@ FPGARPCClient::FPGARPCClient(const std::string &address) :
 FPGARPCClient::FPGARPCClient() : FPGARPCClient("localhost:50051") {}
 
 // Takes a batch of jobs and sands them to the server
-bool FPGARPCClient::Run(std::vector<Job> &jobs) {
+void FPGARPCClient::Run(std::vector<Job> &jobs) {
   RunMessage request;
   for (Job &job : jobs) {
     AccJob *accjob = request.add_jobs();
@@ -45,7 +45,8 @@ bool FPGARPCClient::Run(std::vector<Job> &jobs) {
 
   if (!status.ok())
     throw std::runtime_error("Run RPC Failed");
-  return reply.success();
+  if (!reply.success())
+    throw std::runtime_error("Daemon failed to execute jobs");
 }
 
 int FPGARPCClient::Alloc() {

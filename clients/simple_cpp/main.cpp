@@ -56,7 +56,13 @@ int main(int argc, char **argv) {
   job.params["image_width"]  = width;
   job.params["image_height"] = height;
 
-  fpgaRpc.Run(jobs);                  // send the jobs to the daemon
+  try {
+    fpgaRpc.Run(jobs);                  // send the jobs to the daemon
+  } catch (std::runtime_error& e) {
+    device->unmap();
+    fpgaRpc.Free(bufno);
+    throw e;
+  }
 
   cv::Mat output(height, width, input.type());
   memcpy(output.data, buf1, size);

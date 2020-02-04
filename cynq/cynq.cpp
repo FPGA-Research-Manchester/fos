@@ -65,7 +65,12 @@ void Accel::addRegister(std::string name, int offset) {
   registers[name] = offset;
 }
 int Accel::getRegister(std::string name) {
-  return registers[name];
+  try {
+    return registers.at(name);
+  } catch (std::out_of_range& e) {
+    std::cerr << "Lookup of register " << name << " in accel " << this->name << " failed" << std::endl;
+    throw e;
+  }
 }
 
 
@@ -119,8 +124,16 @@ void Accel::setupSiblings() {
 
 Accel Accel::loadFromJSON(std::string jsonpath) {
   std::ifstream jsonfile(jsonpath);
+  if (jsonfile.fail())
+    throw std::runtime_error("Could not open file for reading: " + jsonpath);
   nlohmann::json json;
-  jsonfile >> json;
+  try {
+    jsonfile >> json;
+  } catch (nlohmann::detail::parse_error& e) {
+    std::cerr << "Failed to parse file: " << jsonpath << std::endl;
+    throw e;
+  }
+
   std::string name = json["name"];
   Accel accel(name);
   if (json.contains("address"))
@@ -146,8 +159,15 @@ Accel Accel::loadFromJSON(std::string jsonpath) {
 
 Shell Shell::loadFromJSON(std::string jsonpath) {
   std::ifstream jsonfile(jsonpath);
+  if (jsonfile.fail())
+    throw std::runtime_error("Could not open file for reading: " + jsonpath);
   nlohmann::json json;
-  jsonfile >> json;
+  try {
+    jsonfile >> json;
+  } catch (nlohmann::detail::parse_error& e) {
+    std::cerr << "Failed to parse file: " << jsonpath << std::endl;
+    throw e;
+  }
   
   Shell shell;
   shell.name = json["name"];
@@ -390,7 +410,13 @@ void PRManager::fpgaUnloadRegions(AccelInst &inst) {
 // loads a region
 AccelInst PRManager::fpgaRun(std::string accname, paramlist &regvals) {
   AccelInst inst = fpgaLoad(accname);
-  inst.programAccel(regvals);
+  try {
+    inst.programAccel(regvals);
+  } catch (std::out_of_range& e) {
+    std::cerr << "Could not program accelerator " << accname << std::endl;
+    fpgaUnloadRegions(inst);
+    throw e;
+  }
   inst.runAccel();
   return inst;
 }
@@ -399,25 +425,48 @@ AccelInst PRManager::fpgaLoad(std::string accname) {
   Accel &toload = accels[accname];
   AccelInst instance;
   instance.accel = &toload;
+
+
+  // if can quickload, do it
+
+  // if can load, save load target
+
+  // if couldn't load, send error
+  Region *loadableRegion = nullptr;
+  Bitstream *loadableBitstream = nullptr;
+  bool validRegion = false;
+  
   for (auto &bitstream : toload.bitstreams) {
-    if (canQuickLoadBitstream(bitstream)) {
-      Region &tohost = regions[bitstream.mainRegion];
+    if (regions.find(bitstream.mainRegion) == regions.end()) continue; // check region exists
+    validRegion = true;
+    if (canQuickLoadBitstream(bitstream)) { // can be quickloaded
+      Region &tohost = regions[bitstream.mainRegion]; // perform quickload
       fpgaLoadRegions(toload, bitstream);
       instance.bitstream = &bitstream;
       instance.region = &tohost;
       return instance;
     }
+    else if (canLoadBitstream(bitstream) && !loadableRegion) { // can be normal loaded
+      loadableRegion = &regions[bitstream.mainRegion];
+      loadableBitstream = &bitstream;
+    } 
   }
-  for (auto &bitstream : toload.bitstreams) {
-    if (canLoadBitstream(bitstream)) {
-      Region &tohost = regions[bitstream.mainRegion];
-      fpgaLoadRegions(toload, bitstream);
-      instance.bitstream = &bitstream;
-      instance.region = &tohost;
-      return instance;
-    }
+
+  // perform slow loading 
+  if (loadableRegion) {
+    Region &tohost = *loadableRegion;
+    Bitstream &bitstream = *loadableBitstream;
+    fpgaLoadRegions(toload, bitstream);
+    instance.bitstream = &bitstream;
+    instance.region = &tohost;
+    return instance;
   }
-  throw std::runtime_error("couldn't find regions to load");
+ 
+  if (validRegion) // report no valid, vs valid but filled
+    throw FPGAFullException();
+  else
+    throw RegionNotFoundException();
+
 }
 
 // check if regions used by a bitstream are free and cached
@@ -503,11 +552,24 @@ void PRManager::importShell(std::string name) {
 
 // sets up initial datastructures with bitstream info
 void PRManager::importDefs() {
-  std::ifstream jsonfile("../bitstreams/repo.json");
+  std::string jsonfilename = "../bitstreams/repo.json";
+  std::ifstream jsonfile(jsonfilename);
+  if (jsonfile.fail())
+    throw std::runtime_error("Could not open file for reading: " + jsonfilename);
   nlohmann::json json;
-  jsonfile >> json;
+  try {
+    jsonfile >> json;
+  } catch (nlohmann::detail::parse_error& e) {
+    std::cerr << "Failed to parse json file: " << jsonfilename << std::endl;
+    throw e;
+  }
 
   importShell(json["shell"]);
   for (auto &accelname : json["accelerators"])
-    importAccel(accelname);
+    try {
+      importAccel(accelname);
+    } catch (std::runtime_error& e) {
+      std::cerr << "Failed to import accel: " << accelname << std::endl;
+      throw e;
+    }
 }

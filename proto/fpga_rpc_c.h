@@ -25,7 +25,7 @@ public:
   FPGARPCClient(const std::string &address);
 
   // Takes a batch of jobs and sands them to the server
-  bool Run(std::vector<Job> &jobs);
+  void Run(std::vector<Job> &jobs);
   int Alloc();
   void Free(int bufno);
 };
