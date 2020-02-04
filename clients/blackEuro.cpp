@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 		  		job.params["strikePrice"] = intify32(strikePrice); // strike price
 		  		job.params["steps"]       = steps;
 		  		job.params["sims"]        = sims;
-		  		job.params["g_id"]        = i;
+		  		job.params["g_id"]        = j;
 				
 				j++;
 			}
