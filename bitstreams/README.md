@@ -19,7 +19,7 @@ Shells are described by the following json format.
 
 ## Accelerators
 Accelerators are described in the following format.
-##### repo.json #####
+##### &lt;accelerator name&gt;.json #####
 ```json
 {
   "name": "<accelerator name>",
@@ -40,7 +40,7 @@ Accelerators are described in the following format.
 
 ## Registering Hardware Into Repo
 Accelerators and shells are loaded into the repo using the following format.
-##### &lt;accelerator name&gt;.json #####
+##### repo.json #####
 ```json
 {
   "shell": "<shell name>",
