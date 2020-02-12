@@ -69,7 +69,7 @@ int Accel::getRegister(std::string name) {
     return registers.at(name);
   } catch (std::out_of_range& e) {
     std::cerr << "Lookup of register " << name << " in accel " << this->name << " failed" << std::endl;
-    throw e;
+    throw NoSuchRegisterException();
   }
 }
 
@@ -412,10 +412,10 @@ AccelInst PRManager::fpgaRun(std::string accname, paramlist &regvals) {
   AccelInst inst = fpgaLoad(accname);
   try {
     inst.programAccel(regvals);
-  } catch (std::out_of_range& e) {
+  } catch (std::exception& e) {
     std::cerr << "Could not program accelerator " << accname << std::endl;
     fpgaUnloadRegions(inst);
-    throw e;
+    throw;
   }
   inst.runAccel();
   return inst;
@@ -426,12 +426,6 @@ AccelInst PRManager::fpgaLoad(std::string accname) {
   AccelInst instance;
   instance.accel = &toload;
 
-
-  // if can quickload, do it
-
-  // if can load, save load target
-
-  // if couldn't load, send error
   Region *loadableRegion = nullptr;
   Bitstream *loadableBitstream = nullptr;
   bool validRegion = false;
@@ -446,7 +440,7 @@ AccelInst PRManager::fpgaLoad(std::string accname) {
       instance.region = &tohost;
       return instance;
     }
-    else if (canLoadBitstream(bitstream) && !loadableRegion) { // can be normal loaded
+    if (!loadableRegion && canLoadBitstream(bitstream)) { // can be normal loaded
       loadableRegion = &regions[bitstream.mainRegion];
       loadableBitstream = &bitstream;
     } 
@@ -466,7 +460,6 @@ AccelInst PRManager::fpgaLoad(std::string accname) {
     throw FPGAFullException();
   else
     throw RegionNotFoundException();
-
 }
 
 // check if regions used by a bitstream are free and cached
@@ -561,7 +554,7 @@ void PRManager::importDefs() {
     jsonfile >> json;
   } catch (nlohmann::detail::parse_error& e) {
     std::cerr << "Failed to parse json file: " << jsonfilename << std::endl;
-    throw e;
+    throw;
   }
 
   importShell(json["shell"]);
@@ -570,6 +563,6 @@ void PRManager::importDefs() {
       importAccel(accelname);
     } catch (std::runtime_error& e) {
       std::cerr << "Failed to import accel: " << accelname << std::endl;
-      throw e;
+      throw;
     }
 }

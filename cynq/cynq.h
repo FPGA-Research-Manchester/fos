@@ -18,6 +18,11 @@ public:
   virtual char const * what() const throw(){ return "No such region"; }
 };
 
+struct NoSuchRegisterException : std::exception {
+public:
+  virtual char const * what() const throw(){ return "No such register"; }
+};
+
 typedef std::map<std::string, uint32_t> paramlist;
 
 // represents an fpga bitstream which can be programmed onto an fpga
