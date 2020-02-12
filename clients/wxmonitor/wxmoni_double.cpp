@@ -133,7 +133,7 @@ public:
 
     // setup timer
     wxTimer *updateTimer = new wxTimer(this, TIMER_TICK);
-    updateTimer->Start(150);
+    updateTimer->Start(200);
 
     // start loop threads
     toggleLoopActive = true;
@@ -256,12 +256,12 @@ private:
       for (int unit = 0; unit < units; unit++) {
         Job &job = jobs.emplace_back();
         job.accname = "Partial_sobel";
-        job.params["in_pixels"] = (buffer + unit*(width*(height/units)))+ 2*width;
-        job.params["in_pixels_msb"] = 0;
-        job.params["out_pixels"] = (buffer + src_size + unit*(width*(height/units)));
-        job.params["out_pixels_msb"] = 0;
-        job.params["im_width"]  = width;
-        job.params["im_height"] = (height/units)+2;
+        job.params["in_pixels_1"] = (buffer + unit*(width*(height/units)))+ 2*width;
+        job.params["in_pixels_2"] = 0;
+        job.params["out_pixels_1"] = (buffer + src_size + unit*(width*(height/units)));
+        job.params["out_pixels_2"] = 0;
+        job.params["image_width"]  = width;
+        job.params["image_height"] = (height/units)+2;
         // std::cout << job.params["in_pixels_msb"] << ":" << job.params["in_pixels"] << ", ";
         // std::cout << job.params["out_pixels_msb"] << ":" << job.params["out_pixels"] << ", ";
         // std::cout << job.params["im_width"] << "," << job.params["im_height"] << std::endl;
