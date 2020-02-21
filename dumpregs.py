@@ -10,8 +10,8 @@ vals = []
 
 for reg in regs:
   addr = base + regs[reg]
-  data = int(subprocess.check_output(f"busybox devmem {hex(addr)}", shell=True), 0)
-  vals.append((f"{reg} ({hex(regs[reg])})", hex(data)))
+  val = int(subprocess.check_output(f"busybox devmem {hex(addr)}", shell=True), 0)
+  vals.append((f"{reg} ({hex(regs[reg])})", hex(val)))
 
 #print(vals)
 #regmax = max([len(row[0]) for row in vals]) + 1
@@ -19,5 +19,8 @@ for reg in regs:
 
 #print("maxes: ", regmax, datmax)
 
+
+print(f"Registers for unit: {data['name']}")
+print(f"Base address is: {hex(base)}")
 for val in vals:
   print(f"{val[0]+':':20} {val[1]:20}")
