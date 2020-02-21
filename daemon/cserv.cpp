@@ -154,7 +154,9 @@ class DaemonImpl final : public FPGARPC::Service {
     // wait for each job to finish
     for (int jobno = 0; jobno < jobcount; jobno++)
       while (jobs[jobno]->state != DONE)
-        std::this_thread::yield();
+        //std::this_thread::yield();
+        std::this_thread::sleep_for(std::chrono::milliseconds(0));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     bool success = true;
     for (int jobno = 0; jobno < jobcount; jobno++)
@@ -249,14 +251,10 @@ class DaemonImpl final : public FPGARPC::Service {
           Region &region = regionpair.second;
           if (region.locked) {
             Job *job = regionmap[&region];
-            int base_index = std::hash<std::string>{}(job->peer) % sizeof(simple_pallete);
-            int base_colour = simple_pallete[base_index];
-            float shade = (5.f + (float)(job->jobno % 11)) / 15.f;
-            char red   = (char)(base_colour >> 16) * shade;
-            char green = (char)(base_colour >> 8) * shade;
-            char blue  = (char)(base_colour) * shade;
-            int shaded_colour = red << 16 | green << 8 | blue;
-            addJobHistory(&region, shaded_colour);
+            int base_index = std::hash<std::string>{}(job->peer) % simple_pallete_size;
+	    // colour calculation hoes here
+	    int colour = calcshade(simple_pallete[base_index], job->jobno % 16);
+            addJobHistory(&region, colour);
           } else {
             addJobHistory(&region, 0);
           }
