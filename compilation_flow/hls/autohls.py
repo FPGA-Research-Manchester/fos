@@ -21,8 +21,10 @@ parser.add_argument("--use-existing", help="Use existing project and solution",
 
 args = parser.parse_args()
 
+root_path = os.path.dirname(os.path.realpath(__file__))
+
 # Generate path to the solution
-solution_path = args.project + "/" + args.solution
+solution_path = root_path + "/" + args.project + "/" + args.solution
 
 # Files in the solution
 solution_files = []
@@ -38,7 +40,7 @@ if not args.use_existing:
     shutil.copyfile(design_file, new_path)
 
 # Generate the Vivado HLS TCL script
-loader = jinja2.FileSystemLoader(searchpath="./")
+loader = jinja2.FileSystemLoader(searchpath=root_path)
 env = jinja2.Environment(loader=loader)
 template = env.get_template("autohls.tcl.j2")
 output = template.render(project=args.project, solution=args.solution, top=args.top,
@@ -46,14 +48,14 @@ output = template.render(project=args.project, solution=args.solution, top=args.
                          existing=args.use_existing)
 
 # Write script to file
-script_file = args.project + ".tcl"
+script_file = root_path + "/" + args.project + ".tcl"
 script = open(script_file, "w")
 script.write(output)
 script.close()
 
 # Run Vivado HLS
 if args.no_legacy:
-  subprocess.run("vivado_hls " + script_file, shell=True, check=True)
+  subprocess.run("vivado_hls " + script_file, shell=True, check=True, cwd=root_path)
 else:
-  subprocess.run("vivado_hls -f " + script_file, shell=True, check=True)
+  subprocess.run("vivado_hls -f " + script_file, shell=True, check=True, cwd=root_path)
 
