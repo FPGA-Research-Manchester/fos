@@ -14,11 +14,11 @@ def parseNumber(number):
   else:
     return int(number, 0)
 
-firmware_directory = "/lib/firmware"
-bit_patch_bin = "../build/bit_patch_bin"
+def newerThan(filea, fileb):
+  return os.path.getmtime(filea) > os.path.getmtime(fileb)
 
-def bit_patch(infile, outfile, newslot):
-  subprocess.call([bit_patch_bin, infile, outfile, str(newslot)])
+firmware_directory = "/lib/firmware"
+
 
 # represents a bitfiles pr regions and interactable peripherals
 class Bitfile:
@@ -28,18 +28,17 @@ class Bitfile:
     self.stubRegions = []
     self.acc = acc
     self.install()
-    
+
   def isFull(self):
     return self.region == "full"
 
   def install(self):
     firmsrc = self.acc.repo.root + "/" + self.binfile
     firmdst = firmware_directory + "/" + self.binfile
-    if not os.path.exists(firmdst):
+    if not os.path.exists(firmdst) or newerThan(firmsrc, firmdst):
       print("Copying file from " + firmsrc + " to " + firmdst)
       copyfile(firmsrc, firmdst)
-      input("Press enter to continue")
-      
+
   @staticmethod
   def fromJSON(acc, metadata):
     return Bitfile(metadata["region"], metadata["name"], acc)
@@ -82,6 +81,7 @@ class Accelerator:
       bitfile.install(repodir, destdir)
 
   def generateSiblings(self):
+    if self.repo.bitpatchbin is None: return # no bitpatch bin, do not generate siblings
     for basefile in self.bitfiles:                 # for all regions
       if basefile.region == sibling_slot_base and len(basefile.stubRegions) == 0:         # if region can generate siblings
         for slotname in sibling_slot_map:      # for each sibling slot
@@ -89,10 +89,12 @@ class Accelerator:
           if count == 0:                                  # check if sibling provided
             slotno = sibling_slot_map[slotname]
             oldpath = self.repo.root + "/" + basefile.binfile
-            newfile = self.name + "_slot_" + str(slotno) + ".gen.bin"
+            newfile = self.name + "_u96_slot_" + str(slotno) + ".gen.bin"
             newpath = self.repo.root + "/" + newfile
-            if not os.path.exists(newpath):
-              bit_patch(oldpath, newpath, slotno)
+            if not os.path.exists(newpath) or newerThan(oldpath, newpath):
+              print(f"Bit patching {oldpath} to {newpath} (slot {slotno})")
+              self.repo.bit_patch(oldpath, newpath, slotno)
+            print(f"Added generated sibling: {self.name} - {slotname}")
             self.bitfiles.append(Bitfile(slotname, newfile, self))
 
   @staticmethod
@@ -128,11 +130,17 @@ class Shell:
 
 # represent a collection of bitfiles and register maps
 class Repository:
-  def __init__(self, root):
+  def __init__(self, root, bitpatchbin="../build/bit_patch_bin"):
     self.root = root
+    self.bitpatchbin = bitpatchbin if os.path.exists(bitpatchbin) else None
     self.accs = []
     self.shells = []
     self.loadRepo()
+
+  def bit_patch(self, infile, outfile, newslot):
+    if self.bitpatchbin:
+      subprocess.call([self.bitpatchbin, infile, outfile, str(newslot)])
+    else: raise Exception("No bitpatchbin specified")
 
   def loadRepo(self):
     metadata = loadJSON(self.root + "/repo.json")

@@ -28,7 +28,7 @@ cim = 0.3819
 zoom = 0.01
 
 # initialise ponq
-manager = Ponq(repository="../../bitstreams")
+manager = Ponq("../../bitstreams", "../../build/bit_patch_bin")
 
 # run unit
 # for i in range(1):

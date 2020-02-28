@@ -1,7 +1,7 @@
 sysfs = "/sys/class/fpga_manager/fpga0"
 
 import time
-from mmio import mmio
+from .mmio import mmio
 
 class PonqException(Exception):
   pass
@@ -120,10 +120,10 @@ class ShellInst:
     raise PonqException("Could not find suitable region")
 
   def canLoad(self, bs):
-    if self.regions[bs.region].loaded:
+    if bs.region not in self.regions or self.regions[bs.region].loaded:
       return False
     for stub in bs.stubRegions:
-      if self.regions[stub].loaded:
+      if stub not in self.regions or self.regions[stub].loaded:
         return False
     return True
 

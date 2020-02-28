@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 import os
-import repo, driver
-
-print("PONQ: Starting...")
+from . import repo, driver
 
 # manages the whole got damn thing
 class Ponq:
-  def __init__(self, repository="."):
-    self.repo = repo.Repository(repository)
+  def __init__(self, repository=".", bitpatchbin="../build/bit_patch_bin"):
+    self.repo = repo.Repository(repository, bitpatchbin)
     self.fpga = driver.FPGA("/sys/class/fpga_manager/fpga0")
 
   # loads the accelerator into an fpga

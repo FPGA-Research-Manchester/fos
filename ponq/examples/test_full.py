@@ -32,22 +32,35 @@ buf2addr = udmadev.phys_addr + 2*size
 
 for i in range(items):
   byte_val = int(i).to_bytes(4, byteorder=sys.byteorder)
+  null_val = int(1).to_bytes(4, byteorder=sys.byteorder)
   for b in range(4):
-    ubuf[i*4 + b] = byte_val[b]
-    ubuf[size + i*4 + b] = byte_val[b]
+    ubuf[0*size + i*4 + b] = byte_val[b]
+    ubuf[1*size + i*4 + b] = byte_val[b]
+    ubuf[2*size + i*4 + b] = null_val[b]
 
 # initialise ponq
-manager = Ponq(repository="../../bitstreams")
-acc0 = manager.load("Full_vecadd")
-acc0.writeReg("ocl_sx", 1)
-acc0.writeReg("ocl_sy", 1)
-acc0.writeReg("ocl_sz", 1)
-acc0.writeReg("size", items)
-acc0.writeReg("in_a", buf0addr)
-acc0.writeReg("in_b", buf1addr)
-acc0.writeReg("out", buf2addr)
-acc0.run()
-acc0.wait()
+runs = items // 16
+
+manager = Ponq("../../bitstreams", "../../build/bit_patch_bin")
+acc0 = manager.load("Full_vadd")
+acc0.writeReg("group_id_x", 0)
+acc0.writeReg("group_id_y", 0)
+acc0.writeReg("group_id_z", 0)
+acc0.writeReg("global_offset_x", 0)
+acc0.writeReg("global_offset_y", 0)
+acc0.writeReg("global_offset_z", 0)
+acc0.writeReg("ina_1", bot32(buf0addr))
+acc0.writeReg("ina_2", top32(buf0addr))
+acc0.writeReg("inb_1", bot32(buf1addr))
+acc0.writeReg("inb_2", top32(buf1addr))
+acc0.writeReg("out_r_1", bot32(buf2addr))
+acc0.writeReg("out_r_2", top32(buf2addr))
+
+for run in range(runs-1):
+  acc0.writeReg("group_id_x", run)
+  acc0.run()
+  acc0.wait()
+
 acc0.unload()
 
 for i in range(items):
