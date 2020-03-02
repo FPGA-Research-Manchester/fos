@@ -17,7 +17,7 @@ PRC     := $(PR_DIR)/automodule.py
 PRC_OUT := $(PR_DIR)/output
 
 # HLS Sources
-HLS_SOURCES     := BLEURO SHREK MANDEL SOBEL VADD32 VADD128
+HLS_SOURCES     := BLEURO SHREK MANDEL MANDEL128 SOBEL VADD32 VADD128
 HLS_BLEURO_SRC  := barrierData.h  blackEuro.cpp  blackScholes.h  europeanOption.h  launchSim.h  RNG.h  stockData.h  volatilityData.h
 HLS_BLEURO      := $(addprefix $(HLS_SRC)/blackeuro/, $(HLS_BLEURO_SRC))
 HLS_BLEURO_TOP  := blackEuro
@@ -27,6 +27,9 @@ HLS_SHREK_TOP   := shrek
 
 HLS_MANDEL      := $(addprefix $(HLS_SRC)/mandel/, mandelbrot.c mandelbrot.h)
 HLS_MANDEL_TOP  := mandelbrot
+
+HLS_MANDEL128      := $(addprefix $(HLS_SRC)/mandel128/, mandelbrot.c mandelbrot.h)
+HLS_MANDEL128_TOP  := mandelbrot128
 
 HLS_SOBEL       := $(addprefix $(HLS_SRC)/sobel/, edge.h krnl_sobelfilter.cl)
 HLS_SOBEL_TOP   := sobel
@@ -38,13 +41,14 @@ HLS_VADD128     := $(HLS_SRC)/vadd128/vadd128.cl
 HLS_VADD128_TOP := vadd128
 
 # RTL Sources
-RTL_SOURCES := BLEURO SHREK MANDEL SOBEL VADD32 VADD128
-RTL_BLEURO  := $(HLSC_OUT)/blackEuro/blackEuro/blackEuro_data.json
-RTL_SHREK   := $(HLSC_OUT)/shrek/shrek/shrek_data.json
-RTL_MANDEL  := $(HLSC_OUT)/mandelbrot/mandelbrot/mandelbrot_data.json
-RTL_SOBEL   := $(HLSC_OUT)/sobel/sobel/sobel_data.json
-RTL_VADD32  := $(HLSC_OUT)/vadd/vadd/vadd_data.json
-RTL_VADD128 := $(HLSC_OUT)/vadd128/vadd128/vadd128_data.json
+RTL_SOURCES   := BLEURO SHREK MANDEL MANDEL128 SOBEL VADD32 VADD128
+RTL_BLEURO    := $(HLSC_OUT)/blackEuro/blackEuro/blackEuro_data.json
+RTL_SHREK     := $(HLSC_OUT)/shrek/shrek/shrek_data.json
+RTL_MANDEL    := $(HLSC_OUT)/mandelbrot/mandelbrot/mandelbrot_data.json
+RTL_MANDEL128 := $(HLSC_OUT)/mandelbrot128/mandelbrot128/mandelbrot128_data.json
+RTL_SOBEL     := $(HLSC_OUT)/sobel/sobel/sobel_data.json
+RTL_VADD32    := $(HLSC_OUT)/vadd/vadd/vadd_data.json
+RTL_VADD128   := $(HLSC_OUT)/vadd128/vadd128/vadd128_data.json
 
 
 # PR Shells
@@ -79,6 +83,8 @@ $(eval $(call ADD_RTL_RULES,SHREK,ZCU_32))
 
 $(eval $(call ADD_RTL_RULES,MANDEL,U96_32))
 $(eval $(call ADD_RTL_RULES,MANDEL,ZCU_32))
+
+$(eval $(call ADD_RTL_RULES,MANDEL128,U96_128))
 
 $(eval $(call ADD_RTL_RULES,SOBEL,U96_32))
 $(eval $(call ADD_RTL_RULES,SOBEL,ZCU_32))
