@@ -1,4 +1,4 @@
-# C++ FPGA manager
+# Cynq: C++ library to drive FPGAs and accelerators
 
 ## Usage (dynamic)
 
