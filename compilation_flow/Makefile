@@ -6,15 +6,17 @@
 
 # HLS -> RTL synthesis
 HLS_DIR   := hls
-HLSC      := $(HLS_DIR)/autohls.py
+HLSC      := python3 -u $(HLS_DIR)/autohls.py
+HLSCFLAGS :=
 HLSC_OUT  := $(HLS_DIR)
 HLSC_CHIP := xczu3eg-sbva484-1-e
 HLS_SRC   := ../module_src/hls
 
 # RTL -> Module synthesis
-PR_DIR  := pr_flow
-PRC     := $(PR_DIR)/automodule.py
-PRC_OUT := $(PR_DIR)/output
+PR_DIR    := pr_flow
+PRC       := python3 -u $(PR_DIR)/automodule.py
+PRCFLAGS  := --loud
+PRC_OUT   := $(PR_DIR)/output
 
 # HLS Sources
 HLS_SOURCES     := BLEURO SHREK MANDEL MANDEL128 SOBEL VADD32 VADD128
@@ -61,14 +63,14 @@ define ADD_HLS_RULES # creates rule to make rtl from c/c++/cl sources
 RTL_TARGETS += $$(RTL_$1)
 $$(RTL_$1): $$(HLS_$1)
 	-rm -rf $(HLSC_OUT)/$$(HLS_$1_TOP)
-	$(HLSC) $$(HLS_$1_TOP) $$(HLS_$1_TOP) $$(HLS_$1_TOP) $(HLSC_CHIP) $$(HLS_$1)
+	$(HLSC) $$(HLS_$1_TOP) $$(HLS_$1_TOP) $$(HLS_$1_TOP) $(HLSC_CHIP) $$(HLS_$1) $(HLSCFLAGS) | sed -e 's/^/[rtl:$1] /'
 endef
 
 define ADD_RTL_RULES # creates rule to make module from rtl
 PR_$1_$2 := $(PRC_OUT)/$(HLS_$1_TOP)/$(SHELL_$2)/Partial_$(HLS_$1_TOP).json
 PR_TARGETS += $$(PR_$1_$2)
 $$(PR_$1_$2): $$(RTL_$1)
-	$(PRC) $$(RTL_$1) $$(SHELL_$2) --loud
+	$(PRC) $$(RTL_$1) $$(SHELL_$2) $(PRCFLAGS) | sed -e 's/^/[rtl:$1:$2] /'
 endef
 
 # build rules for all hls sources
