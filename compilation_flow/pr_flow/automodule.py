@@ -69,6 +69,20 @@ def sanityCheck(hls_json, shell):
   if hls_json["Interfaces"]["m_axi_gmem"]["data_width"] != str(shell.axim_data_width):
     raise Exception("AXI Master data interface width is not " + str(shell.axim_data_width))
 
+def performSourceFileTweaks(hls_root_path, hls_json):
+  main_source = "/" + hls_json['RtlTop'] + ".v"
+  for source in hls_json["Files"]["Verilog"]:
+    if source.endswith(main_source):
+      source_path = hls_root_path + "/" + source
+      contents = open(source_path).read()
+      detect = r"^\s*parameter\s+C_S_AXI_CONTROL_ADDR_WIDTH\s*=\s*[0-7]\s*;\s*$"
+      replace = "parameter    C_S_AXI_CONTROL_ADDR_WIDTH = 7;"
+      new_contents, count = re.subn(detect, replace, contents, 1, re.MULTILINE)
+      if count != 1:
+        raise Exception("Could not locate valid axi address width parameter")
+      open(source_path, "w").write(new_contents)
+      return
+  raise Exception("Could not find main verilog source file")
 
 # create a module json description and save it
 def generateBitstreamJSON(hls_json, modname, buildparams, outfile):
@@ -182,6 +196,7 @@ def synthesizeModule(json_path, shell_name, out_directory, min_slot_width):
   
   print("Stage 0: sanity checking")
   #sanityCheck(hls_json, shell)
+  performSourceFileTweaks(hls_root_path, hls_json)
 
   print("Stage 1: initial module synthesis")
   s1_tcl = out_dir / "stage1.tcl"
