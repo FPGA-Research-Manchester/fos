@@ -8,7 +8,8 @@ GRPC_LIBS   := /usr/lib/libgrpc++.a /usr/lib/libgrpc.a  -lz -lssl -lm -lcrypto -
 OCV_FLAGS   := $(shell pkg-config --cflags opencv)
 OCV_LIBS    := $(shell pkg-config --libs opencv)
 
-CXXFLAGS := --std=gnu++17 -Wall -Wpedantic -I. -g
+CFLAGS   := -Wall -Wpedantic -I. -g -fPIC
+CXXFLAGS := --std=gnu++17 -Wall -Wpedantic -I. -g -fPIC
 CXXFLAGS += $(OCV_FLAGS) $(PROTO_FLAGS) $(WX_FLAGS)
 LDFLAGS  := -lstdc++fs
 LDFLAGS  += $(GRPC_LIBS) $(OCV_LIBS) $(PROTO_LIBS) $(WX_LIBS)
@@ -61,6 +62,8 @@ SIMPLEOCL_OBJS := $(OBJ_SIMPLEOCL) $(OBJ_UDMALIB) $(OBJ_PROTO_C)
 BLACKEURO_OBJS := $(OBJ_BLACKEURO) $(OBJ_UDMALIB) $(OBJ_PROTO_C)
 SPAMBOI_OBJS   := $(OBJ_SPAMBOI) $(OBJ_UDMALIB) $(OBJ_PROTO_C)
 BITPAT_OBJS    := $(OBJ_BITPAT_D) $(OBJ_BITPAT_L)
+CYNQ_LIB_OBJS  := $(OBJ_CYNQ) $(OBJ_BITPAT_L)
+UDMA_LIB_OBJS  := $(OBJ_UDMALIB)
 CYNQ_E1_OBJS   := $(OBJ_CYNQ_E1) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
 CYNQ_E2_OBJS   := $(OBJ_CYNQ_E2) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
 CYNQ_E4_OBJS   := $(OBJ_CYNQ_E4) $(OBJ_CYNQ) $(OBJ_BITPAT_L) $(OBJ_UDMALIB)
@@ -154,7 +157,13 @@ build/cynq_example_full_bin: $(CYNQ_E2_OBJS)
 build/cynq_example_blackeuro_bin: $(CYNQ_E4_OBJS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
+build/libcynq.so: $(CYNQ_LIB_OBJS)
+	$(CXX) -o $@ $^ -shared -Wl,-soname,libcynq.so
+
+build/libudma.so: $(UDMA_LIB_OBJS)
+	$(CXX) -o $@ $^ -shared -Wl,-soname,libudma.so
+
 clean:
 	-rm -r build proto/*.pb.h proto/*.pb.cc proto/*_pb2.py proto/*_pb2_grpc.py
 
-all: build/wxmoni_bin build/wxmoni_sobel_bin build/wxmoni_mandel_bin build/daemon_bin build/simple_cpp_bin build/simple_ocl_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin build/blackeuro_bin build/cynq_example_blackeuro_bin build/spammyboi_bin build/readback_test $(PROTO_PY_SRCS) $(TST_TARGS)
+all: build/wxmoni_bin build/wxmoni_sobel_bin build/wxmoni_mandel_bin build/daemon_bin build/simple_cpp_bin build/simple_ocl_bin build/bit_patch_bin build/cynq_example_bin build/cynq_example_full_bin build/blackeuro_bin build/cynq_example_blackeuro_bin build/spammyboi_bin build/readback_test build/libcynq.so build/libudma.so $(PROTO_PY_SRCS) $(TST_TARGS)
