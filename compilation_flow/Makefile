@@ -43,14 +43,17 @@ HLS_VADD128     := $(HLS_SRC)/vadd128/vadd128.cl
 HLS_VADD128_TOP := vadd128
 
 # RTL Sources
-RTL_SOURCES   := BLEURO SHREK MANDEL MANDEL128 SOBEL VADD32 VADD128
-RTL_BLEURO    := $(HLSC_OUT)/blackEuro/blackEuro/blackEuro_data.json
-RTL_SHREK     := $(HLSC_OUT)/shrek/shrek/shrek_data.json
-RTL_MANDEL    := $(HLSC_OUT)/mandelbrot/mandelbrot/mandelbrot_data.json
-RTL_MANDEL128 := $(HLSC_OUT)/mandelbrot128/mandelbrot128/mandelbrot128_data.json
-RTL_SOBEL     := $(HLSC_OUT)/sobel/sobel/sobel_data.json
-RTL_VADD32    := $(HLSC_OUT)/vadd/vadd/vadd_data.json
-RTL_VADD128   := $(HLSC_OUT)/vadd128/vadd128/vadd128_data.json
+RTL_SOURCES   := $(HLS_SOURCES)
+$(foreach source, $(RTL_SOURCES), $(eval \
+	RTL_$(source) := $(HLSC_OUT)/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)_data.json \
+))
+#RTL_BLEURO    = $(HLSC_OUT)/blackEuro/blackEuro/blackEuro_data.json
+#RTL_SHREK     = $(HLSC_OUT)/shrek/shrek/shrek_data.json
+#RTL_MANDEL    = $(HLSC_OUT)/mandelbrot/mandelbrot/mandelbrot_data.json
+#RTL_MANDEL128 = $(HLSC_OUT)/mandelbrot128/mandelbrot128/mandelbrot128_data.json
+#RTL_SOBEL     = $(HLSC_OUT)/sobel/sobel/sobel_data.json
+#RTL_VADD32    = $(HLSC_OUT)/vadd/vadd/vadd_data.json
+#RTL_VADD128   = $(HLSC_OUT)/vadd128/vadd128/vadd128_data.json
 
 
 # PR Shells
