@@ -31,14 +31,14 @@ class ShellParameters:
 # shells currently accessible
 shells = {}
 shells["u96_32"] = ShellParameters("static/ultra96v1_32bit", "Ultra96_100MHz.bit", "xczu3eg-sbva484-1-e", "21 0", 7, 32)
-shells["u96_32"].addWidth(1, "pr0", [            ], "21 0 99 59",  "pr_module_1_slot.tcl")
-shells["u96_32"].addWidth(2, "pr0", ["pr1"       ], "21 0 99 119", "pr_module_2_slots.tcl")
-shells["u96_32"].addWidth(3, "pr0", ["pr1", "pr2"], "21 0 99 179", "pr_module_3_slots.tcl")
+shells["u96_32"].addWidth(1, "u96-32-pr0", [                          ], "21 0 99 59",  "pr_module_1_slot.tcl")
+shells["u96_32"].addWidth(2, "u96-32-pr0", ["u96-32-pr1"              ], "21 0 99 119", "pr_module_2_slots.tcl")
+shells["u96_32"].addWidth(3, "u96-32-pr0", ["u96-32-pr1", "u96-32-pr2"], "21 0 99 179", "pr_module_3_slots.tcl")
 
 shells["u96_128"] = ShellParameters("static/ultra96v1_128bit", "Ultra96v1_100MHz.bit", "xczu3eg-sbva484-1-e", "21 0", 7, 128)
-shells["u96_128"].addWidth(1, "pr0", [            ], "21 0 99 59",  "pr_module_1_slot.tcl")
-shells["u96_128"].addWidth(2, "pr0", ["pr1",      ], "21 0 99 119", "pr_module_2_slots.tcl")
-shells["u96_128"].addWidth(3, "pr0", ["pr1", "pr2"], "21 0 99 179", "pr_module_3_slots.tcl")
+shells["u96_128"].addWidth(1, "u96-128-pr0", [                            ], "21 0 99 59",  "pr_module_1_slot.tcl")
+shells["u96_128"].addWidth(2, "u96-128-pr0", ["u96-128-pr1",              ], "21 0 99 119", "pr_module_2_slots.tcl")
+shells["u96_128"].addWidth(3, "u96-128-pr0", ["u96-128-pr1", "u96-128-pr2"], "21 0 99 179", "pr_module_3_slots.tcl")
 
 shells["zucl_stc"] = ShellParameters("static/zcu_32bit", "zucl_stc.bit", "xczu9eg-ffvb1156-2-e", "0 240", 7, 32)
 shells["zucl_stc"].addWidth(1, "zucl0", [], "0 240 138 299", "blocker_module_1_slot_0.tcl")
