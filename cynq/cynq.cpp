@@ -30,14 +30,20 @@ Bitstream::Bitstream(std::string bits, std::string main, std::vector<std::string
 Bitstream::Bitstream(std::string bits, std::string main) : Bitstream(bits, main, std::vector<std::string>()) {}
 
 bool Bitstream::isInstalled() {
-  std::string path = "/lib/firmware/" + bitstream;
-  struct stat buffer;
-  return (stat(path.c_str(), &buffer) == 0);
+  std::string libfirmpath = "/lib/firmware/" + bitstream;
+  std::string repopath = "../bitstreams/" + bitstream;
+  struct stat libfirm, repo;
+  if (stat(libfirmpath.c_str(), &libfirm) != 0)
+    return false;
+  stat(repopath.c_str(), &repo);
+  return libfirm.st_mtime >= repo.st_mtime;
 }
+
 void Bitstream::install() {
   if (isInstalled()) return;
-  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream, \
-     fs::copy_options::update_existing);
+  std::cout << "Installing module " << bitstream << " to /lib/firmware" << std::endl;
+  fs::copy_file("../bitstreams/" + bitstream, "/lib/firmware/" + bitstream,
+      fs::copy_options::overwrite_existing);
 }
 
 bool Bitstream::isFull() {
