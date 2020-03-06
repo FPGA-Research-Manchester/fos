@@ -318,7 +318,8 @@ class DaemonImpl final : public FPGARPC::Service {
 public:
   bool quiet;
   DaemonImpl() {
-    prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+    //prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+    prmanager.fpgaLoadShell(prmanager.shells.begin()->first);
   }
   std::thread spawn() {
     return std::thread(&DaemonImpl::executor, this);
