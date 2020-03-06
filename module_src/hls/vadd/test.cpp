@@ -1,10 +1,6 @@
 #include "cynq/cynq.h"
 #include "udmalib/udma.h"
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-
 #define max32    (0xffffffff)
 #define top32(x) (x >> 32 & max32)
 #define bot32(x) (x & max32)
@@ -41,7 +37,8 @@ int main(int argc, char **argv) {
 
   // load and run hardware unit
   PRManager prmanager;
-  prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+  //prmanager.fpgaLoadShell("zucl_stc");
+  prmanager.fpgaLoadShell(prmanager.shells.begin()->first);
   paramlist params({
     {"group_id_x", 0},
     {"group_id_y", 0},

@@ -38,7 +38,8 @@ int main(int argc, char **argv) {
 
 
   PRManager prmanager;
-  prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+  //prmanager.fpgaLoadShell("Ultra96_100MHz_2");
+  prmanager.fpgaLoadShell(prmanager.shells.begin()->first);
   paramlist params;
   params["ImageWidth"]     = ImageWidth;
   params["ImageHeight"]    = ImageHeight;
