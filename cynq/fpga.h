@@ -4,8 +4,8 @@
 #include <fstream>
 #include <vector>
 
-constexpr FPGA_RB_IGNORE_BYTES_CONTROL = 48;
-constexpr FPGA_RB_IGNORE_BYTES_DATA = 44;
+constexpr int FPGA_RB_IGNORE_BYTES_CONTROL = 48;
+constexpr int FPGA_RB_IGNORE_BYTES_DATA = 44;
 
 enum {
   FPGA_WR_FLAG_FULL_BS = 0,
@@ -65,22 +65,22 @@ public:
   }
 
   std::vector<char> readbackImage() {
-    setFPGAReadbackFlags(RB_FLAG_TYPE_DATA);
+    setFPGAReadbackFlags(FPGA_RB_FLAG_TYPE_DATA);
     return performFPGAReadback(FPGA_RB_IGNORE_BYTES_DATA);
   }
 
   std::vector<char> readbackConfig() {
-    setFPGAReadbackFlags(RB_FLAG_TYPE_CONTROL);
+    setFPGAReadbackFlags(FPGA_RB_FLAG_TYPE_CONTROL);
     return performFPGAReadback(FPGA_RB_IGNORE_BYTES_CONTROL);
   }
 
   void loadFull(const std::string &firmware) {
-    setFPGAFlags(FPGA_FLAG_WRITE_FULL_BS);
+    setFPGAFlags(FPGA_WR_FLAG_FULL_BS);
     setFPGAFirmware(firmware);
   }
 
   void loadPartial(const std::string &firmware) {
-    setFPGAFlags(FPGA_FLAG_WRITE_PARTIAL_BS);
+    setFPGAFlags(FPGA_WR_FLAG_PARTIAL_BS);
     setFPGAFirmware(firmware);
   }
 };
