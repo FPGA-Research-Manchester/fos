@@ -45,7 +45,7 @@ HLS_VADD128_TOP := vadd128
 # RTL Sources
 RTL_SOURCES   := $(HLS_SOURCES)
 $(foreach source, $(RTL_SOURCES), $(eval \
-	RTL_$(source) := $(HLSC_OUT)/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)_data.json \
+	RTL_$(source) := $(HLSC_OUT)/output/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)/$$(HLS_$(source)_TOP)_data.json \
 ))
 #RTL_BLEURO    = $(HLSC_OUT)/blackEuro/blackEuro/blackEuro_data.json
 #RTL_SHREK     = $(HLSC_OUT)/shrek/shrek/shrek_data.json
