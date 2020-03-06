@@ -40,8 +40,8 @@ shells["u96_128"].addWidth(1, "u96-128-pr0", [                            ], "21
 shells["u96_128"].addWidth(2, "u96-128-pr0", ["u96-128-pr1",              ], "21 0 99 119", "pr_module_2_slots.tcl")
 shells["u96_128"].addWidth(3, "u96-128-pr0", ["u96-128-pr1", "u96-128-pr2"], "21 0 99 179", "pr_module_3_slots.tcl")
 
-shells["zucl_stc"] = ShellParameters("static/zcu_32bit", "zucl_stc.bit", "xczu9eg-ffvb1156-2-e", "0 240", 7, 32)
-shells["zucl_stc"].addWidth(1, "zucl0", [], "0 240 138 299", "blocker_module_1_slot_0.tcl")
+shells["zucl_stc"] = ShellParameters("static/zcu_32bit", "zucl_stc.bit", "xczu9eg-ffvb1156-2-e", "0 180", 7, 32)
+shells["zucl_stc"].addWidth(1, "zucl0", [], "0 180 138 239", "blocker_module_1_slot_0.tcl")
 
 # JSON Util
 def loadJSON(filename):
