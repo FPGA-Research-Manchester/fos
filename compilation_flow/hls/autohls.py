@@ -1,61 +1,65 @@
 #!/usr/bin/env python3
-import argparse
-import jinja2
-import json
-import os
-import subprocess
-import shutil
+import argparse, jinja2, json, os, subprocess, shutil
+from pathlib import Path
 
-# Parse program arguments
-parser = argparse.ArgumentParser(description="Synthesis and export Vivado HLS design")
-parser.add_argument("project", help="Name of the project")
-parser.add_argument("solution", help="Name of the solution")
-parser.add_argument("top", help="Name of the top function (ignored if using existing)")
-parser.add_argument("part", help="Name of the target device (ignored if using existing)")
-parser.add_argument("files", nargs="+", help="C/C++/OpenCL files with design (ignored " \
-                                             "if using existing)")
-parser.add_argument("--no-legacy", help="Run vivado_hls without -f flag",
-                    action="store_true")
-parser.add_argument("--use-existing", help="Use existing project and solution",
-                    action="store_true")
+# paths used by autohls
+source_path = Path(os.path.dirname(os.path.realpath(__file__)))
+current_path = Path(os.getcwd())
 
-args = parser.parse_args()
+def compile(project, solution, top, part, files, out_path, no_legacy, use_existing):
 
-root_path = os.path.dirname(os.path.realpath(__file__))
+  # Generate path to the project and solution
+  project_path = out_path / project
+  solution_path = project_path / solution
 
-# Generate path to the solution
-solution_path = root_path + "/" + args.project + "/" + args.solution
+  # Files in the solution
+  solution_files = []
 
-# Files in the solution
-solution_files = []
+  # Create project and solution directory
+  if not use_existing:
+    os.makedirs(solution_path, exist_ok=True)
 
-# Create project and solution directory
-if not args.use_existing:
-  os.makedirs(solution_path, exist_ok=True)
+    # Generate files paths within solution and copy existing files there
+    for design_file in files:
+      new_path = str(solution_path / os.path.basename(design_file))
+      solution_files.append(new_path)
+      shutil.copyfile(design_file, new_path)
 
-  # Generate files paths within solution and copy existing files there
-  for design_file in args.files:
-    new_path = solution_path + "/" + os.path.basename(design_file)
-    solution_files.append(new_path)
-    shutil.copyfile(design_file, new_path)
+  # Generate the Vivado HLS TCL script
+  loader = jinja2.FileSystemLoader(searchpath=source_path)
+  env = jinja2.Environment(loader=loader)
+  template = env.get_template("autohls.tcl.j2")
+  output = template.render(project=project, solution=solution, top=top, part=part,
+      files=" ".join(solution_files), existing=use_existing)
 
-# Generate the Vivado HLS TCL script
-loader = jinja2.FileSystemLoader(searchpath=root_path)
-env = jinja2.Environment(loader=loader)
-template = env.get_template("autohls.tcl.j2")
-output = template.render(project=args.project, solution=args.solution, top=args.top,
-                         part=args.part, files=" ".join(solution_files),
-                         existing=args.use_existing)
+  # Write script to file
+  script_file = project_path / f"{project}.tcl"
+  script = open(script_file, "w")
+  script.write(output)
+  script.close()
 
-# Write script to file
-script_file = root_path + "/" + args.project + ".tcl"
-script = open(script_file, "w")
-script.write(output)
-script.close()
+  # Run Vivado HLS
+  viv_flags = "-f" if no_legacy else ""
+  subprocess.run(f"vivado_hls {viv_flags} {script_file}", shell=True, check=True, cwd=out_path)
 
-# Run Vivado HLS
-if args.no_legacy:
-  subprocess.run("vivado_hls " + script_file, shell=True, check=True, cwd=root_path)
-else:
-  subprocess.run("vivado_hls -f " + script_file, shell=True, check=True, cwd=root_path)
 
+if __name__ == "__main__":
+  # Parse program arguments
+  parser = argparse.ArgumentParser(description="Synthesis and export Vivado HLS design")
+  parser.add_argument("project", help="Name of the project")
+  parser.add_argument("solution", help="Name of the solution")
+  parser.add_argument("top", help="Name of the top function (ignored if using existing)")
+  parser.add_argument("part", help="Name of the target device (ignored if using existing)")
+  parser.add_argument("files", nargs="+", 
+      help="C/C++/OpenCL files with design (ignored if using existing)")
+  parser.add_argument("--no-legacy", help="Run vivado_hls without -f flag", action="store_true")
+  parser.add_argument("--use-existing", help="Use existing project and solution", action="store_true")
+  parser.add_argument("-o", help="Output location")
+
+  args = parser.parse_args()
+
+  output_path = Path(args.o) if args.o is not None else Path(source_path) / "output"
+  output_path = output_path.resolve()
+
+  compile(args.project, args.solution, args.top, args.part,
+      args.files, output_path, args.no_legacy, args.use_existing)
