@@ -26,7 +26,7 @@ def compile(project, solution, top, part, files, out_path, no_legacy, use_existi
       shutil.copyfile(design_file, new_path)
 
   # Generate the Vivado HLS TCL script
-  loader = jinja2.FileSystemLoader(searchpath=source_path)
+  loader = jinja2.FileSystemLoader(searchpath=str(source_path))
   env = jinja2.Environment(loader=loader)
   template = env.get_template("autohls.tcl.j2")
   output = template.render(project=project, solution=solution, top=top, part=part,
