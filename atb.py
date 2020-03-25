@@ -35,8 +35,8 @@ atb_prescale_off     = 0x6020 # common to block
 # 1: fpd switch -> pl fpd axi 0
 # 2: fpd switch -> pl fpd axi 1
 fpd_base = 0xfd610000 
-# 0: lpd switch -> pl lpd axi 0
-# 1: lpd inbound -> lpd periphs
+# 0: lpd inbound -> lpd periphs
+# 1: lpd switch -> pl lpd axi 0
 lpd_base = 0xff410000
 
 # set timer val on timeout blocks
