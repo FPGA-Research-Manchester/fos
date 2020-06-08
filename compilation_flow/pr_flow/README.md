@@ -20,8 +20,8 @@ If you plan to use the runtime software provided in this repo, you do not need t
   
 ## Generating PR Accelerators (Automatically)
 1. Synthesize and Export the Vivado HLS solution to generate RTL module (see Phase 1 of [HLS tutorial](../hls#phase-1-creating-a-custom-module-with-vivado-hls))
-2. Enter the directory relating to the module type you want to generate (32bit vs 128bit)
-   - `cd fos/compilation_flow/pr_flow/module/module_32bit`
+2. Enter the directory of pr flow
+   - `cd fos/compilation_flow/pr_flow
 3. Start the automodule script agains the solution data json
    - `./automodule.py <path_to_hls_project>/<hls_solution>/<hls_solution>_data.json <shell name>`
    - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`and you want use to U-96 shell with 32 bit interface:
