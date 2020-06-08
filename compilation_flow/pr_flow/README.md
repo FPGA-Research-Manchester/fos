@@ -59,14 +59,21 @@ In this step, we are going to physically implement the module nased on provided 
 
 For this tutorial, we are using a 32-bit AXI Lite slave port and 32-bit AXI full master port. The same process can be applied for the 128-AXI shell available in repo.  
 
-1.  Based on the module synthesis report, choose how many slots are needed. The available resources per slot can be found in the following table:
+1.  Based on the module synthesis report, choose how many slots are needed. The available resources *per slot* can be found in the following tables:
 
-    | Available Resources | Numbers |
-    |---------------------|---------|
-    | CLB LUTs            | 13600   |
-    | RAMB36/FIFO         | 40      |
-    | RAMB18              | 80      |
-    | DSPs                | 80      |
+    | U-96 Available Resources | Numbers |    
+    |--------------------------|---------|    
+    | CLB LUTs                 | 13600   |    
+    | RAMB36/FIFO              | 40      |    
+    | RAMB18                   | 80      |    
+    | DSPs                     | 80      |    
+    
+    | ZCU102 Available Resources | Numbers |
+    |----------------------------|---------|
+    | CLB LUTs                   | 32640   |
+    | RAMB36/FIFO                | 108     |
+    | RAMB18                     | 216     |
+    | DSPs                       | 336     |
     
 2.  According to the neccesary resources, choose to run: *pr_module_1_slot.tcl, pr_module_2_slots.tcl,* or *pr_module_3_slots.tcl*.
     - Change the top module to the module name: **set top_module xx**
@@ -79,7 +86,7 @@ The physical implementation results are as the following figure:
 ![2 slot blocker and module](./images/2_slot_blocker_module.png)
 
 ### Merge the PR Module into the Given Static Design Bitstream
-Now, we start merging the PR module to the static design at bitstream level. The static design is as the following figure:
+Now, we start merging the PR module to the static design at bitstream level. The static design is as the following figure for U-96:
 
 ![static shell](./images/static_ultra_zed.png)
 
@@ -92,6 +99,8 @@ The tool BitMan is used to conduct this step:
     - `bitman_linux -m 21 0 99 179 ./{module’s top name}_full.bit ./Ultra96_100MHz.bit -F ./Merge_{module’s top name}_Ultra96_100MHz.bit`
     
 The three commands are essentially the same and only differ in the number of slots that are cut out from the (full) module configuration bitstream that is then merged into the full static bitstream (*Ultra96_100MHz.bit*). This process is carried out in a way that will not touch the routing information of the global clock resources.
+
+**Note, depending on the shell the parameters passed to BitMan differs. Here we show the parameters for U-96 shell available with FOS.**
 
 ### Create Partial Bitstreams from the Merged Full Bitstream
 The partial bitstreams can be extracted from the aforementioned merged bitstream by the following BitMan commands: 
