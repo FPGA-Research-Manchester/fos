@@ -24,9 +24,9 @@ If you plan to use the runtime software provided in this repo, you do not need t
    - `cd fos/compilation_flow/pr_flow/module/module_32bit`
 3. Start the automodule script agains the solution data json
    - `./automodule.py <path_to_hls_project>/<hls_solution>/<hls_solution>_data.json <shell name>`
-   - Available shell names currently are: u96_32, u96_128, zucl_stc
-   - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`and you want use U-96 shell with 32 bit interface:
+   - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`and you want use to U-96 shell with 32 bit interface:
      - `./automodule.py ~/vec_add/solution1/solution1_data.json u96_32`
+   - Available shell names currently are: u96_32, u96_128, zucl_stc
    - You can use `./automodule.py -h` for complete set of parameters available
 
 ### Common Problems
