@@ -23,9 +23,11 @@ If you plan to use the runtime software provided in this repo, you do not need t
 2. Enter the directory relating to the module type you want to generate (32bit vs 128bit)
    - `cd fos/compilation_flow/pr_flow/module/module_32bit`
 3. Start the automodule script agains the solution data json
-   - `./automodule.py <path_to_hls_project>/<hls_solution>/<hls_solution>_data.json`
-   - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`
-     - `./automodule.py ~/vec_add/solution1/solution1_data.json`
+   - `./automodule.py <path_to_hls_project>/<hls_solution>/<hls_solution>_data.json <shell name>`
+   - Available shell names currently are: u96_32, u96_128, zucl_stc
+   - For example, if the hls solution is in `~/vecadd/` and the solution name is `solution1`and you want use U-96 shell with 32 bit interface:
+     - `./automodule.py ~/vec_add/solution1/solution1_data.json u96_32`
+   - You can use `./automodule.py -h` for complete set of parameters available
 
 ### Common Problems
 **Problem:** Compilation fails with the following error: `Could not replace X with Y because of a port interface mismatch; these ports are missing on the replacing cell: 's_axi_control_ARADDR[6]' 's_axi_control_AWADDR[6]'`.
