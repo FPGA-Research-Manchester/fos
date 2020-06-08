@@ -29,6 +29,8 @@ If you plan to use the runtime software provided in this repo, you do not need t
    - Available shell names currently are: u96_32, u96_128, zucl_stc
    - You can use `./automodule.py -h` for complete set of parameters available
 
+*Note, before above steps please ensure you have setup the TedTcl, Vivado and Vivado HLS correctly.*
+
 ### Common Problems
 **Problem:** Compilation fails with the following error: `Could not replace X with Y because of a port interface mismatch; these ports are missing on the replacing cell: 's_axi_control_ARADDR[6]' 's_axi_control_AWADDR[6]'`.
 
