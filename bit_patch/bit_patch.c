@@ -32,6 +32,7 @@ int getDeviceInformation(int DeviceID);
 
 //int test[3][2] = {{0,1},{2,3},{4,5}};
 int new_location;
+int device = ZU3EG;
 
 //extern unsigned int Clk_Resources_ZU3EG[3][8049];
 int check_FAR_write_command(int word)
@@ -95,7 +96,7 @@ void relocate_bitstream(FILE* input, FILE* output, int slot)
   int NF = 0;
   int newFAR=0;
   int i, j;
-  int device;
+//  int device;
   int temp_location = slot;
   int slot_offset;
 
