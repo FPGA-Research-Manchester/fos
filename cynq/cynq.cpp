@@ -51,12 +51,14 @@ bool Bitstream::isFull() {
 }
 
 int zeroSlotID = 0;
+std::map<std::string, int> slotIDs;
+/*
 std::map<std::string, int> slotIDs = {
   {"pr0", 0},
   {"pr1", 1},
   {"pr2", 2}
 };
-
+*/
 
 
 Accel::Accel() {}
@@ -178,10 +180,14 @@ Shell Shell::loadFromJSON(std::string jsonpath) {
   Shell shell;
   shell.name = json["name"];
   shell.bitstream = json["bitfile"];
+  int region_count = 0;
   for (auto &reg : json["regions"]) {
     shell.blanks[reg["name"]]  = reg["blank"];
     shell.blockers[reg["name"]] = std::stol(reg["bridge"].get<std::string>().c_str(), nullptr, 0);
     shell.addrs[reg["name"]]    = std::stol(reg["addr"].get<std::string>().c_str(), nullptr, 0);
+    
+    slotIDs[reg["name"]] = region_count;
+    region_count++;
   }
   shell.install();
   return shell;
