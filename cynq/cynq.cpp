@@ -50,6 +50,7 @@ bool Bitstream::isFull() {
   return mainRegion == "full";
 }
 
+std::string shellname;
 int zeroSlotID = 0;
 std::map<std::string, int> slotIDs;
 /*
@@ -92,40 +93,54 @@ int Accel::getRegister(std::string name) {
 void Accel::setupSiblings() {
   std::vector<Bitstream> oldbslist = bitstreams;
   for (Bitstream &bs : oldbslist) { // for each bitstream
-    if (bs.isFull()) continue;
-    if (slotIDs.find(bs.mainRegion) == slotIDs.end()) continue;
-    if (slotIDs.at(bs.mainRegion) == zeroSlotID) { // if bitstream is a candidate (in slot zero)   
-      std::cout << "Attempting to create siblings for " << bs.bitstream << std::endl;
-      std::string relocatablebspath = "../bitstreams/" + bs.bitstream;
-      for (auto &newSlot : slotIDs) { // for each slot in shell
-        if (newSlot.second > slotIDs.size() - bs.slotCount) continue;
-        bool exists = false;
-        for (Bitstream &candidate : bitstreams) { // check if bitstream already exists
-          if (candidate.slotCount == bs.slotCount && candidate.mainRegion == newSlot.first) {
-            exists = true;
-            break;
-          }
+
+    // check if bitstream is valid for moving
+    if (bs.isFull()) continue;                                  // skip: full bitstreams cannot be relocated
+    if (slotIDs.find(bs.mainRegion) == slotIDs.end()) continue; // skip: bitstream must be in relocatable slot
+    if (slotIDs.at(bs.mainRegion) != zeroSlotID) continue;      // skip: bitstream must be in slot zero
+
+    std::cout << "Attempting to create siblings for " << bs.bitstream << std::endl;
+    std::string relocatablebspath = "../bitstreams/" + bs.bitstream; // input bitstream
+
+    for (auto &newSlot : slotIDs) { // for each slot in current shell
+      if (newSlot.second > slotIDs.size() - bs.slotCount) continue; // skip: relocacted bitstream will not fit
+
+      // check if this bitstream already exists
+      bool exists = false;
+      for (Bitstream &candidate : bitstreams) { // check if bitstream already exists
+        if (candidate.slotCount == bs.slotCount && candidate.mainRegion == newSlot.first) {
+          exists = true;
+          break;
         }
-        if (exists) continue; // if not, we need to create it
-        std::string newBSName = name + "_u96_slot_" + std::to_string(newSlot.second);
-        if (bs.slotCount > 1)
-          newBSName += "_width_" + std::to_string(bs.slotCount);
-        newBSName += ".gen.bin";
-        std::cout << "  creating sibling " << newBSName << std::endl;
-        std::string path = "../bitstreams/" + newBSName;
-        struct stat buffer;
-        if (stat(path.c_str(), &buffer) != 0) // if file doesn't exist (if stat() fails))
-          if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0) // try to relocate
-            throw std::runtime_error("Failed to relocate bitstream");
-        std::vector<std::string> stubs;
-        for (auto& stub : bs.stubRegions) {
-          int id = slotIDs[stub];
-          for (auto &slot : slotIDs)
-            if (slot.second == id)
-              stubs.push_back(slot.first);
-        }
-        addBitstream(Bitstream(newBSName, newSlot.first, stubs));
       }
+      if (exists) continue; // skip: bitstream with these parameters exists
+
+      // if not, we need to create it
+      // generate unique bitstream name <name>_<shellname>_slot_<slotid>
+      std::string newBSName = name + "_" + shellname + "_slot_" + std::to_string(newSlot.second); // output bitstream
+      if (bs.slotCount > 1) // if wider than a single slot, add width to name
+        newBSName += "_width_" + std::to_string(bs.slotCount);
+      newBSName += ".gen.bin";
+
+      // check bitstream exists
+      std::string path = "../bitstreams/" + newBSName;
+      struct stat buffer;
+      if (stat(path.c_str(), &buffer) == 0) continue; // skip: file exists (if stat() succeds))
+
+      // relocate bitstream
+      std::cout << " - creating sibling " << newBSName << std::endl;
+      if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0) // try to relocate
+        throw std::runtime_error("Failed to relocate bitstream");
+
+      // setup updated stub regions
+      std::vector<std::string> stubs;
+      for (auto& stub : bs.stubRegions) {
+        int id = slotIDs[stub]; // get stub numeric id
+        for (auto &slot : slotIDs) // find slot with same numeric id 
+          if (slot.second == id) 
+            stubs.push_back(slot.first);
+      }
+      addBitstream(Bitstream(newBSName, newSlot.first, stubs));
     }
   }
 }
@@ -179,6 +194,7 @@ Shell Shell::loadFromJSON(std::string jsonpath) {
   
   Shell shell;
   shell.name = json["name"];
+  shellname = shell.name;
   shell.bitstream = json["bitfile"];
   int region_count = 0;
   for (auto &reg : json["regions"]) {
