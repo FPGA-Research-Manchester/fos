@@ -2,9 +2,9 @@
   "name": "zucl_stc",
   "bitfile": "zucl_006.bin",
   "regions": [
-    {"name": "zucl0", "blank": "zucl_stc_blank_slot_0.bin", "bridge": "0xa0000000", "addr": "0xa1000000"},
-    {"name": "zucl1", "blank": "zucl_stc_blank_slot_1.bin", "bridge": "0xa0010000", "addr": "0xa1010000"},
-    {"name": "zucl2", "blank": "zucl_stc_blank_slot_2.bin", "bridge": "0xa0020000", "addr": "0xa1020000"},
-    {"name": "zucl3", "blank": "zucl_stc_blank_slot_3.bin", "bridge": "0xa0030000", "addr": "0xa1030000"}
+    {"name": "zucl-pr0", "blank": "zucl_stc_blank_slot_0.bin", "bridge": "0xa0000000", "addr": "0xa1000000"},
+    {"name": "zucl-pr1", "blank": "zucl_stc_blank_slot_1.bin", "bridge": "0xa0010000", "addr": "0xa1010000"},
+    {"name": "zucl-pr2", "blank": "zucl_stc_blank_slot_2.bin", "bridge": "0xa0020000", "addr": "0xa1020000"},
+    {"name": "zucl-pr3", "blank": "zucl_stc_blank_slot_3.bin", "bridge": "0xa0030000", "addr": "0xa1030000"}
   ]
 }
