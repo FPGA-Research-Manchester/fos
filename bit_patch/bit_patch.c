@@ -174,8 +174,8 @@ void relocate_bitstream(FILE* input, FILE* output, int slot)
 //            NextWord = Clk_Resources_ZU3EG[slot][j];
             switch(device)
             {
-                case ZU3EG: NextWord = Clk_Resources_ZU3EG[slot][j];
-                case ZU9EG: NextWord = Clk_Resources_ZU9EG[slot][j];
+                case ZU3EG: NextWord = Clk_Resources_ZU3EG[slot][j]; break;
+                case ZU9EG: NextWord = Clk_Resources_ZU9EG[slot][j]; break;
             }
             j++;
         }
