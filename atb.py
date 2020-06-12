@@ -47,26 +47,47 @@ timer_val = 0x1e0c # 5 sec timeout
 class ATB_Domain:
   def __init__(self, base, count):
     self.base = base
+    self.count = count
 
   def setTrackEnable(self, idx, enabled):
     addr = self.base + atb_cmd_store_en_off
     mmiowrite(addr, setBits(idx, 1, mmioread(addr), 1 if enabled else 0))
 
+  def getTrackEnable(self, idx):
+    addr = self.base + atb_cmd_store_en_off
+    return getBits(idx, 1, mmioread(addr))
+
   def setRespEnable(self, idx, enabled):
     addr = self.base + atb_resp_en_off
     mmiowrite(addr, setBits(idx, 1, mmioread(addr), 1 if enabled else 0))
+
+  def getRespEnable(self, idx):
+    addr = self.base + atb_resp_en_off
+    return getBits(idx, 1, mmioread(addr))
 
   def setRespType(self, idx, errtype):
     addr = self.base + atb_resp_type_off
     mmiowrite(addr, setBits(idx, 1, mmioread(addr), errtype))
 
+  def getRespType(self, idx):
+    addr = self.base + atb_resp_type_off
+    return getBits(idx, 1, mmioread(addr))
+
   def setTimerScale(self, scale):
     addr = self.base + atb_prescale_off
     mmiowrite(addr, setBits(0, 16, mmioread(addr), scale))
 
+  def getTimerScale(self):
+    addr = self.base + atb_prescale_off
+    return getBits(0, 16, mmioread(addr))
+
   def setTimerEnable(self, enabled):
     addr = self.base + atb_prescale_off
     mmiowrite(addr, setBits(16, 1, mmioread(addr), 1 if enabled else 0))
+
+  def getTimerEnable(self):
+    addr = self.base + atb_prescale_off
+    return getBits(16, 1, mmioread(addr))
 
 
 # atb managers

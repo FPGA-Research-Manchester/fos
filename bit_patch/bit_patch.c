@@ -85,6 +85,15 @@ int getSlotOffset(int device)
     }
 }
 
+const char *getDeviceName(int device)
+{
+    switch(device)
+    {
+        case ZU3EG: return "ZU3EG";
+        case ZU9EG: return "ZU9EG";
+    }
+}
+
 void relocate_bitstream(FILE* input, FILE* output, int slot)
 {
   int NextWord = 0;
@@ -129,7 +138,7 @@ void relocate_bitstream(FILE* input, FILE* output, int slot)
         device = getDeviceInformation(NextWord);
         slot_offset = getSlotOffset(device);
         temp_location += slot_offset;
-        printf("Device found %d and targeting slot %d\n", device, temp_location);
+        printf("Device found %s and targeting slot %d\n", getDeviceName(device), temp_location);
     }
 
     if (Is_FAR_command)
