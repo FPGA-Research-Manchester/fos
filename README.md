@@ -59,7 +59,7 @@ See it in action on YouTube: https://www.youtube.com/watch?v=WciuDXEIsr8
 
 Target board: Ultra96 (can be ported to ZCU102, UltraZed easily)
 
-The source code presented has been tested with following tool versions:
+The source code presented has been tested with the following tool versions:
 - Vivado and Vivado HLS 2016.2, 2017.3, 2018.2 and 2018.3.
 - PetaLinux kernel 2018.2.
 - Rootfs: Pynq, PetaLinux, Ubuntu 18, Ubuntu 14, Debian, Linaro u96.
@@ -72,8 +72,8 @@ The source code presented has been tested with following tool versions:
 
 If you found FOS useful please consider citing following paper:
 
+- A. Vaishnav, K.D. Pham, J. Powell and D. Koch, "[FOS: A Modular FPGA Operating System for Dynamic Workloads](https://www.researchgate.net/publication/338883477_FOS_A_Modular_FPGA_Operating_System_for_Dynamic_Workloads)", ACM Transactions on Reconfigurable Technology and Systems (TRETS) 2020.
 - A. Vaishnav, K.D. Pham, K. Manev and D. Koch, "[The FOS (FPGA Operating System) Demo](https://www.research.manchester.ac.uk/portal/en/publications/the-fos-fpga-operating-system-demo(bb41a0b4-d3b5-4dad-831f-7f938253c864).html)", FPL, 2019. 
-- A. Vaishnav, K.D. Pham, J. Powell and D. Koch, "[FOS: A Modular FPGA Operating System for Dynamic Workloads](https://arxiv.org/abs/2001.09990)", arXiv.org, 2020. Available: [https://arxiv.org/abs/2001.09990](https://arxiv.org/abs/2001.09990)
 
 If you would like to learn more about how the system works or what it can do in detail, you can read the following papers.
 
