@@ -13,6 +13,11 @@ public:
   virtual char const * what() const throw(){ return "FPGA is full"; }
 };
 
+struct AccelNotFoundException : std::exception {
+public:
+  virtual char const * what() const throw(){ return "No such accelerator"; }
+};
+
 struct RegionNotFoundException : std::exception {
 public:
   virtual char const * what() const throw(){ return "No such region"; }

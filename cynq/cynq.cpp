@@ -99,7 +99,7 @@ void Accel::setupSiblings() {
     if (slotIDs.find(bs.mainRegion) == slotIDs.end()) continue; // skip: bitstream must be in relocatable slot
     if (slotIDs.at(bs.mainRegion) != zeroSlotID) continue;      // skip: bitstream must be in slot zero
 
-    std::cout << "Attempting to create siblings for " << bs.bitstream << std::endl;
+    std::cout << "SibGen " << bs.bitstream << ": ";
     std::string relocatablebspath = "../bitstreams/" + bs.bitstream; // input bitstream
 
     for (auto &newSlot : slotIDs) { // for each slot in current shell
@@ -113,7 +113,10 @@ void Accel::setupSiblings() {
           break;
         }
       }
-      if (exists) continue; // skip: bitstream with these parameters exists
+      if (exists) {
+        std::cout << "[s" << newSlot.second << " Exists] ";
+        continue; // skip: bitstream with these parameters exists
+      }
 
       // if not, we need to create it
       // generate unique bitstream name <name>_<shellname>_slot_<slotid>
@@ -121,16 +124,6 @@ void Accel::setupSiblings() {
       if (bs.slotCount > 1) // if wider than a single slot, add width to name
         newBSName += "_width_" + std::to_string(bs.slotCount);
       newBSName += ".gen.bin";
-
-      // check bitstream exists
-      std::string path = "../bitstreams/" + newBSName;
-      struct stat buffer;
-      if (stat(path.c_str(), &buffer) == 0) continue; // skip: file exists (if stat() succeds))
-
-      // relocate bitstream
-      std::cout << " - creating sibling " << newBSName << std::endl;
-      if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0) // try to relocate
-        throw std::runtime_error("Failed to relocate bitstream");
 
       // setup updated stub regions
       std::vector<std::string> stubs;
@@ -140,8 +133,23 @@ void Accel::setupSiblings() {
           if (slot.second == id) 
             stubs.push_back(slot.first);
       }
+
+      // check if generated bitstream exists
+      std::string path = "../bitstreams/" + newBSName;
+      struct stat buffer;
+      if (stat(path.c_str(), &buffer) == 0) {
+        // skip: file exists (if stat() succeds))
+        std::cout << "[s" << newSlot.second << " PreGen] ";
+      } else {
+        // relocate bitstream
+        std::cout << "[s" << newSlot.second << " Gen] " << std::endl;
+        if (relocate_bitstream_file(relocatablebspath.c_str(), path.c_str(), newSlot.second) != 0) // try to relocate
+          throw std::runtime_error("Failed to relocate bitstream");
+      }
+
       addBitstream(Bitstream(newBSName, newSlot.first, stubs));
     }
+    std::cout << std::endl;
   }
 }
 
@@ -315,7 +323,7 @@ void Region::loadAccel(Accel &acc, Bitstream &bs) {
   if (locked)
     throw std::runtime_error("loading onto locked accel");
   if (bitstream != &bs) { // yeet that bitstream
-    std::cout << "Loading accelerator manually" << std::endl;
+    std::cout << "Loading " << acc.name << " onto " << name << std::endl;
     setBlock(true);
     fpga0.loadPartial(blank.bitstream);
     fpga0.loadPartial(bs.bitstream);
@@ -324,6 +332,8 @@ void Region::loadAccel(Accel &acc, Bitstream &bs) {
     stub = false;
     bitstream = &bs;
     accel = &acc;
+  } else {
+    std::cout << "Loading skipped for " << acc.name << " on " << name << std::endl;
   }
   locked = true;
 }
@@ -344,6 +354,7 @@ void Region::loadStub(Accel &acc, Bitstream &bs) {
 void Region::unloadAccel() {
   if (!locked)
     throw std::runtime_error("unloading from unlocked accel");
+  std::cout << "Unloading " << accel->name << " from " << name << std::endl;
   locked = false;
 }
 
@@ -450,7 +461,11 @@ AccelInst PRManager::fpgaRun(std::string accname, paramlist &regvals) {
 }
 
 AccelInst PRManager::fpgaLoad(std::string accname) {
-  Accel &toload = accels[accname];
+  const auto accel_iter = accels.find(accname);
+  if (accel_iter == accels.end())
+    throw AccelNotFoundException(); 
+
+  Accel &toload = accel_iter->second;;
   AccelInst instance;
   instance.accel = &toload;
 
